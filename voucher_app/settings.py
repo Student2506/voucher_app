@@ -140,7 +140,7 @@ STATICFILES_DIRS = BASE_DIR / 'static'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-COMPANIES_PER_PAGE = 5
+
 
 LOGGING = {
     'version': 1,
@@ -162,3 +162,9 @@ LOGGING = {
         'level': 'DEBUG',
     },
 }
+
+SERVER = os.getenv('SERVER')
+DATABASE = os.getenv('DATABASE')
+USER = os.getenv('DBUSER')
+PASS = os.getenv('DBPASS')
+COMPANIES_PER_PAGE = 5

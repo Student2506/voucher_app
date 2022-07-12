@@ -1,5 +1,4 @@
 import logging
-import os
 
 from django.conf import settings
 from django.core.paginator import Paginator
@@ -14,15 +13,13 @@ load_dotenv()
 
 logger = logging.getLogger()
 
-SERVER = os.getenv('SERVER')
-DATABASE = os.getenv('DATABASE')
-USER = os.getenv('USER')
-PASS = os.getenv('PASS')
-
 
 def index(request):
-    logger.debug(f'{SERVER}, {DATABASE}, {USER}, {PASS}')
-    tableCA = ContrAgent(SERVER, DATABASE, USER, PASS)
+    logger.debug(f'{settings.SERVER}, {settings.DATABASE}, {settings.DBUSER},'
+                 f'{settings.DBPASS}')
+    tableCA = ContrAgent(
+        settings.SERVER, settings.DATABASE, settings.USER, settings.PASS
+    )
     companies = tableCA.session.query(
         tableCA.client
     ).order_by(tableCA.client.sName).all()
@@ -34,7 +31,9 @@ def index(request):
 
 
 def voucher_index(request, company):
-    tableCA = ContrAgent(SERVER, DATABASE, USER, PASS)
+    tableCA = ContrAgent(
+        settings.SERVER, settings.DATABASE, settings.USER, settings.PASS
+    )
     company = (
         tableCA.session.query(tableCA.client).filter_by(lID=company).first()
     )
@@ -44,7 +43,9 @@ def voucher_index(request, company):
 
 
 def codes_index(request, voucher):
-    tableCA = ContrAgent(SERVER, DATABASE, USER, PASS)
+    tableCA = ContrAgent(
+        settings.SERVER, settings.DATABASE, settings.USER, settings.PASS
+    )
     orders = (
         tableCA.session
         .query(tableCA.client_order_item)
