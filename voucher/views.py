@@ -15,8 +15,8 @@ logger = logging.getLogger()
 
 
 def index(request):
-    logger.debug(f'{settings.SERVER}, {settings.DATABASE}, {settings.DBUSER},'
-                 f'{settings.DBPASS}')
+    logger.debug(f'{settings.SERVER}, {settings.DATABASE}, {settings.USER},'
+                 f'{settings.PASS}')
     tableCA = ContrAgent(
         settings.SERVER, settings.DATABASE, settings.USER, settings.PASS
     )
