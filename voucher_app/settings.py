@@ -165,6 +165,6 @@ LOGGING = {
 
 SERVER = os.getenv('SERVER')
 DATABASE = os.getenv('DATABASE')
-DBUSER = os.getenv('DBUSER')
-DBPASS = os.getenv('DBPASS')
+USER = os.getenv('DBUSER')
+PASS = os.getenv('DBPASS')
 COMPANIES_PER_PAGE = 5
