@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
+	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="author" content="Александр Волошин">
 	<title>barcode</title>
@@ -9,11 +9,14 @@
 </head>
 <body class="page">
 	<header class="header">
-		<a href="" class="header__logo"></a>
+		<div class="header__container">
+			<a href="" class="header__link"><img src="images/logo.png" class="header__logo"></a>
+		</div>
 	</header>
+
 	<main class="main">
 		<section class="logon">
-			<form name="logon__form" class="logon__form">
+			<form name="logon__form" class="logon__form" action="chooseAgent.html">
         <h1 class="logon__title">Вход</h1>
         <div class="logon__input-container">
           <label class="logon__label" for="logon__input_type_email">email</label>
@@ -24,12 +27,13 @@
 				  <input type="password" id="logon__input_type_password" class="logon__input logon__input_type_password" name="logon__input_type_password" required>
         </div>
         <div class="logon__button-holder">
-          <button type="submit" class="button button_type_submit">Войти</button>
+					<a href="" class="sosSOS"><button type="submit" class="button button_type_submit">Войти</button></a>
           <button type="reset" class="button button_type_clear">Сбросить</button>
         </div>
 			</form>
 		</section>
 	</main>
+
 	<footer class="footer">
 		
 	</footer>
