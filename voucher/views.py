@@ -21,7 +21,7 @@ PASS = os.getenv('PASS')
 
 
 def index(request):
-    logger.debug(SERVER, DATABASE, USER, PASS)
+    logger.debug(f'{SERVER}, {DATABASE}, {USER}, {PASS}')
     tableCA = ContrAgent(SERVER, DATABASE, USER, PASS)
     companies = tableCA.session.query(
         tableCA.client
