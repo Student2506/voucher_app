@@ -1,3 +1,4 @@
+import logging
 import os
 
 from django.conf import settings
@@ -11,6 +12,8 @@ from .models import ContrAgent
 
 load_dotenv()
 
+logger = logging.getLogger()
+
 SERVER = os.getenv('SERVER')
 DATABASE = os.getenv('DATABASE')
 USER = os.getenv('USER')
@@ -18,6 +21,7 @@ PASS = os.getenv('PASS')
 
 
 def index(request):
+    logger.debug(SERVER, DATABASE, USER, PASS)
     tableCA = ContrAgent(SERVER, DATABASE, USER, PASS)
     companies = tableCA.session.query(
         tableCA.client
