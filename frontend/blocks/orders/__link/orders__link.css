@@ -1,0 +1,12 @@
+.orders__link {
+	text-decoration: none;
+	margin: 0;
+	color: black;
+	padding: 10px;
+	display: block;
+	border-bottom: 2px dashed #e1e1e1;
+}
+
+.orders__link:hover {
+	text-decoration: underline;
+}

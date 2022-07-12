@@ -9,4 +9,5 @@
 @import url(../blocks/orders/orders.css);
 @import url(../blocks/orders/__container/orders__container.css);
 @import url(../blocks/orders/__title/orders__title.css);
+@import url(../blocks/orders/__box/orders__box.css);
 @import url(../blocks/orders/__link/orders__link.css);
