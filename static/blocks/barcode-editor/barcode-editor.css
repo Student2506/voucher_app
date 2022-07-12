@@ -1,0 +1,10 @@
+.barcode-editor {
+  width: 794px;
+  background-color: white;
+  box-shadow: 0 0 10px 2px black;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

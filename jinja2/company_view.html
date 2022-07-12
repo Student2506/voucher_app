@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Ваучеры {{ company.sName }}{% endblock %}
+{% block main %}
+  <h1 class="center header__title">Генерация ваучеров для {{ company.sName }}</h1>
+  <div id="frontpage" class="contragent_container">
+      {% for order in company.tblclientorder_collection %}
+        <a  class="contragent" href="{{ url('codes', args=[order.lID]) }}">
+          <div>
+            {{ order.ClientOrder_strName }}
+          </div>
+        </a>
+      {% endfor %}
+  </div>
+{% endblock %}
+{% block scripts %}
+  {{ super() }}
+{% endblock %}

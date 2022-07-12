@@ -1,0 +1,8 @@
+.barcode-editor__title {
+  margin: 20px 0;
+	text-transform: uppercase;
+  font-size: 30px;
+  line-height: 1;
+  transition: filter 3s ease-in-out;
+  font-family: 'Arial';
+}

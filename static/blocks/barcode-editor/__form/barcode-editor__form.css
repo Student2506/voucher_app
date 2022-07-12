@@ -1,0 +1,4 @@
+.barcode-editor__form {
+	display: flex;
+	flex-direction: column;
+}

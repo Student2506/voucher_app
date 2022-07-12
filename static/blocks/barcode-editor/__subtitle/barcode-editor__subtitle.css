@@ -1,0 +1,9 @@
+.barcode-editor__subtitle {
+	margin: 0;
+	font-size: 30px;
+	color: #443E3B;
+	font-weight: bold;
+	text-transform: uppercase;
+	margin-bottom: 32px;
+	line-height: 1;
+}

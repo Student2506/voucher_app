@@ -1,0 +1,7 @@
+.barcode-editor__main {
+	border-bottom: 2px dashed #93908F;
+	display: flex;
+	padding-left: 15px;
+	margin-top: 32px;
+	padding-bottom: 32px;
+}

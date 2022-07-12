@@ -1,0 +1,8 @@
+.logon__input {
+	margin: 0;
+	border: none;
+	border-bottom: 1px solid #e5e5e5;
+	padding-bottom: 10px;
+	outline: none;
+	width: 100%;
+}

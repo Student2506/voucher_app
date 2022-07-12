@@ -1,0 +1,8 @@
+.contr-agent__item {
+  height: 150px;
+  background-image: url(../../../images/logo-sqr.png);
+  background-position: center;
+  background-color: whitesmoke;
+  background-size: contain;
+  box-shadow: 1px 1px 2px 2px #fc3f4b;
+}

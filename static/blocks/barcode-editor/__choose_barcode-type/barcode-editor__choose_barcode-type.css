@@ -1,0 +1,8 @@
+.barcode-editor__choose_barcode-type {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	border: 5px solid black;
+	width: 124px;
+}

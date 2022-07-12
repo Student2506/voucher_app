@@ -1,0 +1,8 @@
+.barcode-editor__image {
+  margin: 0;
+  background-image: url(../../../images/voucher.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 600px;
+	height: 298px;
+}
