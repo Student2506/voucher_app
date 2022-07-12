@@ -16,8 +16,8 @@ class ContrAgent:
             port=1433,
             database=database,
             query={
-                # 'driver': 'ODBC Driver 17 for SQL Server',
-                'driver': 'SQL Server',
+                'driver': 'ODBC Driver 17 for SQL Server',
+                # 'driver': 'SQL Server',
                 'authentication': 'SqlPassword',
                 'TrustServerCertificate': 'Yes',
             },
