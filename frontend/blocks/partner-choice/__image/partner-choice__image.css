@@ -1,5 +1,10 @@
 .partner-choice__image {
-	width: 100%;
+	width: 160px;
+	height: 160px;
 	border-radius: 50%;
+	background-image: url("https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
 	align-self: baseline;
 }
