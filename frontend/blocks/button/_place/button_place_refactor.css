@@ -1,0 +1,17 @@
+.button_place_refactor {
+	border: none;
+	outline: none;
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	top: 50%;
+	left: -100px;
+	transform: translateY(-50%);
+	background-image: url("../../../images/circle.svg");
+	background-color: inherit;
+	transition: transform 0.5s linear;
+}
+
+.button_place_refactor:hover {
+	transform: translateY(-50%) rotate(180deg);
+}

@@ -11,6 +11,6 @@
   border: 0;
 }
 
-.button:hover, button:active {
+.button:hover, .button:active {
 	background-color: #fb0d1c;
 }
