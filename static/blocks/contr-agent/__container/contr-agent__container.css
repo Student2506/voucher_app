@@ -1,8 +1,0 @@
-.contr-agent__container {
-  width: 100%;
-  display: grid;
-  align-items: center;
-  justify-content: center;
-  grid-template-columns: repeat(auto-fit, 150px);
-  gap: 15px;
-}

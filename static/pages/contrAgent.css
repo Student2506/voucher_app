@@ -1,9 +1,0 @@
-@import url(../vendor/normalize.css);
-@import url(../fonts/fonts.css);
-@import url(../blocks/page/page.css);
-@import url(../blocks/button/button.css);
-@import url(../blocks/header/header.css);
-@import url(../blocks/header/__logo/header__logo.css);
-@import url(../blocks/contr-agent/contr-agent.css);
-@import url(../blocks/contr-agent/__container/contr-agent__container.css);
-@import url(../blocks/contr-agent/__item/contr-agent__item.css);
