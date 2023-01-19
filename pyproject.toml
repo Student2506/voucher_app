@@ -14,6 +14,15 @@ python-dotenv = "^0.21.0"
 uvicorn = {version = "^0.20.0", platform = "linux"}
 django-auth-adfs = "^1.11.1"
 pip-system-certs = "^4.0"
+djangorestframework = "^3.14.0"
+markdown = "^3.4.1"
+pygments = "^2.14.0"
+django-filter = "^22.1"
+django-guardian = "^2.4.0"
+pyodbc = "^4.0.35"
+weasyprint = "^57.2"
+python-barcode = "^0.14.0"
+qrcode = "^7.3.1"
 
 
 [tool.poetry.group.dev.dependencies]
