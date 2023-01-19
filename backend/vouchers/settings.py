@@ -36,5 +36,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 include('components/_locale.py')
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'voucher_app.User'
