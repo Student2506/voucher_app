@@ -3,7 +3,7 @@
 import os
 from pathlib import Path
 
-from split_settins.tools import include
+from split_settings.tools import include
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
