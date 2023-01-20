@@ -4,10 +4,10 @@ from django.apps import AppConfig
 from django.utils.translation import gettext_lazy as _
 
 
-class VoucherAppConfig(AppConfig):
+class UsersConfig(AppConfig):
     """General class for application."""
 
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'voucher_app'
-    verbose_name = _('Template')
-    verbose_name_plural = _('Templates')
+    name = 'users'
+    verbose_name = _('User')
+    verbose_name_plural = _('Users')

@@ -133,3 +133,5 @@ dmypy.json
 
 templates/images/barcode.png
 templates/images/qrcode.png
+
+static/

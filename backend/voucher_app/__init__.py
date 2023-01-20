@@ -1,1 +1,1 @@
-"""Main application."""
+"""Migrations module."""

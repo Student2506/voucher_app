@@ -1,1 +1,0 @@
-"""Componets of settings file."""
