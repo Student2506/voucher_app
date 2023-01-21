@@ -2,11 +2,23 @@
 
 from rest_framework import serializers
 
-from vista_module.models import Customer, Order
+from vista_module.models import Customer, Order, OrderItem
+
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    """Order item serializer."""
+
+    class Meta:
+        """Regular django Meta."""
+
+        model = OrderItem
+        fields = '__all__'
 
 
 class OrderSerializer(serializers.ModelSerializer):
     """Order serializer."""
+
+    voucher_items = OrderItemSerializer(many=True, read_only=True)
 
     class Meta:
         """Regular django Meta."""

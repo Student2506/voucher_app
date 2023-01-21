@@ -64,3 +64,31 @@ class Order(models.Model):
             str - name of a customer
         """
         return str(self.name[:NAME_LENGTH])
+
+
+class OrderItem(models.Model):
+    """Order item model."""
+
+    id = models.IntegerField(db_column='lID', primary_key=True)
+    order = models.ForeignKey(
+        'Order',
+        on_delete=models.DO_NOTHING,
+        db_column='lClientOrderID',
+        related_name='voucher_items',
+    )
+    quantity = models.IntegerField(db_column='lQtyOrdered')
+    price = models.FloatField(db_column='mIssuePrice')
+
+    class Meta:
+        """Generic Meta class."""
+
+        managed = False
+        db_table = 'tblClientOrderItem'
+
+    def __str__(self) -> str:
+        """Return represntation.
+
+        Returns:
+            str - name of a customer
+        """
+        return f'{self.order.name} - {self.id}'
