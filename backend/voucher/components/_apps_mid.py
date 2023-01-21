@@ -9,6 +9,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users.apps.UsersConfig',
     'voucher_app.apps.VoucherAppConfig',
+    'vista_module.apps.VistaModuleConfig',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
