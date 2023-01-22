@@ -8,6 +8,7 @@ from voucher_api import views
 
 router = routers.DefaultRouter()
 router.register('customers', views.CustomerViewset)
+router.register('voucherorder', views.VoucherTypeViewset)
 
 
 urlpatterns = [

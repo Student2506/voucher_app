@@ -11,7 +11,7 @@ REPRESENTATION_LEN = 30
 class Template(UUIDMixin, TimeStampedMixin):
     """Model to describe template."""
 
-    title = models.CharField(_('title'), max_length=TEXT_FIELD_LEN)
+    title = models.CharField(_('title'), max_length=TEXT_FIELD_LEN, unique=True)
     template_content = models.TextField(_('template_content'), blank=True)
 
     class Meta:
@@ -29,3 +29,18 @@ class Template(UUIDMixin, TimeStampedMixin):
             str - title of model
         """
         return str(self.title)[:REPRESENTATION_LEN]
+
+
+class RequestOrder(UUIDMixin, TimeStampedMixin):
+    """Model to get data from user."""
+
+    template = models.ForeignKey('Template', on_delete=models.CASCADE)
+    voucher_type = models.IntegerField(name='Voucher_Type')
+
+    class Meta:
+        """Generic Meta class."""
+
+        verbose_name = _('RequestOrder')
+        verbose_name_plural = _('RequestOrders')
+        ordering = ['id']
+        db_table = 'voucher_app"."request_order'
