@@ -2,17 +2,29 @@
 
 from rest_framework import serializers
 
-from vista_module.models import Customer, Order, OrderItem
+from vista_module.models import Customer, Order, OrderItem, VoucherType
+
+
+class VoucherTypeSerializer(serializers.ModelSerializer):
+    """Voucher type serializer."""
+
+    class Meta:
+        """Regular djange Meta for Voucher Type."""
+
+        model = VoucherType
+        fields = '__all__'
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
     """Order item serializer."""
 
+    voucher = VoucherTypeSerializer(read_only=True)
+
     class Meta:
         """Regular django Meta."""
 
         model = OrderItem
-        fields = '__all__'
+        exclude = ('order',)
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -24,7 +36,7 @@ class OrderSerializer(serializers.ModelSerializer):
         """Regular django Meta."""
 
         model = Order
-        fields = '__all__'
+        exclude = ('client',)
 
 
 class CustomerListSerializer(serializers.ModelSerializer):

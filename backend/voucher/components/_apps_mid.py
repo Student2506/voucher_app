@@ -11,6 +11,7 @@ INSTALLED_APPS = [
     'voucher_app.apps.VoucherAppConfig',
     'vista_module.apps.VistaModuleConfig',
     'rest_framework',
+    'django_auth_adfs',
 ]
 
 MIDDLEWARE = [

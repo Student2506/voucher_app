@@ -1,6 +1,6 @@
 """Views to serve vista objects."""
 
-from rest_framework import permissions, serializers, viewsets
+from rest_framework import serializers, viewsets
 
 from vista_module.models import Customer
 from voucher_api.serializers import (
@@ -13,7 +13,6 @@ class CustomerViewset(viewsets.ReadOnlyModelViewSet):
     """API Endpoint which allows to view Customers."""
 
     queryset = Customer.objects.using('vista')
-    permission_classes = [permissions.AllowAny]
 
     def get_serializer_class(self) -> serializers.ModelSerializer:
         """Choose serializer.
