@@ -11,14 +11,14 @@ ID_COLUMN_NAME = 'lID'
 class Customer(models.Model):
     """Customer model."""
 
-    name = models.CharField(
+    customer_name = models.CharField(
         verbose_name='Наименование организации',
         db_column='sName',
         max_length=NAME_LENGTH,
         blank=False,
         null=False,
     )
-    id = models.IntegerField(db_column=ID_COLUMN_NAME, primary_key=True)
+    customer_id = models.IntegerField(db_column=ID_COLUMN_NAME, primary_key=True)
 
     class Meta:
         """Generic Meta class."""
@@ -32,21 +32,21 @@ class Customer(models.Model):
         Returns:
             str - name of a customer
         """
-        return str(self.sname[:NAME_LENGTH])
+        return str(self.customer_name[:NAME_LENGTH])
 
 
 class Order(models.Model):
     """Order model."""
 
-    id = models.IntegerField(db_column=ID_COLUMN_NAME, primary_key=True)
-    name = models.CharField(
+    order_id = models.IntegerField(db_column=ID_COLUMN_NAME, primary_key=True)
+    order_name = models.CharField(
         verbose_name='Наименование заказа',
         db_column='ClientOrder_strName',
         max_length=ORDER_NAME_LENGTH,
         blank=False,
         null=False,
     )
-    client = models.ForeignKey(
+    client_ref = models.ForeignKey(
         'Customer',
         on_delete=models.DO_NOTHING,
         db_column='lClientID',
@@ -65,18 +65,18 @@ class Order(models.Model):
         Returns:
             str - name of a customer
         """
-        return str(self.name[:NAME_LENGTH])
+        return str(self.order_name[:NAME_LENGTH])
 
 
 class VoucherType(models.Model):
     """Voucher model."""
 
-    id = models.IntegerField(db_column=ID_COLUMN_NAME, primary_key=True)
+    voucher_type_id = models.IntegerField(db_column=ID_COLUMN_NAME, primary_key=True)
     voucher_code = models.CharField(
         db_column='nVoucherCode',
         max_length=VOUCHER_TYPE_LENGTH,
     )
-    description = models.CharField(
+    voucher_description = models.CharField(
         db_column='sDescription',
         max_length=NAME_LENGTH,
     )
@@ -93,22 +93,22 @@ class VoucherType(models.Model):
         Returns:
             str - name of a customer
         """
-        return f'{self.description} - {self.voucher_code}'
+        return f'{self.voucher_description} - {self.voucher_code}'
 
 
 class OrderItem(models.Model):
     """Order item model."""
 
-    id = models.IntegerField(db_column=ID_COLUMN_NAME, primary_key=True)
-    order = models.ForeignKey(
+    order_item_id = models.IntegerField(db_column=ID_COLUMN_NAME, primary_key=True)
+    order_id = models.ForeignKey(
         'Order',
         on_delete=models.DO_NOTHING,
         db_column='lClientOrderID',
-        related_name='voucher_items',
+        related_name='order_items',
     )
-    quantity = models.IntegerField(db_column='lQtyOrdered')
-    price = models.FloatField(db_column='mIssuePrice')
-    voucher = models.ForeignKey(
+    order_item_quantity = models.IntegerField(db_column='lQtyOrdered')
+    order_item_price = models.FloatField(db_column='mIssuePrice')
+    voucher_attached = models.ForeignKey(
         'VoucherType',
         on_delete=models.DO_NOTHING,
         db_column='lVoucherTypeID',
@@ -127,4 +127,4 @@ class OrderItem(models.Model):
         Returns:
             str - name of a customer
         """
-        return f'{self.order.name} - {self.id}'
+        return f'{self.order_id.order_name} - {self.order_item_id}'

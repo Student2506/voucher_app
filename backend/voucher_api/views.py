@@ -1,12 +1,17 @@
 """Views to serve vista objects."""
 
-from rest_framework import mixins, serializers, viewsets
+from django.http import JsonResponse
+from rest_framework import serializers, status, viewsets
+from rest_framework.decorators import api_view
+from rest_framework.parsers import JSONParser
+from rest_framework.request import Request
 
 from vista_module.models import Customer, VoucherType
 from voucher_api.serializers import (
     CustomerDetailSerializer,
     CustomerListSerializer,
-    VoucherTypeSerializer,
+    RequestOrderSerializer,
+    VoucherTypeOrderingSerializer,
 )
 
 
@@ -26,8 +31,28 @@ class CustomerViewset(viewsets.ReadOnlyModelViewSet):
         return CustomerListSerializer
 
 
-class VoucherTypeViewset(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class VoucherTypeViewset(viewsets.ModelViewSet):
     """API Endpoint which chooses VoucherType."""
 
     queryset = VoucherType.objects.using('vista')
-    serializer_class = VoucherTypeSerializer
+    serializer_class = VoucherTypeOrderingSerializer
+
+
+@api_view(['POST'])
+def put_order(request: Request, order_item_id: int) -> JsonResponse:
+    """Make request to send vouchers.
+
+    Args:
+        request: Request - data to create order
+        order_item_id: int - item to create order
+
+    Returns:
+        JsonResponse - status of creation or failure
+    """
+    order_data = JSONParser().parse(request)
+    order_data['order_item'] = int(order_item_id)
+    order = RequestOrderSerializer(data=order_data)
+    if order.is_valid():
+        order.save()
+        return JsonResponse(order.data, status=status.HTTP_201_CREATED)
+    return JsonResponse(order.errors, status=status.HTTP_400_BAD_REQUEST)

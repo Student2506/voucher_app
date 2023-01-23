@@ -19,11 +19,11 @@ RUN apt install -y gcc unixodbc-dev
 RUN python3 -m pip install -U pip
 RUN pip install "poetry==$POETRY_VERSION"
 WORKDIR /opt/app
+ADD ca_new.cer /usr/local/share/ca-certificates/ca_new.crt
+RUN chmod 644 /usr/local/share/ca-certificates/ca_new.crt && update-ca-certificates
+COPY uwsgi/uwsgi.ini uwsgi.ini
 COPY poetry.lock pyproject.toml /opt/app/
 RUN poetry config virtualenvs.create false \
   && poetry install $(test "$BUILD_TYPE" = "production" && echo "--without dev") --no-interaction --no-ansi --no-root
 
-ADD ca_new.cer /usr/local/share/ca-certificates/ca_new.crt
-RUN chmod 644 /usr/local/share/ca-certificates/ca_new.crt && update-ca-certificates
-COPY uwsgi/uwsgi.ini uwsgi.ini
 COPY . .

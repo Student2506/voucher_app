@@ -33,6 +33,12 @@ services:
       - ./scripts/postgres-init-db.sh:/docker-entrypoint-initdb.d/init-user-db.sh
     env_file:
       - .env
+
+  rabbitmq:
+    image: rabbitmq:3.11.7-management-alpine
+    restart: always
+    env_file:
+      - .env
         
 
 volumes:

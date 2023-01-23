@@ -1,4 +1,5 @@
 """Models to describe subject."""
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -35,7 +36,8 @@ class RequestOrder(UUIDMixin, TimeStampedMixin):
     """Model to get data from user."""
 
     template = models.ForeignKey('Template', on_delete=models.CASCADE)
-    voucher_type = models.IntegerField(name='Voucher_Type')
+    order_item = models.IntegerField()
+    addresses = ArrayField(models.EmailField(blank=False, null=False), default=list)
 
     class Meta:
         """Generic Meta class."""

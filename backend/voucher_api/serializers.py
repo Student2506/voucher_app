@@ -3,69 +3,74 @@
 from rest_framework import serializers
 
 from vista_module.models import Customer, Order, OrderItem, VoucherType
-from voucher_app.models import Template
+from voucher_app.models import RequestOrder, Template
 
 
 class VoucherTypeSerializer(serializers.ModelSerializer):
     """Voucher type serializer."""
 
-    email_templates = serializers.SerializerMethodField()
-    example_email = serializers.SerializerMethodField()
+    class Meta:
+        """Regular django Meta for Voucher Type."""
 
-    def get_email_templates(self, instance: object) -> dict[str, str]:
-        """Get templates list.
+        model = VoucherType
+        fields = '__all__'
+
+
+class VoucherTypeOrderingSerializer(VoucherTypeSerializer):
+    """Extend VoucherType serializer with fields to make order."""
+
+    templates = serializers.SerializerMethodField()
+
+    def get_templates(self, source: object) -> dict[str, str]:
+        """Return dict of templates.
 
         Args:
-            instance: object - instance to act upon
+            source: object - additional inheritance
 
         Returns:
-            dict[str, str] - returns json with template
+            dict - dict with Templates
         """
         return {str(template.id): template.title for template in Template.objects.all()}
 
-    def get_example_email(self, instance: object) -> str:
-        """Get user email.
-
-        Args:
-            instance: object - instance to act upon
-
-        Returns:
-            str - returns user email as example
-        """
-        request = self.context.get('request', None)
-        if request:
-            return str(request.user.email)
-        return ''
-
     class Meta:
-        """Regular djange Meta for Voucher Type."""
+        """Regular django Meta class for Voucher Order."""
 
         model = VoucherType
+        fields = '__all__'
+
+
+class RequestOrderSerializer(serializers.ModelSerializer):
+    """Getting all data to confirm order."""
+
+    class Meta:
+        """Meta class for RequestOrder."""
+
+        model = RequestOrder
         fields = '__all__'
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
     """Order item serializer."""
 
-    voucher = VoucherTypeSerializer(read_only=True)
+    voucher_attached = VoucherTypeSerializer(read_only=True)
 
     class Meta:
         """Regular django Meta."""
 
         model = OrderItem
-        exclude = ('order',)
+        fields = '__all__'
 
 
 class OrderSerializer(serializers.ModelSerializer):
     """Order serializer."""
 
-    voucher_items = OrderItemSerializer(many=True, read_only=True)
+    order_items = OrderItemSerializer(many=True, read_only=True)
 
     class Meta:
         """Regular django Meta."""
 
         model = Order
-        exclude = ('client',)
+        fields = '__all__'
 
 
 class CustomerListSerializer(serializers.ModelSerializer):

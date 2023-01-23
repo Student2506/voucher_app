@@ -3,12 +3,13 @@
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
+from rest_framework.schemas import get_schema_view
 
 from voucher_api import views
 
 router = routers.DefaultRouter()
 router.register('customers', views.CustomerViewset)
-router.register('voucherorder', views.VoucherTypeViewset)
+router.register('voucher_type', views.VoucherTypeViewset)
 
 
 urlpatterns = [
@@ -16,5 +17,11 @@ urlpatterns = [
     path('api/v1/oauth2/', include('django_auth_adfs.drf_urls', 'django_auth_adfs')),
     path('api/v1/auth/token/', include('rest_framework.urls')),
     path('api/v1/', include(router.urls)),
+    path('api/v1/order_item/<int:order_item_id>/', views.put_order, name='order-detail'),
     path('admin/v1/', admin.site.urls),
+    path(
+        'openapi',
+        get_schema_view(title='Voucher API', description='API for voucher generation', version='1.0.0'),
+        name='openapi-schema',
+    ),
 ]
