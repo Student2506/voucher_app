@@ -1,5 +1,10 @@
 """Views to serve vista objects."""
 
+import json
+import os
+from typing import Any
+
+import pika
 from django.http import JsonResponse
 from rest_framework import serializers, status, viewsets
 from rest_framework.decorators import api_view
@@ -13,6 +18,8 @@ from voucher_api.serializers import (
     RequestOrderSerializer,
     VoucherTypeOrderingSerializer,
 )
+
+RABBITMQ_QUEUE = os.getenv('RABBITMQ_QUEUE', None)
 
 
 class CustomerViewset(viewsets.ReadOnlyModelViewSet):
@@ -54,5 +61,25 @@ def put_order(request: Request, order_item_id: int) -> JsonResponse:
     order = RequestOrderSerializer(data=order_data)
     if order.is_valid():
         order.save()
+        send_data_to_generation(order_data)
         return JsonResponse(order.data, status=status.HTTP_201_CREATED)
     return JsonResponse(order.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+def send_data_to_generation(body: dict[str, Any]) -> None:
+    """Send data to worker.
+
+    Args:
+        body: dict - data to create voucher upon
+    """
+    connection = pika.BlockingConnection(
+        pika.URLParameters(os.getenv('RABBITMQ_URL')),
+    )
+    channel = connection.channel()
+    channel.queue_declare(queue=RABBITMQ_QUEUE)
+    channel.basic_publish(
+        exchange='',
+        routing_key=RABBITMQ_QUEUE,
+        body=json.dumps(body),
+    )
+    connection.close()

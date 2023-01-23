@@ -12,6 +12,12 @@ services:
     env_file:
       - .env
     command: uwsgi --strict --ini uwsgi.ini
+
+  workers:
+    build:
+      context: workers
+    env_file:
+      - .env
   
   nginx:
     image: nginx:latest
