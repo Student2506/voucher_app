@@ -710,6 +710,9 @@ files = [
     {file = "python_barcode-0.14.0-py3-none-any.whl", hash = "sha256:eefbb2583ba7bdb09baba6f8663129883109c61df7e23c9b9b473087521c926f"},
 ]
 
+[package.dependencies]
+pillow = {version = "*", optional = true, markers = "extra == \"images\""}
+
 [package.extras]
 images = ["pillow"]
 
@@ -726,6 +729,7 @@ files = [
 
 [package.dependencies]
 colorama = {version = "*", markers = "platform_system == \"Windows\""}
+pillow = {version = "*", optional = true, markers = "extra == \"pil\""}
 
 [package.extras]
 all = ["pillow", "pytest", "pytest", "pytest-cov", "tox", "zest.releaser[recommended]"]
@@ -997,4 +1001,4 @@ test = ["pytest"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "bec0badc968217d94b0282a58f7a46eb7bcee3a1c9109075a78ddf3b7303edbb"
+content-hash = "9563759d40a4c9857099ad6543968263a4abe4544ad9d386d920c2511976c290"

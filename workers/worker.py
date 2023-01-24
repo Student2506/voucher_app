@@ -1,18 +1,14 @@
 """Worker to generate pdf."""
 
 import json
-import os
+from tempfile import mkdtemp
 
 import pika
-from sqlalchemy import create_engine, select
-from sqlalchemy.orm import Session
 
-from database.models import TblStock
-
-RABBITMQ_QUEUE = os.getenv('RABBITMQ_QUEUE', None)
-MSSQL_URL_PART = os.getenv('MSSQL_URL')
-VISTA_URL = f'mssql+pyodbc://{MSSQL_URL_PART}'
-VISTA_ENGINE = create_engine(VISTA_URL)
+from workers.database.database_classes import MSSQLDB, PostgresDB
+from workers.database.models import TblStock, Template
+from workers.html_generation import html_generator
+from workers.settings.config import settings
 
 
 def pdf_generation(
@@ -30,20 +26,30 @@ def pdf_generation(
         body: bytes
     """
     request = json.loads(body.decode())
-    session = Session(VISTA_ENGINE)
-    stmt = select(TblStock).where(TblStock.lclientorderitemid == request.get('order_item'))
-    for stock in session.scalars(stmt):
-        stock.stock_strbarcode   # noqa: WPS428
+    stocks: list[TblStock] = MSSQLDB(settings.mssql_url).get_table_stock(request.get('order_item'))
+    template: Template | None = PostgresDB(settings.postgres_url).get_template(request.get('template'))
+    html_folder = mkdtemp()
+    if template:
+        for stock in stocks:
+            html_generator.html_generation(
+                template=str(template.template),
+                code_to_fill=str(stock.stock_strbarcode),
+                folder=html_folder,
+                code_type='barcode',
+            )
 
 
 def main() -> None:
     """Process."""
-    connection = pika.BlockingConnection(
-        pika.URLParameters(os.getenv('RABBITMQ_URL', None)),
-    )
+    url_parameters = pika.URLParameters(settings.rabbitmq_url, None)
+    connection = pika.BlockingConnection(url_parameters)
     channel = connection.channel()
-    channel.queue_declare(RABBITMQ_QUEUE)
-    channel.basic_consume(queue=RABBITMQ_QUEUE, on_message_callback=pdf_generation, auto_ack=True)
+    channel.queue_declare(settings.rabbitmq_queue)
+    channel.basic_consume(
+        queue=settings.rabbitmq_queue,
+        on_message_callback=pdf_generation,
+        auto_ack=True,
+    )
     channel.start_consuming()
 
 
