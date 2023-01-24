@@ -21,5 +21,7 @@ class TblStock(Base):
 class Template(Base):
     """Class to describer additional template info."""
 
+    __tablename__ = 'template'
+
     id = Column('id', UUID, primary_key=True)
     template = Column('template_content', TEXT)

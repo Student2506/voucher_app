@@ -1,12 +1,11 @@
 """Module to handle database logic."""
 
 from urllib.parse import quote_plus
-from uuid import UUID
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
-from workers.database.models import TblStock, Template
+from database.models import TblStock, Template
 
 
 class Database:
@@ -35,17 +34,17 @@ class MSSQLDB(Database):
         Returns:
             list[TblStock] - order items
         """
-        return list(self.session.query(TblStock).filter_by(lclientorderitemid=order_item))
+        return self.session.query(TblStock).filter_by(lclientorderitemid=order_item).all()
 
 
 class PostgresDB(Database):
     """Postgresql Variant."""
 
-    def get_template(self, template_id: UUID) -> Template | None:
+    def get_template(self, template_id: str) -> Template | None:
         """Fetch template info.
 
         Args:
-            template_id: UUID - template to fetch
+            template_id: str - template to fetch
 
         Returns:
             Template | None - template

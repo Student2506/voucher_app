@@ -6,10 +6,10 @@ from uuid import UUID
 
 import pika
 
-from workers.database.database_classes import MSSQLDB, PostgresDB
-from workers.database.models import TblStock, Template
-from workers.html_generation import html_generator
-from workers.settings.config import settings
+from database.database_classes import MSSQLDB, PostgresDB
+from database.models import TblStock, Template
+from html_generation import html_generator
+from settings.config import settings
 
 
 def get_stocks(stock_id: str) -> list[TblStock]:
@@ -22,7 +22,7 @@ def get_stocks(stock_id: str) -> list[TblStock]:
         list[TblStock] - stocks
     """
     mssql_instance = MSSQLDB(settings.mssql_url, settings.mssql_password)
-    return mssql_instance.get_table_stock(stock_id)
+    return list(mssql_instance.get_table_stock(stock_id))
 
 
 def get_templates(template_id: str) -> Template | None:
@@ -68,7 +68,7 @@ def pdf_generation(
 
 def main() -> None:
     """Process."""
-    url_parameters = pika.URLParameters(settings.rabbitmq_url, None)
+    url_parameters = pika.URLParameters(settings.rabbitmq_url)
     connection = pika.BlockingConnection(url_parameters)
     channel = connection.channel()
     channel.queue_declare(settings.rabbitmq_queue)
