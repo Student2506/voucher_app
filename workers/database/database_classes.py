@@ -1,5 +1,6 @@
 """Module to handle database logic."""
 
+from urllib.parse import quote_plus
 from uuid import UUID
 
 from sqlalchemy import create_engine
@@ -11,13 +12,14 @@ from workers.database.models import TblStock, Template
 class Database:
     """General Abstarct class."""
 
-    def __init__(self, url: str) -> None:
+    def __init__(self, url: str, password: str) -> None:
         """General creation of database.
 
         Args:
             url: str - url to connect to
+            password: str - password for database
         """
-        self.engine = create_engine(url)
+        self.engine = create_engine(url % quote_plus(password))
         self.session = Session(self.engine)
 
 

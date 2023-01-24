@@ -2,6 +2,7 @@
 
 import json
 from tempfile import mkdtemp
+from uuid import UUID
 
 import pika
 
@@ -9,6 +10,32 @@ from workers.database.database_classes import MSSQLDB, PostgresDB
 from workers.database.models import TblStock, Template
 from workers.html_generation import html_generator
 from workers.settings.config import settings
+
+
+def get_stocks(stock_id: str) -> list[TblStock]:
+    """Get stocks.
+
+    Args:
+        stock_id: str - stock to use
+
+    Returns:
+        list[TblStock] - stocks
+    """
+    mssql_instance = MSSQLDB(settings.mssql_url, settings.mssql_password)
+    return mssql_instance.get_table_stock(stock_id)
+
+
+def get_templates(template_id: str) -> Template | None:
+    """Get Template.
+
+    Args:
+        template_id: str - id of template
+
+    Returns:
+        list[Template] - template list
+    """
+    postgres_instance = PostgresDB(settings.postgres_url, settings.postgres_password)
+    return postgres_instance.get_template(UUID(template_id))
 
 
 def pdf_generation(
@@ -26,8 +53,8 @@ def pdf_generation(
         body: bytes
     """
     request = json.loads(body.decode())
-    stocks: list[TblStock] = MSSQLDB(settings.mssql_url).get_table_stock(request.get('order_item'))
-    template: Template | None = PostgresDB(settings.postgres_url).get_template(request.get('template'))
+    stocks = get_stocks(request.get('order_item'))
+    template = get_templates(request.get('template'))
     html_folder = mkdtemp()
     if template:
         for stock in stocks:
