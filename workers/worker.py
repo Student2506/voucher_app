@@ -2,7 +2,6 @@
 
 import json
 from tempfile import mkdtemp
-from uuid import UUID
 
 import pika
 
@@ -35,7 +34,7 @@ def get_templates(template_id: str) -> Template | None:
         list[Template] - template list
     """
     postgres_instance = PostgresDB(settings.postgres_url, settings.postgres_password)
-    return postgres_instance.get_template(UUID(template_id))
+    return postgres_instance.get_template(template_id)
 
 
 def pdf_generation(

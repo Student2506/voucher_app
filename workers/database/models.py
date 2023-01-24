@@ -22,6 +22,7 @@ class Template(Base):
     """Class to describer additional template info."""
 
     __tablename__ = 'template'
+    __table_args__ = ({'schema': 'voucher_app'})
 
     id = Column('id', UUID, primary_key=True)
     template = Column('template_content', TEXT)
