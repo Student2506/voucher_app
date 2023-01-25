@@ -20,6 +20,10 @@ class Settings(BaseSettings):
     rabbitmq_default_pass: str
     rabbitmq_url: AmqpDsn
     rabbitmq_queue: str
+    rabbitmq_queue_html_to_pdf: str
+    email_smtp_server: str
+    email_smtp_port: int
+    email_user: str
 
     class Config:
         """Configuration class."""

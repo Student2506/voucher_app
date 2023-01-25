@@ -79,7 +79,7 @@ def html_generation(
     with open(Path('templates') / 'refactorOrder_template.html', 'w') as user_template:
         user_template.writelines(template)
     base_template = Environment(
-        loader=PackageLoader('worker'),
+        loader=PackageLoader('worker_front_to_html'),
         autoescape=select_autoescape(),
     ).get_template('refactorOrder_template.html')
     barcode_filename: Path

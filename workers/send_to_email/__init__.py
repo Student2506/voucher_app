@@ -1,0 +1,1 @@
+"""Provide email communication."""
