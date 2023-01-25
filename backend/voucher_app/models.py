@@ -14,6 +14,7 @@ class Template(UUIDMixin, TimeStampedMixin):
 
     title = models.CharField(_('title'), max_length=TEXT_FIELD_LEN, unique=True)
     template_content = models.TextField(_('template_content'), blank=True)
+    logo = models.FileField(upload_to='uploads/', blank=True, null=True)
 
     class Meta:
         """Generic Meta class."""

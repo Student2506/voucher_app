@@ -20,6 +20,7 @@ include('components/_database.py')
 include('components/_locale.py')
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'static'
+MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {

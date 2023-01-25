@@ -16,6 +16,8 @@ services:
   workers:
     build:
       context: workers
+    volumes:
+      - ./results:/tmp
     env_file:
       - .env
   
@@ -45,6 +47,9 @@ services:
     restart: always
     env_file:
       - .env
+
+    # healthcheck:
+    #   - dddss
         
 
 volumes:
