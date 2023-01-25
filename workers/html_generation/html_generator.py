@@ -76,11 +76,12 @@ def html_generation(
         folder: str - folder to keep templates
         code_type: str - type of code generator
     """
-    env = Environment(
+    with open(Path('templates') / 'refactorOrder_template.html', 'w') as user_template:
+        user_template.writelines(template)
+    base_template = Environment(
         loader=PackageLoader('worker'),
         autoescape=select_autoescape(),
-    )
-    base_template = env.get_template('refactorOrder_template.html')
+    ).get_template('refactorOrder_template.html')
     barcode_filename: Path
     if code_type == 'barcode':
         barcode_filename = barcode_generation(folder, code_to_fill)
@@ -89,3 +90,5 @@ def html_generation(
     html_content = base_template.render(barcode=barcode_filename.name)
     with open(Path(folder) / f'{code_to_fill}.html', 'w') as fh:
         fh.write(html_content)
+    with open(Path('templates') / 'refactorOrder_template.html', 'w'):
+        logger.debug('Cleanup file')
