@@ -24,6 +24,7 @@ class Settings(BaseSettings):
     email_smtp_server: str
     email_smtp_port: int
     email_user: str
+    debug: bool | None = False
 
     class Config:
         """Configuration class."""

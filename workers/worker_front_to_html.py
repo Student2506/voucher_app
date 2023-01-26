@@ -3,12 +3,12 @@
 import json
 import logging
 from distutils.dir_util import copy_tree
+from shutil import rmtree
 from tempfile import mkdtemp
 
 import pika
 
-from database.database_classes import MSSQLDB, PostgresDB
-from database.models import TblStock, Template
+from database import database_classes, models
 from html_generation import html_generator
 from pdf_generation import pdf_generator
 from send_to_email import email_communication
@@ -19,7 +19,7 @@ FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 logger = logging.getLogger(__name__)
 
 
-def get_stocks(stock_id: str) -> list[TblStock]:
+def get_stocks(stock_id: str) -> list[models.TblStock]:
     """Get stocks.
 
     Args:
@@ -28,11 +28,11 @@ def get_stocks(stock_id: str) -> list[TblStock]:
     Returns:
         list[TblStock] - stocks
     """
-    mssql_instance = MSSQLDB(settings.mssql_url, settings.mssql_password)
+    mssql_instance = database_classes.MSSQLDB(settings.mssql_url, settings.mssql_password)
     return list(mssql_instance.get_table_stock(stock_id))
 
 
-def get_templates(template_id: str) -> Template | None:
+def get_templates(template_id: str) -> models.Template | None:
     """Get Template.
 
     Args:
@@ -41,7 +41,7 @@ def get_templates(template_id: str) -> Template | None:
     Returns:
         list[Template] - template list
     """
-    postgres_instance = PostgresDB(settings.postgres_url, settings.postgres_password)
+    postgres_instance = database_classes.PostgresDB(settings.postgres_url, settings.postgres_password)
     return postgres_instance.get_template(template_id)
 
 
@@ -76,9 +76,12 @@ def html_generation(
                 code_type='barcode',
             )
     pdf_generator.pdf_generation(html_folder)
+    if settings.debug:
+        return
     file_to_send = zip_generator.generate_zip_file(html_folder)
     email_handle = email_communication.EmailWorker()
     email_handle.send_message(addresses, 'Vouchers ordered', file_to_send)
+    rmtree(html_folder)
 
 
 def main() -> None:

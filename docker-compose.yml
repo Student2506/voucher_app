@@ -21,6 +21,9 @@ services:
       - ./results:/tmp
     env_file:
       - .env
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
 
   nginx:
     image: nginx:latest
@@ -48,10 +51,11 @@ services:
     restart: always
     env_file:
       - .env
-
-    # healthcheck:
-    #   - dddss
-        
+    healthcheck:
+        test: ["CMD", "nc", "-z", "localhost", "5672" ]
+        interval: 10s
+        timeout: 10s
+        retries: 5    
 
 volumes:
   media:
