@@ -19,7 +19,10 @@ def create_pdf_file(html_file: str, pdf_file: str) -> None:
     """
     font_config = FontConfiguration()
     html_folder = Path(html_file).parent
+    logger.debug(f'html_folder: {html_folder}')
     css = CSS(f'{html_folder}/default.css')         # noqa: F841
+    logger.debug(f'css_file: {html_folder}/default.css')
+    logger.debug(f'html_file: {html_file}')
     HTML(filename=html_file).write_pdf(
         pdf_file,
         font_config=font_config,
