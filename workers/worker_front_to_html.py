@@ -45,7 +45,7 @@ def get_templates(template_id: str) -> models.Template | None:
     return postgres_instance.get_template(template_id)
 
 
-def html_generation(
+def html_generation(                        # noqa: WPS213
     channel: pika.channel.Channel,
     method: pika.spec.Basic.Deliver,
     properties: pika.spec.BasicProperties,
@@ -75,10 +75,13 @@ def html_generation(
                 folder=html_folder,
                 code_type='barcode',
             )
+    logger.debug('PDF GENERATE')
     pdf_generator.pdf_generation(html_folder)
     if settings.debug:
         return
+    logger.debug('ZIP GENERATE')
     file_to_send = zip_generator.generate_zip_file(html_folder)
+    logger.debug('SEND EMAIL')
     email_handle = email_communication.EmailWorker()
     email_handle.send_message(addresses, 'Vouchers ordered', file_to_send)
     rmtree(html_folder)
