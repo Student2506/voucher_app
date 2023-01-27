@@ -75,6 +75,9 @@ def html_generation(                        # noqa: WPS213
                 folder=html_folder,
                 code_type='barcode',
             )
+    else:
+        logger.error(f'Template: {template}')
+        return
     logger.debug('PDF GENERATE')
     pdf_generator.pdf_generation(html_folder)
     if settings.debug:

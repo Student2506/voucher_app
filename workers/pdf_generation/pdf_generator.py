@@ -21,9 +21,9 @@ def create_pdf_file(html_file: str, pdf_file: str) -> None:
     html_folder = Path(html_file).parent
     logger.debug(f'html_folder: {html_folder}')
     css = [
-        CSS(f'{html_folder}/default.css'),
-        CSS(f'{html_folder}/pages/refactorOrder.css'),
-    ]         # noqa: F841
+        CSS(filename=f'{html_folder}/default.css', font_config=font_config),
+        CSS(filename=f'{html_folder}/pages/refactorOrder.css', font_config=font_config),
+    ]
 
     logger.debug(f'css_file: {html_folder}/default.css')
     logger.debug(f'html_file: {html_file}')
