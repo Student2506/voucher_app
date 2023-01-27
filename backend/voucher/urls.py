@@ -19,6 +19,7 @@ urlpatterns = [
     path('api/v1/', include(router.urls)),
     path('api/v1/order_item/<int:order_item_id>/', views.put_order, name='order-detail'),
     path('admin/v1/', admin.site.urls),
+    path('api/v1/get_cookes/', views.retrieve_token, name='retrieve-token'),
     path(
         'openapi',
         get_schema_view(title='Voucher API', description='API for voucher generation', version='1.0.0'),

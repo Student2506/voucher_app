@@ -5,11 +5,11 @@ import os
 from typing import Any
 
 import pika
-from django.http import JsonResponse
 from rest_framework import serializers, status, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
 from rest_framework.request import Request
+from rest_framework.response import Response
 
 from vista_module.models import Customer, VoucherType
 from voucher_api.serializers import (
@@ -46,7 +46,7 @@ class VoucherTypeViewset(viewsets.ModelViewSet):
 
 
 @api_view(['POST'])
-def put_order(request: Request, order_item_id: int) -> JsonResponse:
+def put_order(request: Request, order_item_id: int) -> Response:
     """Make request to send vouchers.
 
     Args:
@@ -54,7 +54,7 @@ def put_order(request: Request, order_item_id: int) -> JsonResponse:
         order_item_id: int - item to create order
 
     Returns:
-        JsonResponse - status of creation or failure
+        Response - status of creation or failure
     """
     order_data = JSONParser().parse(request)
     order_data['order_item'] = int(order_item_id)
@@ -62,8 +62,8 @@ def put_order(request: Request, order_item_id: int) -> JsonResponse:
     if order.is_valid():
         order.save()
         send_data_to_generation(order_data)
-        return JsonResponse(order.data, status=status.HTTP_201_CREATED)
-    return JsonResponse(order.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(order.data, status=status.HTTP_201_CREATED)
+    return Response(order.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 def send_data_to_generation(body: dict[str, Any]) -> None:
@@ -83,3 +83,20 @@ def send_data_to_generation(body: dict[str, Any]) -> None:
         body=json.dumps(body),
     )
     connection.close()
+
+
+@api_view(['GET'])
+def retrieve_token(request: Request) -> Response:
+    """Make request to send vouchers.
+
+    Args:
+        request: Request - data to create order
+
+    Returns:
+        Response - status of creation or failure
+    """
+    userinfo = {
+        'user': str(request.user),  # `django.contrib.auth.User` instance.
+        'auth': str(request.COOKIES),  # None
+    }
+    return Response(userinfo)

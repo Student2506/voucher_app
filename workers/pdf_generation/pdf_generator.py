@@ -4,7 +4,7 @@ import logging
 import os
 from pathlib import Path
 
-from weasyprint import HTML
+from weasyprint import CSS, HTML
 from weasyprint.text.fonts import FontConfiguration
 
 logger = logging.getLogger(__name__)
@@ -18,9 +18,12 @@ def create_pdf_file(html_file: str, pdf_file: str) -> None:
         pdf_file: str - pdf-file to create
     """
     font_config = FontConfiguration()
+    html_folder = Path(html_file).parent
+    css = CSS(f'{html_folder}/default.css')
     HTML(filename=html_file).write_pdf(
         pdf_file,
         font_config=font_config,
+        stylesheets=[css],
     )
 
 

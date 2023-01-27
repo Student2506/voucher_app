@@ -22,11 +22,10 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'static'
 MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'django_auth_adfs.rest_framework.AdfsAccessTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+        'django_auth_adfs.rest_framework.AdfsAccessTokenAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
@@ -38,5 +37,5 @@ REST_FRAMEWORK = {
 }
 include('components/_authentication.py')
 
-LOGIN_REDIRECT_URL = 'customer-list'
+LOGIN_REDIRECT_URL = 'retrieve-token'
 LOGIN_URL = 'django_auth_adfs:login'
