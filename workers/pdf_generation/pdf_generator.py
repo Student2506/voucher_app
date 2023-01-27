@@ -26,7 +26,7 @@ def create_pdf_file(html_file: str, pdf_file: str) -> None:
     HTML(filename=html_file).write_pdf(
         pdf_file,
         font_config=font_config,
-        # stylesheets=[css],        # noqa: #800
+        stylesheets=[css],
     )
 
 
