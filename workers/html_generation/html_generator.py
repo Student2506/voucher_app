@@ -82,12 +82,14 @@ def html_generation(
         loader=PackageLoader('worker_front_to_html'),
         autoescape=select_autoescape(),
     ).get_template('refactorOrder_template.html')
+    logger.debug(f'base_template: {base_template}')
     barcode_filename: Path
     if code_type == 'barcode':
         barcode_filename = barcode_generation(folder, code_to_fill)
     else:
         barcode_filename = qr_code_generation(folder, code_to_fill)
     html_content = base_template.render(barcode=barcode_filename.name)
+    logger.debug(f'html_content {html_content}')
     with open(Path(folder) / f'{code_to_fill}.html', 'w') as fh:
         fh.write(html_content)
     with open(Path('templates') / 'refactorOrder_template.html', 'w'):

@@ -68,6 +68,7 @@ def html_generation(                        # noqa: WPS213
     logger.debug(html_folder)
     copy_tree('templates/static', html_folder)
     if template:
+        logger.debug(f'Template is: {template}')
         for stock in stocks:
             html_generator.html_generation(
                 template=str(template.template),
@@ -80,6 +81,7 @@ def html_generation(                        # noqa: WPS213
         return
     logger.debug('PDF GENERATE')
     pdf_generator.pdf_generation(html_folder)
+    logger.debug('ENDPDF')
     if settings.debug:
         return
     logger.debug('ZIP GENERATE')

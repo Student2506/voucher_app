@@ -68,16 +68,6 @@
 	position: relative;
 }
 
-{% comment %} .barcode {
-	transform: rotate(90deg);
-	width: 294px;
-	height: 120px;
-	z-index: -1;
-	position: relative;
-	right: 90px;
-	bottom: 2px;
-} {% endcomment %}
-
 .barcode {
 	transform: rotate(90deg);
 	width: 120px;
