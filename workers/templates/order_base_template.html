@@ -5,22 +5,19 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="author" content="Александр Волошин">
 	<title>barcode</title>
-	<link rel="stylesheet" type="text/css" href="default.css">
-	<link rel="stylesheet" type="text/css" href="pages/refactorOrder.css">
+ 	<link rel="stylesheet" type="text/css" href="pages/refactorOrder.css">
+	 <link rel="stylesheet" type="text/css" href="default.css" />
 	<!--Here comes style needs to be adjusted dynamiclly-->
     <style>
 	  /* Include in common style */
       .custom-conditions {
         text-transform: uppercase;
+		text-align: justify;
       }
-	  /* Needs to be in HTML */
-      .refactor__barcode {
-        border: 5px solid black;
-        background-size: contain;
-        background: url({{barcode}}) no-repeat center !important;
-      }
-    </style>
-
+	  .refactor__barcode {
+		background-image: url("{{barcode}}");
+	  }
+	</style>
 </head>
 <body class="page">
 	<main class="main">
@@ -41,20 +38,19 @@
 					</p>
 				</div>
 				<div class="refactor__middle refactor__border">
-					<div class="refactor__barcode">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec sem in lacus euismod euismod non ac nunc. Maecenas id eros eu lacus consectetur efficitur porta at mi. Sed tincidunt sollicitudin orci, sit amet finibus est viverra in. Proin non eros pellentesque dui lobortis imperdiet. Vivamus sit amet nisl nulla. Phasellus id nisl semper, pretium erat et, pellentesque diam. Quisque nec commodo libero. Nulla euismod placerat justo. Pellentesque facilisis urna neque, ut auctor elit vehicula vitae. Donec sed varius risus. Suspendisse mollis lorem metus, non ullamcorper risus porta sit amet.
-
-						Mauris eget risus orci. Cras pellentesque mi vitae mauris malesuada, non sodales lorem dapibus. Nunc maximus nibh diam, nec feugiat ante porta sit amet. Aenean sit amet leo orci. Suspendisse pellentesque id neque vitae tristique. Fusce pulvinar mauris eu purus ornare sollicitudin. Vestibulum tempus libero urna, at cursus massa suscipit dignissim. In varius non odio sed aliquam. Sed tempus iaculis orci non facilisis. Phasellus dictum fringilla felis, ut porta nibh tempus quis.</div>
+					<div class="refactor__barcode" ></div>
 					<img src="./images/voucher.png" alt="Voucher-image" class="refactor__voucher-image">
 				</div>
 				{% block refactor_bottom %}
 				<div class="refactor__bottom">
 					<h2 class="refactor__subtitle">Правила использования</h2>
-					<p class="refactor__caption">Приглашаем Вас в кинотеатры нового поколения, адреса Вы можете уточнить на сайте www.karofilm.ru</p>
-					<label class="refactor__label" for="voucher-text">Категория сертификата:</label>
 					<textarea id="voucher-text" name="voucher-text" class="refactor__text" required minlength="2" maxlength="2500">
 						{% block voucher_text %}
 						{% endblock voucher_text %}
 					</textarea>
+					<p class="refactor__caption">Приглашаем Вас в кинотеатры нового поколения, адреса Вы можете уточнить на сайте www.karofilm.ru</p>
+					<label class="refactor__label" for="voucher-text">Категория сертификата:</label>
+					
 				</div>
 				{% endblock refactor_bottom %}
 			</form>

@@ -1,5 +1,5 @@
 .refactor__barcode {
-	border: 5px solid black;
+	width: 96px;
 	background: url("../../../images/shtrih.png") no-repeat center;
 	background-size: contain;
 }
