@@ -58,6 +58,8 @@ def put_order(request: Request, order_item_id: int) -> Response:
     """
     order_data = JSONParser().parse(request)
     order_data['order_item'] = int(order_item_id)
+    if request.query_params.get('codetype', None) == 'qrcode':
+        order_data['codetype'] = 'qrcode'
     order = RequestOrderSerializer(data=order_data)
     if order.is_valid():
         order.save()

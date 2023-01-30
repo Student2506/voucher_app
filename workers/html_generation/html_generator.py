@@ -9,7 +9,6 @@ from barcode import Code128
 from barcode.writer import ImageWriter
 from jinja2 import Environment, PackageLoader, select_autoescape
 from PIL import Image
-from qrcode.image.svg import SvgPathImage
 
 logger = logging.getLogger(__name__)
 ROTATE_DEGRE = -90
@@ -47,17 +46,17 @@ def qr_code_generation(folder: str, code_to_fill: str) -> Path:
     Returns:
         Path - filename path to generated image
     """
-    filename = Path(folder) / f'{code_to_fill}.svg'
+    filename = Path(folder) / f'{code_to_fill}.png'
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_H,
         box_size=10,
         border=4,
-        image_factory=SvgPathImage,
     )
     qr.add_data(str(code_to_fill))
     qr.make(fit=True)
-    img = qr.make_image(fill_color=(224, 0, 63), back_color='white')
+    img = qr.make_image(fill_color='black', back_color='white')
+    img = img.rotate(ROTATE_DEGRE)
     img.save(filename)
     return filename
 
@@ -84,9 +83,9 @@ def html_generation(
     ).get_template('refactorOrder_template.html')
     logger.debug(f'base_template: {base_template}')
     barcode_filename: Path
-    if code_type == 'barcode':
+    if not code_type or code_type == 'barcode':
         barcode_filename = barcode_generation(folder, code_to_fill)
-    else:
+    if code_type == 'qrcode':
         barcode_filename = qr_code_generation(folder, code_to_fill)
     html_content = base_template.render(barcode=barcode_filename.name)
     logger.debug(f'html_content {html_content}')

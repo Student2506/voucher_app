@@ -64,6 +64,7 @@ def html_generation(                        # noqa: WPS213
     stocks = get_stocks(request.get('order_item'))
     template = get_templates(request.get('template'))
     addresses = request.get('addresses')
+    code_type = request.get('codetype', 'barcode')
     html_folder = mkdtemp()
     logger.debug(html_folder)
     copy_tree('templates/static', html_folder)
@@ -74,7 +75,7 @@ def html_generation(                        # noqa: WPS213
                 template=str(template.template),
                 code_to_fill=str(stock.stock_strbarcode),
                 folder=html_folder,
-                code_type='barcode',
+                code_type=code_type,
             )
     else:
         logger.error(f'Template: {template}')
