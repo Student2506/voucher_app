@@ -46,8 +46,11 @@ def qr_code_generation(folder: str, code_to_fill: str) -> Path:
     Returns:
         Path - filename path to generated image
     """
+    back_color = 'white'
     filename = Path(folder) / f'{code_to_fill}.png'
-    base_img = Image.new('RGBA', NEW_SIZE)
+    base_img = Image.new('RGB', NEW_SIZE)
+    dimensions = [0, 0, base_img.size[0], base_img.size[1]]
+    base_img.paste(back_color, dimensions)
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_H,
@@ -56,7 +59,7 @@ def qr_code_generation(folder: str, code_to_fill: str) -> Path:
     )
     qr.add_data(str(code_to_fill))
     qr.make(fit=True)
-    img = qr.make_image(fill_color=(224, 0, 63), back_color='white')
+    img = qr.make_image(fill_color=(224, 0, 63), back_color=back_color)
     img = img.crop((10, 10, 78, 78))
     img = img.rotate(ROTATE_DEGRE)
     size = NEW_SIZE[1]/2 - img.size[1]/2
