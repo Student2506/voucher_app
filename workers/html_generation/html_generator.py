@@ -57,9 +57,10 @@ def qr_code_generation(folder: str, code_to_fill: str) -> Path:
     qr.add_data(str(code_to_fill))
     qr.make(fit=True)
     img = qr.make_image(fill_color=(224, 0, 63), back_color='white')
+    img = img.crop((10, 10, 78, 78))
     img = img.rotate(ROTATE_DEGRE)
-    y_shift = NEW_SIZE[1]/2 - img.size[1]/2
-    base_img.paste(img, (0, round(y_shift)))
+    size = NEW_SIZE[1]/2 - img.size[1]/2
+    base_img.paste(img, (10, round(size)))
     base_img.save(filename)
     return filename
 
