@@ -28,7 +28,7 @@ REST_FRAMEWORK = {
         'django_auth_adfs.rest_framework.AdfsAccessTokenAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'DEFAULT_PAGINATION_CLASS': 'voucher_api.paginators.StandardResultsSetPagination',
     'DEFAULT_PERMISSION_CLASSES': [
         # 'rest_framework.permissions.IsAuthenticated',
         'rest_framework.permissions.AllowAny',
