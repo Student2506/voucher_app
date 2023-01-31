@@ -2,6 +2,7 @@
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from tinymce.models import HTMLField
 
 from voucher_app.mixins import TimeStampedMixin, UUIDMixin
 
@@ -13,7 +14,7 @@ class Template(UUIDMixin, TimeStampedMixin):
     """Model to describe template."""
 
     title = models.CharField(_('title'), max_length=TEXT_FIELD_LEN, unique=True)
-    template_content = models.TextField(_('template_content'), blank=True)
+    template_content = HTMLField(_('template_content'), blank=True)
     logo = models.FileField(upload_to='uploads/', blank=True, null=True)
 
     class Meta:

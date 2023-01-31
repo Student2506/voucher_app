@@ -14,6 +14,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django_auth_adfs',
     'corsheaders',
+    'tinymce',
 ]
 
 MIDDLEWARE = [
