@@ -33,11 +33,11 @@ msgstr "Сайт посвящён Ане"
 
 #: .\voucher_app\admin.py:12
 msgid "My site header"
-msgstr "Сайт для Ани"
+msgstr "Управление выпуском ваучеров"
 
 #: .\voucher_app\admin.py:13
 msgid "My index title"
-msgstr "Описание"
+msgstr "Содержимое админки"
 
 #: .\voucher_app\apps.py:12 .\voucher_app\models.py:22
 msgid "Template"
