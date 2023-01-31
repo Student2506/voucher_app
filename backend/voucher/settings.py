@@ -46,7 +46,7 @@ TINYMCE_DEFAULT_CONFIG = {
     'width': '960px',
     'menubar': 'file edit view insert format tools table help',
     'plugins': 'advlist autolink lists link image charmap print preview anchor searchreplace visualblocks code ' +
-    'fullscreen insertdatetime media table paste code help wordcount',
+    'fullscreen insertdatetime media table paste code help wordcount template',
     'toolbar': 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft ' +
     'aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor ' +
     'backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | ' +
@@ -55,9 +55,4 @@ TINYMCE_DEFAULT_CONFIG = {
     'custom_undo_redo_levels': 10,
     'browser_spellcheck': 'true',
     'contextmenu': 'false',
-    'protect': [
-       '/{%(.*)%}/g, // Allow TWIG control codes',
-       '/{{(.*)}}/g, // Allow TWIG output codes',
-       '/{#(.*)#}/g, // Allow TWIG comment codes',
-    ],
 }

@@ -2,7 +2,6 @@
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from tinymce.models import HTMLField
 
 from voucher_app.mixins import TimeStampedMixin, UUIDMixin
 
@@ -14,7 +13,7 @@ class Template(UUIDMixin, TimeStampedMixin):
     """Model to describe template."""
 
     title = models.CharField(_('title'), max_length=TEXT_FIELD_LEN, unique=True)
-    template_content = HTMLField(_('template_content'), blank=True)
+    template_content = models.TextField(_('template_content'), blank=True)
     logo = models.FileField(upload_to='uploads/', blank=True, null=True)
 
     class Meta:
@@ -24,6 +23,14 @@ class Template(UUIDMixin, TimeStampedMixin):
         verbose_name_plural = _('Templates')
         ordering = ['title']
         db_table = 'voucher_app"."template'
+
+    def clean_template_content(self) -> str:
+        """Remove multiple br tags from text.
+
+        Returns:
+            str - content
+        """
+        return str(self.cleaned_data['template_content'].replace('<br />', ''))
 
     def __str__(self) -> str:
         """Present model as a title.
