@@ -37,7 +37,8 @@ class TemplateAdminForm(forms.ModelForm):
         Returns:
             str - content
         """
-        return str(self.cleaned_data['template_content'].replace('<br />', ''))
+        template_content: str = self.cleaned_data['template_content'].replace('<br />', '')
+        return template_content.replace('%}', '%}<br />')
 
 
 @admin.register(Template)

@@ -83,6 +83,7 @@ def html_generation(
         code_type: str - type of code generator
     """
     with open(Path('templates') / 'refactorOrder_template.html', 'w') as user_template:
+        template = template.replace('<br />', '')
         user_template.writelines(template)
     base_template = Environment(
         loader=PackageLoader('worker_front_to_html'),
