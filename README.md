@@ -27,3 +27,10 @@ uvicorn voucher_app.asgi:application --reload
 ```
 http://127.0.0.1:8000/
 ```
+
+```
+docker compose exec -it admin_site bash
+python manage.py compilemessages
+python manage.py migrate
+python manage.py collectstatic
+```
