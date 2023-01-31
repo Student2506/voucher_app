@@ -49,3 +49,4 @@ class TemplateAdmin(admin.ModelAdmin):
     formfield_overrides = {
         models.TextField: {'widget': TinyMCE(mce_attrs=mce_attrs)},
     }
+    save_as = True
