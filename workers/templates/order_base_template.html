@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="author" content="Александр Волошин">
+	<title>barcode</title>
+ 	<link rel="stylesheet" type="text/css" href="pages/refactorOrder.css">
+	 <link rel="stylesheet" type="text/css" href="default.css" />
+	<!--Here comes style needs to be adjusted dynamiclly-->
+    <style>
+	  /* Include in common style */
+      .custom-conditions {
+        text-transform: uppercase;
+		text-align: justify;
+      }
+	  .refactor__barcode {
+		background-image: url("{{barcode}}");
+	  }
+	</style>
+</head>
+<body class="page">
+	<main class="main">
+		<section class="refactor">
+			<form class="refactor__form" method="get">
+				<div class="refactor__top refactor__border">
+					<div class="refactor__image"></div>
+						{% block refactor_subtitle %}
+						{% endblock refactor_subtitle %}
+					<p class="custom-conditions">
+						{% block refactor_conditions %}
+						{% endblock refactor_conditions %}
+					</p>
+					
+					<p class="refactor__caption">
+						{% block refactor_caption %}
+						{% endblock refactor_caption %}
+					</p>
+				</div>
+				<div class="refactor__middle refactor__border">
+					<div class="refactor__barcode" ></div>
+					<img src="./images/voucher.png" alt="Voucher-image" class="refactor__voucher-image">
+				</div>
+				{% block refactor_bottom %}
+				<div class="refactor__bottom">
+					<h2 class="refactor__subtitle">Правила использования</h2>
+					<textarea id="voucher-text" name="voucher-text" class="refactor__text" required minlength="2" maxlength="2500">
+						{% block voucher_text %}
+						{% endblock voucher_text %}
+					</textarea>
+					<p class="refactor__caption">Приглашаем Вас в кинотеатры нового поколения, адреса Вы можете уточнить на сайте www.karofilm.ru</p>
+					<label class="refactor__label" for="voucher-text">Категория сертификата:</label>
+					
+				</div>
+				{% endblock refactor_bottom %}
+			</form>
+		</section>
+	</main>
+
+</body>
+</html>

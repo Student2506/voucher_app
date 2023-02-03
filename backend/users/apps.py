@@ -1,0 +1,13 @@
+"""General application definition."""
+
+from django.apps import AppConfig
+from django.utils.translation import gettext_lazy as _
+
+
+class UsersConfig(AppConfig):
+    """General class for application."""
+
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'users'
+    verbose_name = _('User')
+    verbose_name_plural = _('Users')

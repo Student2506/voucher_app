@@ -1,0 +1,130 @@
+"""Module to descibe VISTA."""
+
+from django.db import models
+
+NAME_LENGTH = 50
+ORDER_NAME_LENGTH = 100
+VOUCHER_TYPE_LENGTH = 30
+ID_COLUMN_NAME = 'lID'
+
+
+class Customer(models.Model):
+    """Customer model."""
+
+    customer_name = models.CharField(
+        verbose_name='Наименование организации',
+        db_column='sName',
+        max_length=NAME_LENGTH,
+        blank=False,
+        null=False,
+    )
+    customer_id = models.IntegerField(db_column=ID_COLUMN_NAME, primary_key=True)
+
+    class Meta:
+        """Generic Meta class."""
+
+        managed = False
+        db_table = 'tblClient'
+
+    def __str__(self) -> str:
+        """Return represntation.
+
+        Returns:
+            str - name of a customer
+        """
+        return str(self.customer_name[:NAME_LENGTH])
+
+
+class Order(models.Model):
+    """Order model."""
+
+    order_id = models.IntegerField(db_column=ID_COLUMN_NAME, primary_key=True)
+    order_name = models.CharField(
+        verbose_name='Наименование заказа',
+        db_column='ClientOrder_strName',
+        max_length=ORDER_NAME_LENGTH,
+        blank=False,
+        null=False,
+    )
+    client_ref = models.ForeignKey(
+        'Customer',
+        on_delete=models.DO_NOTHING,
+        db_column='lClientID',
+        related_name='orders',
+    )
+
+    class Meta:
+        """Generic Meta class."""
+
+        managed = False
+        db_table = 'tblClientOrder'
+
+    def __str__(self) -> str:
+        """Return represntation of order.
+
+        Returns:
+            str - name of a customer
+        """
+        return str(self.order_name[:NAME_LENGTH])
+
+
+class VoucherType(models.Model):
+    """Voucher model."""
+
+    voucher_type_id = models.IntegerField(db_column=ID_COLUMN_NAME, primary_key=True)
+    voucher_code = models.CharField(
+        db_column='nVoucherCode',
+        max_length=VOUCHER_TYPE_LENGTH,
+    )
+    voucher_description = models.CharField(
+        db_column='sDescription',
+        max_length=NAME_LENGTH,
+    )
+
+    class Meta:
+        """Generic Meta class for VoucherType."""
+
+        managed = False
+        db_table = 'tblVoucherType'
+
+    def __str__(self) -> str:
+        """Return represntation of voucher type.
+
+        Returns:
+            str - name of a customer
+        """
+        return f'{self.voucher_description} - {self.voucher_code}'
+
+
+class OrderItem(models.Model):
+    """Order item model."""
+
+    order_item_id = models.IntegerField(db_column=ID_COLUMN_NAME, primary_key=True)
+    order_id = models.ForeignKey(
+        'Order',
+        on_delete=models.DO_NOTHING,
+        db_column='lClientOrderID',
+        related_name='order_items',
+    )
+    order_item_quantity = models.IntegerField(db_column='lQtyOrdered')
+    order_item_price = models.FloatField(db_column='mIssuePrice')
+    voucher_attached = models.ForeignKey(
+        'VoucherType',
+        on_delete=models.DO_NOTHING,
+        db_column='lVoucherTypeID',
+        related_name='voucher_items',
+    )
+
+    class Meta:
+        """Generic Meta class."""
+
+        managed = False
+        db_table = 'tblClientOrderItem'
+
+    def __str__(self) -> str:
+        """Return represntation of order's item.
+
+        Returns:
+            str - name of a customer
+        """
+        return f'{self.order_id.order_name} - {self.order_item_id}'

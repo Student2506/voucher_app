@@ -52,7 +52,6 @@ coverage.xml
 .pytest_cache/
 
 # Translations
-*.mo
 *.pot
 
 # Django stuff:
@@ -133,3 +132,11 @@ dmypy.json
 
 templates/images/barcode.png
 templates/images/qrcode.png
+
+
+static/
+*.cer
+results/
+media/
+
+!*/templates/static
