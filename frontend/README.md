@@ -1,21 +1,15 @@
-#Vouchers
+# Vouchers
+ 
+## Начало работы:
+1. Быть в сети KARO
+2. `npm install` для установки всех необходимых зависимостей
+3. `npm start` для запуска сервера на [localhost:3000](http://localhost:3000)
 
-## Available Scripts
+## Важные моменты
+На странице нет роутинга, для перехода по ссылкам изх надо прописывать вручную в адресной строке
+### [localhost:3000/sign-in](http://localhost:3000/sign-in) Страница входа
+> На ней нет авторизации для перехода дальше достаточно нажать кнопку "Войти"
+### [localhost:3000/vouchers](http://localhost:3000/vouchers) Страница ваучеров
+> Выбранные заказы и шаблоны подсвечиваются ![#f03c15](https://placehold.co/15x15/f36913/f36913.png) `#f36913` цветом
 
-Перед началом
-### `npm install`
-
-Для запуска приложения
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-## Пути
-### Логин
-[http://localhost:3000/sign-in](http://localhost:3000/sign-in)
-### Ваучеры
-[http://localhost:3000/vouchers](http://localhost:3000/vouchers)
-
-##p.s
-Редиректа нет, вводить пути вручную
+![alt KARO](https://github.com/Eshenok/voucher-site/blob/master/src/images/logo.png?raw=true)

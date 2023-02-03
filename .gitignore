@@ -142,3 +142,4 @@ media/
 !*/templates/static
 
 frontend_old/
+node_modules/

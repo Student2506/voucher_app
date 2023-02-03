@@ -1,0 +1,37 @@
+.order {
+	box-sizing: border-box;
+	border: none;
+	border-bottom: 1px solid #e1e6ea;
+	background-color: #fafbfb;
+	font-family: Arial, sans-serif;
+	font-size: .8125rem;
+	font-weight: normal;
+	line-height: 1rem;
+	color: #2a2d32;
+	/*Анимация*/
+	transition: background-color linear .2s;
+}
+
+.order:hover {
+	background-color: #dff7fd;
+}
+
+.order__fake {
+	padding: 13px 20px;
+	display: block;
+	/*Анимация*/
+	transition: color linear .2s;
+}
+
+.order__fake:hover {
+	cursor: pointer;
+}
+
+.order__input {
+	visibility: hidden;
+	position: absolute;
+}
+
+.order__input:checked + .order__fake {
+	color: orange;
+}

@@ -19,13 +19,36 @@ class Api {
     }).then(res => this._getResponseData(res));
   }
 
-  getCustomerOrder(id) {
+  getCustomerOrders(id) {
     return fetch(`${this._baseUrl}/api/v1/customers/${id}/`, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json"
       }
     }).then(res => this._getResponseData(res));
+  }
+
+  getOrderTemplates(id) {
+    return fetch(`${this._baseUrl}/api/v1/voucher_type/${id}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(res => this._getResponseData(res));
+  }
+
+  pushVouchers(id, template, email) {
+    return fetch(`${this._baseUrl}/api/v1/order_item/${id}/`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        "template": template,
+        "addresses": email,
+      })
+    })
+
   }
 }
 
