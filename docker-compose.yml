@@ -33,6 +33,7 @@ services:
       - ./configs:/etc/nginx/conf.d:ro
       - ./backend/static:/var/www/static/:ro
       - media:/var/www/media/:ro
+      - ../frontend/build:/usr/share/nginx/html/
     depends_on:
       - admin_site
     ports:

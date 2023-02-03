@@ -140,3 +140,5 @@ results/
 media/
 
 !*/templates/static
+
+frontend_old/
