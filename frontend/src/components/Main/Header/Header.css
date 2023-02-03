@@ -1,0 +1,19 @@
+.header {
+	background: url("../../../images/header.png") center bottom;
+	background-size: cover;
+	height: 47px;
+	grid-column-start: 2;
+	grid-column-end: 3;
+	display: flex;
+	justify-content: end;
+	align-items: center;
+	padding-right: 18px;
+}
+
+.header__account {
+	/* Шрифт */
+	font-family: Roboto,sans-serif;
+	color: #fff;
+	cursor: pointer;
+	font-size: .8125rem;
+}

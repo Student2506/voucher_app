@@ -1,0 +1,11 @@
+.main {
+	display: grid;
+	grid-template-columns: 140px 1fr;
+	grid-template-rows: 47px 1fr;
+	min-height: 100vh;
+}
+
+.content {
+	grid-column-start: 2;
+	grid-column-end: 3;
+}
