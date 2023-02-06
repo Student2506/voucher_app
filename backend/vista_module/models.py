@@ -52,12 +52,19 @@ class Order(models.Model):
         db_column='lClientID',
         related_name='orders',
     )
+    order_date = models.DateTimeField(
+        db_column='dOrderedDate',
+        verbose_name='Дата-время заказа',
+        blank=False,
+        null=False,
+    )
 
     class Meta:
         """Generic Meta class."""
 
         managed = False
         db_table = 'tblClientOrder'
+        ordering = ['-order_date', 'order_id']
 
     def __str__(self) -> str:
         """Return represntation of order.

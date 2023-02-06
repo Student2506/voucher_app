@@ -25,7 +25,7 @@ RABBITMQ_QUEUE = os.getenv('RABBITMQ_QUEUE', None)
 class CustomerViewset(viewsets.ReadOnlyModelViewSet):
     """API Endpoint which allows to view Customers."""
 
-    queryset = Customer.objects.using('vista')
+    queryset = Customer.objects.using('vista').order_by('customer_name')
 
     def get_serializer_class(self) -> serializers.ModelSerializer:
         """Choose serializer.
