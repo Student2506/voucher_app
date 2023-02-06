@@ -34,7 +34,7 @@ REST_FRAMEWORK = {
         # 'rest_framework.permissions.IsAuthenticated',
         'rest_framework.permissions.AllowAny',
     ],
-    'PAGE_SIZE': os.getenv('PAGE_SIZE', 10),
+    'PAGE_SIZE': os.getenv('PAGE_SIZE', 1000),
 }
 include('components/_authentication.py')
 
