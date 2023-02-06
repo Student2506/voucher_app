@@ -44,13 +44,10 @@
 				{% block refactor_bottom %}
 				<div class="refactor__bottom">
 					<h2 class="refactor__subtitle">Правила использования</h2>
-					<textarea id="voucher-text" name="voucher-text" class="refactor__text" required minlength="2" maxlength="2500">
-						{% block voucher_text %}
-						{% endblock voucher_text %}
-					</textarea>
-					<p class="refactor__caption">Приглашаем Вас в кинотеатры нового поколения, адреса Вы можете уточнить на сайте www.karofilm.ru</p>
 					<label class="refactor__label" for="voucher-text">Категория сертификата:</label>
-					
+					{% block voucher_text %}
+					{% endblock voucher_text %}
+					<p class="refactor__caption">Приглашаем Вас в кинотеатры нового поколения, адреса Вы можете уточнить на сайте www.karofilm.ru</p>
 				</div>
 				{% endblock refactor_bottom %}
 			</form>

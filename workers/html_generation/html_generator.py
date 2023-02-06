@@ -10,6 +10,8 @@ from barcode.writer import ImageWriter
 from jinja2 import Environment, PackageLoader, select_autoescape
 from PIL import Image
 
+from database.models import Template
+
 logger = logging.getLogger(__name__)
 ROTATE_DEGRE = -90
 NEW_SIZE = 90, 290
@@ -69,7 +71,7 @@ def qr_code_generation(folder: str, code_to_fill: str) -> Path:
 
 
 def html_generation(
-    template: str,
+    template: Template,
     code_to_fill: str,
     folder: str,
     code_type: str,
@@ -77,13 +79,13 @@ def html_generation(
     """Generate html files to preprocess.
 
     Args:
-        template: str - template part to include in common part
+        template: Template - template part to include in common part
         code_to_fill: str - code to generate voucher upon
         folder: str - folder to keep templates
         code_type: str - type of code generator
     """
     with open(Path('templates') / 'refactorOrder_template.html', 'w') as user_template:
-        template = template.replace('<br />', '')
+        template = template.template.replace('<br />', '')
         user_template.writelines(template)
     base_template = Environment(
         loader=PackageLoader('worker_front_to_html'),
@@ -95,7 +97,9 @@ def html_generation(
         barcode_filename = barcode_generation(folder, code_to_fill)
     if code_type == 'qrcode':
         barcode_filename = qr_code_generation(folder, code_to_fill)
-    html_content = base_template.render(barcode=barcode_filename.name)
+    html_content = base_template.render(
+        barcode=barcode_filename.name,
+    )
     logger.debug(f'html_content {html_content}')
     with open(Path(folder) / f'{code_to_fill}.html', 'w') as fh:
         fh.write(html_content)

@@ -26,3 +26,5 @@ class Template(Base):
 
     id = Column('id', UUID, primary_key=True)
     template = Column('template_content', TEXT)
+    logo_image = Column('logo_image', String(100))
+    voucher_image = Column('voucher_image', String(100))

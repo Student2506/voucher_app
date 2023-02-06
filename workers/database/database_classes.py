@@ -1,7 +1,5 @@
 """Module to handle database logic."""
 
-from urllib.parse import quote_plus
-
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
@@ -18,7 +16,7 @@ class Database:
             url: str - url to connect to
             password: str - password for database
         """
-        self.engine = create_engine(url % quote_plus(password))
+        self.engine = create_engine(url)
         self.session = Session(self.engine)
 
 

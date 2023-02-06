@@ -1,5 +1,7 @@
 """Settings for the project."""
 
+from ipaddress import IPv4Address
+
 from pydantic import AmqpDsn, BaseSettings, PostgresDsn
 
 
@@ -25,6 +27,7 @@ class Settings(BaseSettings):
     email_smtp_port: int
     email_user: str
     debug: bool | None = False
+    myip: IPv4Address | str = '127.0.0.1'
 
     class Config:
         """Configuration class."""

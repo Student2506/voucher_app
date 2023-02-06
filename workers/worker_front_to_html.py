@@ -3,7 +3,7 @@
 import json
 import logging
 from distutils.dir_util import copy_tree
-from shutil import rmtree
+from shutil import copy, rmtree
 from tempfile import mkdtemp
 
 import pika
@@ -69,10 +69,14 @@ def html_generation(                        # noqa: WPS213
     logger.debug(html_folder)
     copy_tree('templates/static', html_folder)
     if template:
+        if template.logo_image:
+            copy(f'media/{template.logo_image}', f'{html_folder}/images/logoVoucher.png')
+        if template.voucher_image:
+            copy(f'media/{template.voucher_image}', f'{html_folder}/images/voucher.png')
         logger.debug(f'Template is: {template}')
         for stock in stocks:
             html_generator.html_generation(
-                template=str(template.template),
+                template=template,
                 code_to_fill=str(stock.stock_strbarcode),
                 folder=html_folder,
                 code_type=code_type,

@@ -1,7 +1,7 @@
-FROM node:19-alpine3.17 as build
+FROM node:19-alpine3.17
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
-COPY . ./
-RUN npm run build
-CMD cp -r build result_build
+RUN npm ci --omit=dev
+COPY . .
+EXPOSE 3000

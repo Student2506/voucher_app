@@ -12,7 +12,7 @@ RUN curl curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/a
 RUN apt update
 RUN ACCEPT_EULA=Y apt install -y msodbcsql18
 RUN ACCEPT_EULA=Y apt install -y mssql-tools18
-RUN apt install -y unixodbc-dev libpango-1.0-0 libpangoft2-1.0-0 python3-pip libpango-1.0-0 libjpeg-dev libopenjp2-7-dev libffi-dev python3-cffi python3-brotli
+RUN apt install -y unixodbc-dev libpango-1.0-0 libpangoft2-1.0-0 libpango-1.0-0 libjpeg-dev libopenjp2-7-dev libffi-dev python3-cffi python3-brotli
 RUN python3 -m pip install -U pip
 RUN pip install "poetry==$POETRY_VERSION"
 WORKDIR /opt/app

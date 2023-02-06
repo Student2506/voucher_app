@@ -19,6 +19,7 @@ WSGI_APPLICATION = 'voucher.wsgi.application'
 include('components/_database.py')
 include('components/_locale.py')
 STATIC_URL = 'static/'
+MEDIA_URL = 'media/'
 STATIC_ROOT = BASE_DIR / 'static'
 MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

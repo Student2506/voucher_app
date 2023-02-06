@@ -7,7 +7,7 @@ services:
     expose:
       - "8000"
     volumes:
-      - ./backend/static:/opt/app/static/
+      - static_backend:/opt/app/static/
       - media:/opt/app/media/
     env_file:
       - .env
@@ -19,6 +19,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./results:/tmp
+      - media:/opt/app/media/:ro
     env_file:
       - .env
     depends_on:
@@ -30,9 +31,9 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - ./configs:/etc/nginx/conf.d:ro
-      - ./backend/static:/var/www/api/v1/static/:ro
+      - static_backend:/var/www/backend/:ro
       - media:/var/www/media/:ro
-      - ./frontend/build:/var/www/frontend/:ro
+      - frontend:/var/www/frontend/:ro
     depends_on:
       - admin_site
     ports:
@@ -43,7 +44,7 @@ services:
     restart: always
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./scripts/postgres-init-db.sh:/docker-entrypoint-initdb.d/init-user-db.sh
+      - ./scripts/:/docker-entrypoint-initdb.d/
     env_file:
       - .env
 
@@ -61,15 +62,19 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile
     tty: true
     volumes:
-      - ./frontend/:/app/result_build/
+      - frontend:/app/build/static
     command: npm run start
+    env_file:
+      - .env
 
 volumes:
   media:
   postgres_data:
+  static_frontend:
+  static_backend:
+  frontend:
 
 networks: 
   default:

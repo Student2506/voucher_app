@@ -27,3 +27,5 @@ RUN poetry config virtualenvs.create false \
   && poetry install $(test "$BUILD_TYPE" = "production" && echo "--without dev") --no-interaction --no-ansi --no-root
 
 COPY . .
+RUN mkdir -p media/uploads/
+RUN chmod -R a+w media/
