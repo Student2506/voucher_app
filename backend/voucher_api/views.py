@@ -5,7 +5,7 @@ import os
 from typing import Any
 
 import pika
-from rest_framework import serializers, status, viewsets
+from rest_framework import filters, serializers, status, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
 from rest_framework.request import Request
@@ -26,6 +26,8 @@ class CustomerViewset(viewsets.ReadOnlyModelViewSet):
     """API Endpoint which allows to view Customers."""
 
     queryset = Customer.objects.using('vista').order_by('customer_name')
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['customer_name']
 
     def get_serializer_class(self) -> serializers.ModelSerializer:
         """Choose serializer.

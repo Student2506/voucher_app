@@ -15,6 +15,7 @@ INSTALLED_APPS = [
     'django_auth_adfs',
     'corsheaders',
     'tinymce',
+    'django_filters',
 ]
 
 MIDDLEWARE = [

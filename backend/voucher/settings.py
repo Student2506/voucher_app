@@ -35,6 +35,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ],
     'PAGE_SIZE': os.getenv('PAGE_SIZE', 1000),
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
 include('components/_authentication.py')
 
