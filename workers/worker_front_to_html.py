@@ -45,6 +45,24 @@ def get_templates(template_id: str) -> models.Template | None:
     return postgres_instance.get_template(template_id)
 
 
+def pdf_gen(
+    channel: pika.channel.Channel,
+    method: pika.spec.Basic.Deliver,
+    properties: pika.spec.BasicProperties,
+    body: bytes,
+) -> None:
+    """Process data from html generator.
+
+    Args:
+        channel: pika.channel.Channel
+        method: pika.spec.Basic.Deliver
+        properties: pika.spec.BasicProperties
+        body: bytes
+    """
+    request = json.loads(body.decode())
+    logger.debug(request)
+
+
 def html_generation(                        # noqa: WPS213
     channel: pika.channel.Channel,
     method: pika.spec.Basic.Deliver,
@@ -81,6 +99,11 @@ def html_generation(                        # noqa: WPS213
                 folder=html_folder,
                 code_type=code_type,
             )
+            channel.basic_publish(
+                exchange='',
+                routing_key=settings.rabbitmq_queue_html_to_pdf,
+                body=json.dumps(f'{html_folder}/{stock.stock_strbarcode}.html'),
+            )
     else:
         logger.error(f'Template: {template}')
         return
@@ -97,7 +120,7 @@ def html_generation(                        # noqa: WPS213
     rmtree(html_folder)
 
 
-def main() -> None:
+def main() -> None:             # noqa: WPS213
     """Process."""
     logging.basicConfig(level=logging.DEBUG, format=FORMAT)
     logger.debug('Starting process')
@@ -110,6 +133,11 @@ def main() -> None:
     channel.basic_consume(
         queue=settings.rabbitmq_queue,
         on_message_callback=html_generation,
+        auto_ack=True,
+    )
+    channel.basic_consume(
+        queue=settings.rabbitmq_queue_html_to_pdf,
+        on_message_callback=pdf_gen,
         auto_ack=True,
     )
     logger.debug('Into consume')
