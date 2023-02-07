@@ -1,4 +1,4 @@
-.order {
+.radioFake {
 	box-sizing: border-box;
 	border: none;
 	border-bottom: 1px solid #e1e6ea;
@@ -12,26 +12,26 @@
 	transition: background-color linear .2s;
 }
 
-.order:hover {
+.radioFake:hover {
 	background-color: #dff7fd;
 }
 
-.order__fake {
+.radioFake__fake {
 	padding: 13px 20px;
 	display: block;
 	/*Анимация*/
 	transition: color linear .2s;
 }
 
-.order__fake:hover {
+.radioFake__fake:hover {
 	cursor: pointer;
 }
 
-.order__input {
+.radioFake__input {
 	visibility: hidden;
 	position: absolute;
 }
 
-.order__input:checked + .order__fake {
+.radioFake__input:checked + .radioFake__fake {
 	color: orange;
 }

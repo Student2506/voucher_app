@@ -11,11 +11,13 @@ import Sign from "./components/Sign/Sign";
 import Main from "./components/Main/Main";
 import Api from "./components/utils/Api/Api";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import LoadingScreen from "./components/LoadingScreen/LoadingScreen";
 
 function App() {
   const [customers, setCustomers] = useState([]);
   const [customerOrders, setCustomerOrders] = useState([]);
   const [orderTemplates, setOrderTemplates] = useState([]);
+  const [preload, setPreload] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const history = useHistory();
 
@@ -25,9 +27,10 @@ function App() {
   */
   useEffect(() => {
     if (loggedIn) {
+      setPreload(true);
       Api.getCostumers().then((res) => {
         setCustomers(res.results);
-      }).catch((err) => {console.log(err)})
+      }).catch((err) => {console.log(err)}).finally(() => {setPreload(false)})
     } else {
       // Роутинг на вход
       history.push("/sign-in");
@@ -64,27 +67,30 @@ function App() {
   }
 
   return (
-    <Switch>
-      {/*
+    <>
+      {preload ? <LoadingScreen /> : <></>}
+      <Switch>
+        {/*
       * Защищенный роут, если пользователь не залогинен - дальше не пропустит
       * И будет редиректить на /sign-in
       */}
-      <ProtectedRoute
-        component={Main}
-        path={"/vouchers"}
-        customersData={customers}
-        onSelectCustomer={handleSelectCustomer}
-        onSelectOrder={handleSelectOrder}
-        customerOrders={customerOrders}
-        orderTemplates={orderTemplates}
-        onClear={clearTemplates}
-        onSubmit={pushVocuher}
-        loggedIn={loggedIn}
-      />
-      <Route path="/sign-in">
-        <Sign onSubmit={handleLogIn} />
-      </Route>
-    </Switch>
+        <ProtectedRoute
+          component={Main}
+          path={"/vouchers"}
+          customersData={customers}
+          onSelectCustomer={handleSelectCustomer}
+          onSelectOrder={handleSelectOrder}
+          customerOrders={customerOrders}
+          orderTemplates={orderTemplates}
+          onClear={clearTemplates}
+          onSubmit={pushVocuher}
+          loggedIn={loggedIn}
+        />
+        <Route path="/sign-in">
+          <Sign onSubmit={handleLogIn} />
+        </Route>
+      </Switch>
+    </>
   );
 }
 
