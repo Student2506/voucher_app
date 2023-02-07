@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 class Api {
   constructor (options) {
     this._baseUrl = options.baseUrl;
