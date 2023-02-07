@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 class Api {
   constructor (options) {
     this._baseUrl = options.baseUrl;
@@ -55,5 +53,5 @@ class Api {
 }
 
 export default new Api({
-  baseUrl: `http://${process.env.MYIP}`
+  baseUrl: `http://${process.env.REACT_APP_MYIP}`
 });

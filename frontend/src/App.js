@@ -13,7 +13,6 @@ import Api from "./components/utils/Api/Api";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 function App() {
-
   const [customers, setCustomers] = useState([]);
   const [customerOrders, setCustomerOrders] = useState([]);
   const [orderTemplates, setOrderTemplates] = useState([]);
