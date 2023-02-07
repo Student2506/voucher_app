@@ -5,6 +5,7 @@ import os
 from typing import Any
 
 import pika
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import filters, serializers, status, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
@@ -49,6 +50,7 @@ class VoucherTypeViewset(viewsets.ModelViewSet):
     search_fields = ['voucher_description']
 
 
+@csrf_exempt
 @api_view(['POST'])
 def put_order(request: Request, order_item_id: int) -> Response:
     """Make request to send vouchers.
