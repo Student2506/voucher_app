@@ -1,0 +1,11 @@
+.templates__form {
+	display: flex;
+	flex-direction: column;
+}
+
+.templates__filed {
+	position: relative;
+	border: none;
+	padding: 0;
+	margin: 19px;
+}

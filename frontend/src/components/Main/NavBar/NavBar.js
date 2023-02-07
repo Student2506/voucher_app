@@ -1,6 +1,7 @@
+import React from "react";
 import { Link } from "react-router-dom";
 
-export default function NavBar() {
+export default React.memo(function NavBar() {
   return (
     <aside className="navBar">
       <div className="navBar__logo" />
@@ -11,3 +12,4 @@ export default function NavBar() {
     </aside>
   )
 }
+)

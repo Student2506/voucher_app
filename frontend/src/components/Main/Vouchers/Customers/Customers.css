@@ -1,0 +1,48 @@
+.customers {
+	border-top: 1px solid #ccd5db;
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	width: 100%;
+}
+
+.customers::-webkit-scrollbar {
+	width: 4px;               /* ширина scrollbar */
+	cursor: pointer;
+}
+.customers::-webkit-scrollbar-track {
+	background: #fafbfb;        /* цвет дорожки */
+}
+.customers::-webkit-scrollbar-thumb {
+	background-color: rgba(243, 105, 19, .8);    /* цвет плашки */
+	border-radius: 20px;       /* закругления плашки */
+	border: none;  /* padding вокруг плашки */
+}
+
+.customers::-webkit-scrollbar-thumb:hover {
+	background-color: rgba(243, 145, 75, .8);    /* цвет плашки */
+}
+
+.customers__name {
+	margin: 0;
+	padding: 13px 20px;
+	border-bottom: 1px solid #e1e6ea;
+	background-color: #fafbfb;
+	/*Шрифт*/
+	font-family: Arial, sans-serif;
+	font-size: .8125rem;
+	font-weight: normal;
+	line-height: 1rem;
+	color: #2a2d32;
+	/*Анимация*/
+	transition: background-color linear .2s;
+}
+
+.customers__name:hover {
+	cursor: pointer;
+	background-color: #dff7fd;
+}
+
+.customers__name_selected {
+	color: #f36913;
+}

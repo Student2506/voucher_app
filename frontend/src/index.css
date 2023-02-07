@@ -5,4 +5,6 @@
 @import url('./components/Main/Header/Header.css');
 @import url('./components/Main/NavBar/NavBar.css');
 @import url('./components/Main/Vouchers/Vouchers.css');
-@import url('./components/Main/Vouchers/Order/Order.css');
+@import url('./components/Main/Vouchers/Customers/Customers.css');
+@import url('./components/Main/Vouchers/Templates/Templates.css');
+@import url('components/Main/Vouchers/RadioFake/RadioFake.css');
