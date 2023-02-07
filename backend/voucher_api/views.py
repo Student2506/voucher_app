@@ -45,6 +45,8 @@ class VoucherTypeViewset(viewsets.ModelViewSet):
 
     queryset = VoucherType.objects.using('vista')
     serializer_class = VoucherTypeOrderingSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['voucher_description']
 
 
 @api_view(['POST'])
