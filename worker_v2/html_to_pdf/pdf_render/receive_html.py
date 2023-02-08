@@ -10,7 +10,7 @@ import pika
 from weasyprint import HTML
 from weasyprint.text.fonts import FontConfiguration
 
-from html_to_pdf.settings.config import settings
+from settings.config import settings
 
 logger = logging.getLogger(__name__)
 

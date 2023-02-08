@@ -25,6 +25,20 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
+    
+  html_to_pdf:
+    build:
+      context: worker_v2/html_to_pdf
+      dockerfile: Dockerfile
+    volumes:
+      - ./results:/tmp
+      - media:/opt/app/media/:ro
+    env_file:
+      - .env
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+  
 
   nginx:
     image: nginx:latest

@@ -3,8 +3,8 @@ import logging
 
 from pika.adapters.blocking_connection import BlockingConnection
 
-from html_to_pdf.receive_html import handle_html_to_pdf
-from html_to_pdf.settings.config import settings
+from pdf_render.receive_html import handle_html_to_pdf
+from settings.config import settings
 
 logger = logging.getLogger(__name__)
 

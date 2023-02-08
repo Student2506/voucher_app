@@ -3,8 +3,8 @@ import logging
 
 import pika
 
-from html_to_pdf.process_html.tasks import process_html
-from html_to_pdf.settings.config import settings
+from process_html.tasks import process_html
+from settings.config import settings
 
 FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 logger = logging.getLogger(__name__)
