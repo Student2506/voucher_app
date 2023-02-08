@@ -13,9 +13,9 @@ services:
       - .env
     command: uwsgi --strict --ini uwsgi.ini
 
-  worker_front_to_back:
+  api_reciever:
     build:
-      context: workers
+      context: worker_v2/api_receive
       dockerfile: Dockerfile
     volumes:
       - ./results:/tmp

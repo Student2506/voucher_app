@@ -4,8 +4,8 @@ import logging
 
 import pika
 
-from api_recieve.html_render.html_generator import handle_frontend_callback
-from api_recieve.settings.config import settings
+from api_receive.html_render.html_generator import handle_frontend_callback
+from api_receive.settings.config import settings
 
 FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 logger = logging.getLogger(__name__)
