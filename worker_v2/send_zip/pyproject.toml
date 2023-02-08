@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "send-zip"
+version = "0.1.0"
+description = ""
+authors = ["Захаров Павел <pzakharov83@gmail.com>"]
+readme = "README.md"
+packages = [{include = "send_zip"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+redis = "^4.5.0"
+types-redis = "^4.4.0.6"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

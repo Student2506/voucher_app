@@ -69,6 +69,11 @@ services:
     env_file:
       - .env
 
+  redis:
+    image: redis:7.0.8-alpine
+    restart: always
+    
+
 volumes:
   media:
   postgres_data:
