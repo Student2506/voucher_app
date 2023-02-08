@@ -3,11 +3,14 @@
 import json
 import logging
 import os
+from datetime import datetime as dt
 from pathlib import Path
 
 import pika
 from weasyprint import HTML
 from weasyprint.text.fonts import FontConfiguration
+
+from html_to_pdf.settings.config import settings
 
 logger = logging.getLogger(__name__)
 
@@ -45,9 +48,20 @@ def handle_html_to_pdf(
         body: bytes
     """
     request = json.loads(body.decode())
-    pdf_folder = request.get('pdf_path').parent
+    pdf_folder = Path(request.get('pdf_path')).parent
     os.makedirs(pdf_folder, exist_ok=True)
     create_pdf_file(
         html_file=request.get('file_path'),
         pdf_file=request.get('pdf_path'),
     )
+    if request.get('index') == request.get('total'):
+        current_time = dt.now().strftime('%d.%m.%Y_%H:%M')
+        message = {
+            'pdf_folder': pdf_folder,
+            'zip_path': f'{pdf_folder.parent}/vouchers_{current_time}.zip',
+        }
+        channel.basic_publish(
+            exchange='',
+            routing_key=settings.rabbitmq_queue_pdf_to_zip,
+            body=json.dumps(message),
+        )

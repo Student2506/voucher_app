@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     rabbitmq_default_pass: str
     rabbitmq_url: AmqpDsn
     rabbitmq_queue_html_to_pdf: str
+    rabbitmq_queue_pdf_to_zip: str
     debug: bool | None = False
     myip: IPv4Address | str = '127.0.0.1'
     threads: int | None = 5
