@@ -8,7 +8,7 @@ from pathlib import Path
 
 import pika
 
-from pdfs_to_zip.settings.config import settings
+from settings.config import settings
 
 logger = logging.getLogger(__name__)
 

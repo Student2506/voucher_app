@@ -3,8 +3,8 @@ import logging
 
 import pika
 
-from pdfs_to_zip.settings.config import settings
-from pdfs_to_zip.zip_creation.receive_pdf import handle_pdf
+from settings.config import settings
+from zip_creation.receive_pdf import handle_pdf
 
 FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 logger = logging.getLogger(__name__)
