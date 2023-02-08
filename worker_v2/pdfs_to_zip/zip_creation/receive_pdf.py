@@ -2,6 +2,7 @@
 import glob
 import json
 import logging
+import subprocess  # noqa: S404
 import zipfile
 from pathlib import Path
 
@@ -35,6 +36,9 @@ def handle_pdf(
         'zip_files': request.get('zip_path'),
         'folder': str(Path(pdf_folder).parent),
     }
+    subprocess.run(             # noqa: S607, S603
+        ['zipsplit', '-n', str(settings.volume_size), request.get('zip_path')],
+    )
     channel.basic_publish(
         exchange='',
         routing_key=settings.rabbitmq_queue_send_email,
