@@ -1,6 +1,0 @@
-.partner-choice {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, 200px);
-	justify-content: center;
-	gap: 20px;
-}

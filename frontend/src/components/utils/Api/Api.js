@@ -53,5 +53,5 @@ class Api {
 }
 
 export default new Api({
-  baseUrl: 'http://10.0.10.234'   // http://process.env.MYIP
+  baseUrl: 'http://127.0.0.1'   // http://process.env.MYIP
 });
