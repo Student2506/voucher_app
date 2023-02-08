@@ -10,8 +10,8 @@ from barcode.writer import ImageWriter
 from jinja2 import Environment, PackageLoader, select_autoescape
 from PIL import Image
 
-from api_recieve.database.models import Template
-from api_recieve.settings.config import settings
+from database.models import Template
+from settings.config import settings
 
 logger = logging.getLogger(__name__)
 ROTATE_DEGRE = -90

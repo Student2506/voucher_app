@@ -13,7 +13,7 @@ services:
       - .env
     command: uwsgi --strict --ini uwsgi.ini
 
-  api_reciever:
+  api_receiver:
     build:
       context: worker_v2/api_receive
       dockerfile: Dockerfile

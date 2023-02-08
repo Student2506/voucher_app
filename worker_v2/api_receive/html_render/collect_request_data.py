@@ -7,9 +7,9 @@ from tempfile import mkdtemp
 
 import pika
 
-from api_recieve.database import database_classes, models
-from api_recieve.html_render.html_generator import html_render
-from api_recieve.settings.config import settings
+from database import database_classes, models
+from html_render.html_generator import html_render
+from settings.config import settings
 
 logger = logging.getLogger(__name__)
 

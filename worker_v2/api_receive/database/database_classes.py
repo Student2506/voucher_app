@@ -3,7 +3,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
-from api_recieve.database.models import TblStock, Template
+from database.models import TblStock, Template
 
 
 class Database:
