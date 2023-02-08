@@ -50,7 +50,18 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
-  
+      
+  send_zip:
+    build:
+      context: worker_v2/send_zip
+      dockerfile: Dockerfile
+    volumes:
+      - ./results:/tmp
+    env_file:
+      - .env
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
   
 
   nginx:

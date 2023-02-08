@@ -5,8 +5,8 @@ from functools import partial
 import pika
 import redis
 
-from pdfs_to_zip.queue_handle import handle_pdf
-from pdfs_to_zip.settings.config import settings
+from queue_handle.receive_email import handle_pdf
+from settings.config import settings
 
 FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 logger = logging.getLogger(__name__)
@@ -26,11 +26,11 @@ def rabbit_init() -> pika.adapters.blocking_connection.BlockingChannel:
     return channel
 
 
-def redis_init() -> redis.Redis[bytes]:
+def redis_init() -> redis.Redis:            # type: ignore[type-arg]
     """Connect to redis.
 
     Returns:
-        redis.Redis[bytes]- instance
+        redis.Redis- instance
     """
     return redis.from_url(settings.redis_url)
 

@@ -5,7 +5,7 @@ from email.message import EmailMessage
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
-from send_zip.settings.config import settings
+from settings.config import settings
 
 
 class EmailWorker:

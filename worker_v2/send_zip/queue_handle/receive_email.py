@@ -5,7 +5,7 @@ import pika
 from pydantic import BaseModel
 from redis import Redis
 
-from send_zip.email_processing.send_email import EmailWorker
+from email_processing.send_email import EmailWorker
 
 
 class CompleteMessage(BaseModel):
@@ -20,7 +20,7 @@ def handle_pdf(
     method: pika.spec.Basic.Deliver,
     properties: pika.spec.BasicProperties,
     body: bytes,
-    redis: Redis[bytes],
+    redis: Redis,           # type: ignore[type-arg]
 ) -> None:
     """Process data from frontend.
 
@@ -29,7 +29,7 @@ def handle_pdf(
         method: pika.spec.Basic.Deliver
         properties: pika.spec.BasicProperties
         body: bytes
-        redis: Redis[bytes] - to keep data
+        redis: Redis - to keep data
     """
     request = json.loads(body.decode())
     folder = request.get('folder')
