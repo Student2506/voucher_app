@@ -39,6 +39,19 @@ services:
       rabbitmq:
         condition: service_healthy
   
+  pdf_to_zip:
+    build:
+      context: worker_v2/pdfs_to_zip
+      dockerfile: Dockerfile
+    volumes:
+      - ./results:/tmp
+    env_file:
+      - .env
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+  
+  
 
   nginx:
     image: nginx:latest
