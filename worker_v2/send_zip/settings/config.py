@@ -9,8 +9,6 @@ class Settings(BaseSettings):
     rabbitmq_default_user: str
     rabbitmq_default_pass: str
     rabbitmq_url: AmqpDsn
-    rabbitmq_queue: str
-    rabbitmq_queue_html_to_pdf: str
     debug: bool | None = False
     rabbitmq_queue_send_email: str
     email_smtp_server: str

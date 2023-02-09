@@ -1,4 +1,5 @@
 """Module to process messages to send."""
+import glob
 import json
 import logging
 
@@ -36,12 +37,12 @@ def collect_email_info(
     """
     request = json.loads(body.decode())
     logger.debug(request)
-    folder = request.get('folder')
-    message = redis.hgetall(folder)
-    redis.hdel(folder)
+    message = redis.hgetall(request.get('folder'))
+    redis.hdel(request.get('folder'), 'recipients')
     logger.debug(message)
-    message['file_to_attach'] = request.get('zip_files')
-    logger.debug(message)
-    message_formated = CompleteMessage.parse_obj(message)
-    new_worker = EmailWorker()
-    new_worker.send_message(**message_formated.dict())
+    zip_folder = request.get('zip_files')
+    for file_name in glob.glob(f'{zip_folder}/*.zip'):
+        message['file_to_attach'] = file_name
+        logger.debug(message)
+        message_formated = CompleteMessage.parse_obj(message)
+        EmailWorker().send_message(**message_formated.dict())
