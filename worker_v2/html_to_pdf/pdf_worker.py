@@ -8,8 +8,6 @@ from settings.config import settings
 
 FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 logger = logging.getLogger(__name__)
-HEARTBEAT_TIMEOUT = 600
-BLOCKED_TIMEOUT = 300
 
 
 def rabbit_init() -> pika.adapters.blocking_connection.BlockingConnection:
@@ -19,11 +17,7 @@ def rabbit_init() -> pika.adapters.blocking_connection.BlockingConnection:
         pika.adapters.blocking_connection.BlockingConnection
     """
     url_parameters = pika.URLParameters(settings.rabbitmq_url)
-    return pika.BlockingConnection(
-        url_parameters,
-        heartbeat=HEARTBEAT_TIMEOUT,
-        blocked_connection_timeout=BLOCKED_TIMEOUT,
-    )
+    return pika.BlockingConnection(url_parameters)
 
 
 def main() -> None:
