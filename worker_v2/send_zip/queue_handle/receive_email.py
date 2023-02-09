@@ -1,11 +1,14 @@
 """Module to process messages to send."""
 import json
+import logging
 
 import pika
 from pydantic import BaseModel
 from redis import Redis
 
 from email_processing.send_email import EmailWorker
+
+logger = logging.getLogger(__name__)
 
 
 class CompleteMessage(BaseModel):
@@ -15,7 +18,7 @@ class CompleteMessage(BaseModel):
     recipients: str
 
 
-def handle_pdf(
+def collect_email_info(
     channel: pika.channel.Channel,
     method: pika.spec.Basic.Deliver,
     properties: pika.spec.BasicProperties,
@@ -32,12 +35,12 @@ def handle_pdf(
         redis: Redis - to keep data
     """
     request = json.loads(body.decode())
+    logger.debug(request)
     folder = request.get('folder')
-    if request.get('zip_files', None):
-        redis.hset(folder, 'file_to_attach', str(request.get('zip_files')))
-    if request.get('addresses', None):
-        redis.hset(folder, 'recipients', str(request.get('addresses')))
     message = redis.hgetall(folder)
+    logger.debug(message)
+    message['file_to_attach'] = request.get('zip_files')
+    logger.debug(message)
     message_formated = CompleteMessage.parse_obj(message)
     new_worker = EmailWorker()
-    new_worker.send_message(**message_formated)
+    new_worker.send_message(**message_formated.dict())

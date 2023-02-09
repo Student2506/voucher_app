@@ -20,7 +20,6 @@ def rabbit_init() -> pika.adapters.blocking_connection.BlockingChannel:
     connection = pika.BlockingConnection(url_parameters)
     channel = connection.channel()
     channel.queue_declare(settings.rabbitmq_queue_pdf_to_zip)
-    channel.queue_declare(settings.rabbitmq_queue_send_email)
     logger.debug('Got channel and queue')
     return channel
 
@@ -31,7 +30,7 @@ def main() -> None:
     logger.debug('Starting collect data from frontend.')
     channel = rabbit_init()
     channel.basic_consume(
-        queue=settings.rabbitmq_queue,
+        queue=settings.rabbitmq_queue_pdf_to_zip,
         on_message_callback=handle_pdf,
         auto_ack=True,
     )

@@ -6,6 +6,7 @@ from shutil import copy
 from tempfile import mkdtemp
 
 import pika
+import redis
 
 from database import database_classes, models
 from html_render.html_generator import html_render
@@ -84,6 +85,7 @@ def make_html_templates(
             'pdf_path': f'{html_folder}/pdf/{stock.stock_strbarcode}.pdf',
             'total': len(stocks),
         }
+        logger.debug(f'Outgoing message: {message}')
         channel.basic_publish(
             exchange='',
             routing_key=settings.rabbitmq_queue_html_to_pdf,
@@ -94,24 +96,16 @@ def make_html_templates(
 def prepare_send_email(
     addresses: list[str],
     html_folder: str,
-    channel: pika.channel.Channel,
+    redis_instance: redis.Redis,
 ) -> None:
     """Collect data for email.
 
     Args:
         addresses: list[str] - addresses to use for email
         html_folder: str - folder to collect
-        channel: pika.channel.Channel - channel to pass data on
+        redis_instance: redis.Redis
     """
-    message = {
-        'folder': html_folder,
-        'addresses': addresses,
-    }
-    channel.basic_publish(
-        exchange='',
-        routing_key=settings.rabbitmq_queue_send_email,
-        body=json.dumps(message),
-    )
+    redis_instance.hset(html_folder, 'recipients', ','.join(addresses))
 
 
 def handle_frontend_callback(
@@ -119,6 +113,7 @@ def handle_frontend_callback(
     method: pika.spec.Basic.Deliver,
     properties: pika.spec.BasicProperties,
     body: bytes,
+    redis_instance: redis.Redis,
 ) -> None:
     """Process data from frontend.
 
@@ -127,8 +122,10 @@ def handle_frontend_callback(
         method: pika.spec.Basic.Deliver
         properties: pika.spec.BasicProperties
         body: bytes
+        redis_instance: redis.Redis
     """
     request = json.loads(body.decode())
+    logger.debug(f'Incoming initial request: {request}')
     stocks = get_stocks(request.get('order_item'))
     template = get_template(request.get('template'))
     addresses = request.get('addresses')
@@ -144,7 +141,9 @@ def handle_frontend_callback(
             channel=channel,
         )
         prepare_send_email(
-            addresses=addresses, html_folder=html_folder, channel=channel,
+            addresses=addresses,
+            html_folder=html_folder,
+            redis_instance=redis_instance,
         )
     else:
         logger.error(f'Template: {template}')

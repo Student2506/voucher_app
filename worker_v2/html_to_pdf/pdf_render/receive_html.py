@@ -55,11 +55,12 @@ def handle_html_to_pdf(
         pdf_file=request.get('pdf_path'),
     )
     if request.get('index') == request.get('total'):
-        current_time = dt.now().strftime('%d.%m.%Y_%H:%M')
+        current_time = dt.now().strftime('%d.%m.%Y_%H%M')
         message = {
-            'pdf_folder': pdf_folder,
+            'pdf_folder': str(pdf_folder),
             'zip_path': f'{pdf_folder.parent}/vouchers_{current_time}.zip',
         }
+        logger.debug(f'Outgoing message: {message}')
         channel.basic_publish(
             exchange='',
             routing_key=settings.rabbitmq_queue_pdf_to_zip,

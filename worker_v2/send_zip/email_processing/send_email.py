@@ -1,11 +1,14 @@
 """Module to use to send email."""
+import logging
 import pathlib
 import smtplib
 from email.message import EmailMessage
 
-from jinja2 import Environment, FileSystemLoader, select_autoescape
+from jinja2 import Environment, PackageLoader, select_autoescape
 
 from settings.config import settings
+
+logger = logging.getLogger(__name__)
 
 
 class EmailWorker:
@@ -30,12 +33,11 @@ class EmailWorker:
         """
         message = EmailMessage()
         message['From'] = settings.email_user
-        message['To'] = ','.join(recipients)
+        message['To'] = recipients
         message['Subject'] = settings.subject_for_email
 
-        templates_storage = pathlib.Path() / 'templates'
         env = Environment(
-            loader=FileSystemLoader(templates_storage),
+            loader=PackageLoader('email_processing'),
             autoescape=select_autoescape(),
         )
         template_rendered = env.get_template('email_template.html').render(

@@ -17,6 +17,8 @@ def process_html(connection: BlockingConnection) -> None:
     """
     channel = connection.channel()
     channel.queue_declare(settings.rabbitmq_queue_html_to_pdf)
+    channel_html_zip = connection.channel()
+    channel_html_zip.queue_declare(settings.rabbitmq_queue_pdf_to_zip)
     logger.debug('Got channel and queue')
     channel.basic_consume(
         queue=settings.rabbitmq_queue_html_to_pdf,

@@ -9,6 +9,8 @@ ENV POETRY_VERSION=1.3.2
 
 RUN python3 -m pip install -U pip
 RUN pip install "poetry==$POETRY_VERSION"
+RUN apt update
+RUN apt install -y zip
 WORKDIR /opt/app
 COPY poetry.lock pyproject.toml /opt/app/
 RUN poetry config virtualenvs.create false \

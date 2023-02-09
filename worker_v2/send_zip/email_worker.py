@@ -5,7 +5,7 @@ from functools import partial
 import pika
 import redis
 
-from queue_handle.receive_email import handle_pdf
+from queue_handle.receive_email import collect_email_info
 from settings.config import settings
 
 FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
@@ -32,7 +32,7 @@ def redis_init() -> redis.Redis:            # type: ignore[type-arg]
     Returns:
         redis.Redis- instance
     """
-    return redis.from_url(settings.redis_url)
+    return redis.from_url(settings.redis_url, decode_responses=True)
 
 
 def main() -> None:
@@ -41,10 +41,10 @@ def main() -> None:
     logger.debug('Starting collect data from frontend.')
     channel = rabbit_init()
     redis_instance = redis_init()
-    handle_pdf_part = partial(handle_pdf, redis=redis_instance)
+    collect_email_info_part = partial(collect_email_info, redis=redis_instance)
     channel.basic_consume(
-        queue=settings.rabbitmq_queue,
-        on_message_callback=handle_pdf_part,
+        queue=settings.rabbitmq_queue_send_email,
+        on_message_callback=collect_email_info_part,
         auto_ack=True,
     )
     logger.debug('Into consume')

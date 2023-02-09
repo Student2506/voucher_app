@@ -96,7 +96,7 @@ def html_render(
     if code_type == 'qrcode':
         qr_code_render(barcode_filename, code_to_fill)
     html_content = Environment(
-        loader=PackageLoader('worker_front_to_html'),
+        loader=PackageLoader('receive_worker'),
         autoescape=select_autoescape(),
     ).get_template(
         'refactorOrder_template.html',
