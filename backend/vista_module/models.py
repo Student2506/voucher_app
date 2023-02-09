@@ -25,6 +25,7 @@ class Customer(models.Model):
 
         managed = False
         db_table = 'tblClient'
+        ordering = ['customer_name']
 
     def __str__(self) -> str:
         """Return represntation.
@@ -93,6 +94,7 @@ class VoucherType(models.Model):
 
         managed = False
         db_table = 'tblVoucherType'
+        ordering = ['voucher_description']
 
     def __str__(self) -> str:
         """Return represntation of voucher type.
@@ -127,6 +129,7 @@ class OrderItem(models.Model):
 
         managed = False
         db_table = 'tblClientOrderItem'
+        ordering = ['order_item_id']
 
     def __str__(self) -> str:
         """Return represntation of order's item.

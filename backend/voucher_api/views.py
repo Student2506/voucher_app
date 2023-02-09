@@ -1,13 +1,13 @@
 """Views to serve vista objects."""
 
 import json
+import logging
 import os
 from typing import Any
 
 import pika
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework import filters, serializers, status, viewsets
-from rest_framework.decorators import api_view
+from rest_framework import decorators, filters, serializers, status, viewsets
 from rest_framework.parsers import JSONParser
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -20,7 +20,8 @@ from voucher_api.serializers import (
     VoucherTypeOrderingSerializer,
 )
 
-RABBITMQ_QUEUE = os.getenv('RABBITMQ_QUEUE', None)
+RABBITMQ_QUEUE_INCOMING = os.getenv('RABBITMQ_QUEUE_INCOMING', None)
+logger = logging.getLogger(__name__)
 
 
 class CustomerViewset(viewsets.ReadOnlyModelViewSet):
@@ -51,7 +52,7 @@ class VoucherTypeViewset(viewsets.ModelViewSet):
 
 
 @csrf_exempt
-@api_view(['POST'])
+@decorators.api_view(['POST'])
 def put_order(request: Request, order_item_id: int) -> Response:
     """Make request to send vouchers.
 
@@ -85,16 +86,18 @@ def send_data_to_generation(body: dict[str, Any]) -> None:
         pika.URLParameters(os.getenv('RABBITMQ_URL')),
     )
     channel = connection.channel()
-    channel.queue_declare(queue=RABBITMQ_QUEUE)
+    channel.queue_declare(queue=RABBITMQ_QUEUE_INCOMING)
+    message = json.dumps(body)
+    logger.debug(f'Front reqeust: {message}')
     channel.basic_publish(
         exchange='',
-        routing_key=RABBITMQ_QUEUE,
-        body=json.dumps(body),
+        routing_key=RABBITMQ_QUEUE_INCOMING,
+        body=message,
     )
     connection.close()
 
 
-@api_view(['GET'])
+@decorators.api_view(['GET'])
 def retrieve_token(request: Request) -> Response:
     """Make request to send vouchers.
 

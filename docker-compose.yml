@@ -13,9 +13,9 @@ services:
       - .env
     command: uwsgi --strict --ini uwsgi.ini
 
-  worker_front_to_back:
+  api_receiver:
     build:
-      context: workers
+      context: worker_v2/api_receive
       dockerfile: Dockerfile
     volumes:
       - ./results:/tmp
@@ -25,6 +25,44 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
+    
+  html_to_pdf:
+    build:
+      context: worker_v2/html_to_pdf
+      dockerfile: Dockerfile
+    volumes:
+      - ./results:/tmp
+      - media:/opt/app/media/:ro
+    env_file:
+      - .env
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+  
+  pdf_to_zip:
+    build:
+      context: worker_v2/pdfs_to_zip
+      dockerfile: Dockerfile
+    volumes:
+      - ./results:/tmp
+    env_file:
+      - .env
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      
+  send_zip:
+    build:
+      context: worker_v2/send_zip
+      dockerfile: Dockerfile
+    volumes:
+      - ./results:/tmp
+    env_file:
+      - .env
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+  
 
   nginx:
     image: nginx:latest
@@ -68,6 +106,11 @@ services:
     command: npm run start
     env_file:
       - .env
+
+  redis:
+    image: redis:7.0.8-alpine
+    restart: always
+    
 
 volumes:
   media:

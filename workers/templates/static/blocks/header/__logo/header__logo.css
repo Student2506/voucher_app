@@ -1,8 +1,0 @@
-.header__logo {
-	width: 150px;
-	transition: filter 1s ease;
-}
-
-.header__logo:hover {
-	filter: drop-shadow(2px 2px 2px red);
-}

@@ -1,1 +1,0 @@
-"""Workers to handle generation."""
