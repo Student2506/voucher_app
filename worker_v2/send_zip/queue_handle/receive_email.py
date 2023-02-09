@@ -38,6 +38,7 @@ def collect_email_info(
     logger.debug(request)
     folder = request.get('folder')
     message = redis.hgetall(folder)
+    redis.hdel(folder)
     logger.debug(message)
     message['file_to_attach'] = request.get('zip_files')
     logger.debug(message)
