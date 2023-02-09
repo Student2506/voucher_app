@@ -1,0 +1,4 @@
+@page {
+	size: A4; /* Change from the default size of A4 */
+	margin: 0; /* Set margin on each page */
+}

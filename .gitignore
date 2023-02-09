@@ -139,7 +139,7 @@ static/
 results/
 media/
 
-!*/templates/static
+!worker_v2/*/templates/static
 
 frontend_old/
 node_modules/

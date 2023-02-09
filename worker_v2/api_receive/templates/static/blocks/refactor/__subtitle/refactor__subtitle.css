@@ -1,0 +1,13 @@
+.refactor__subtitle {
+	text-transform: uppercase;
+	margin: 0;
+	color: #443E3B;
+	font-weight: bold;
+	text-transform: uppercase;
+	margin-bottom: 20px;
+	font-size: 30px;
+}
+
+.refactor__top .refactor__subtitle:first-of-type {
+	margin: 0;
+}
