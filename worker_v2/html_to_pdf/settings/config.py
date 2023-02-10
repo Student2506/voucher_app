@@ -2,7 +2,7 @@
 
 from ipaddress import IPv4Address
 
-from pydantic import AmqpDsn, BaseSettings
+from pydantic import AmqpDsn, BaseSettings, RedisDsn
 
 
 class Settings(BaseSettings):
@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     debug: bool | None = False
     myip: IPv4Address | str = '127.0.0.1'
     threads: int | None = 5
+    redis_url: RedisDsn
 
     class Config:
         """Configuration class."""
