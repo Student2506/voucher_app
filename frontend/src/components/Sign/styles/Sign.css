@@ -1,0 +1,4 @@
+.sign {
+	display: grid;
+	grid-template-columns: 489px 1fr;
+}

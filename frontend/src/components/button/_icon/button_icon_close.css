@@ -1,0 +1,17 @@
+.button_icon_close {
+	background-image: url("../../../images/cross-svgrepo-com.svg");
+	background-position: center center;
+	background-size: 20px;
+	background-repeat: no-repeat;
+	/*Анимация*/
+	transition: filter linear .2s, opacity linear .2s;
+}
+
+.button_icon_close:hover {
+	cursor: pointer;
+	filter: drop-shadow(0 0 10px #000);
+}
+
+.button_icon_close:active {
+	opacity: .8;
+}
