@@ -1,31 +1,26 @@
 """Worker to process html to pdf."""
 import logging
 
-import pika
-
-from process_html.tasks import process_html
 from settings.config import settings
+from thread_worker.worker import PDFBuilder
 
 FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 logger = logging.getLogger(__name__)
-
-
-def rabbit_init() -> pika.adapters.blocking_connection.BlockingConnection:
-    """Connect to rabbit and return channel.
-
-    Returns:
-        pika.adapters.blocking_connection.BlockingConnection
-    """
-    url_parameters = pika.URLParameters(settings.rabbitmq_url)
-    return pika.BlockingConnection(url_parameters)
 
 
 def main() -> None:
     """Process to get data from frontend."""
     logging.basicConfig(level=logging.DEBUG, format=FORMAT)
     logger.debug('Starting collect data from frontend.')
-    connection = rabbit_init()
-    process_html(connection)
+
+    threads = []
+    for _ in range(settings.threads):
+        thread_builder = PDFBuilder()
+        thread_builder.start()
+        threads.append(thread_builder)
+
+    for thread in threads:
+        thread.join()
 
 
 if __name__ == '__main__':

@@ -7,6 +7,7 @@ from datetime import datetime as dt
 from pathlib import Path
 
 import pika
+import redis
 from weasyprint import HTML
 from weasyprint.text.fonts import FontConfiguration
 
@@ -54,7 +55,12 @@ def handle_html_to_pdf(
         html_file=request.get('file_path'),
         pdf_file=request.get('pdf_path'),
     )
-    if request.get('index') == request.get('total'):
+    redis_instance = redis.from_url(settings.redis_url, decode_responses=True)
+    redis_instance.hincrby(str(pdf_folder.parent), 'count')
+    if (                                                        # noqa: WPS337
+        redis_instance.hget(str(pdf_folder.parent), 'count') ==
+        request.get('total')
+    ):
         current_time = dt.now().strftime('%d.%m.%Y_%H%M')
         message = {
             'pdf_folder': str(pdf_folder),
