@@ -58,8 +58,8 @@ def handle_html_to_pdf(
     redis_instance = redis.from_url(settings.redis_url, decode_responses=True)
     redis_instance.hincrby(str(pdf_folder.parent), 'count')
     if (                                                        # noqa: WPS337
-        redis_instance.hget(str(pdf_folder.parent), 'count') ==
-        request.get('total')
+        str(redis_instance.hget(str(pdf_folder.parent), 'count')) ==
+        str(request.get('total'))
     ):
         current_time = dt.now().strftime('%d.%m.%Y_%H%M')
         message = {
