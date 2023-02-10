@@ -9,7 +9,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Route, Switch, useHistory } from "react-router-dom";
 import Sign from "./components/Sign/Sign";
 import Main from "./components/Main/Main";
-import Api from "./components/utils/Api/Api";
+import Api from "./utils/Api/Api";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import LoadingScreen from "./components/LoadingScreen/LoadingScreen";
 

@@ -3,7 +3,7 @@
 	resize: none;
 	color: #666;
 	font-size: 12px;
-	height: 400px;
+	max-height: 400px;
 	margin: 0;
 	padding: 0;
 }
