@@ -1,10 +1,10 @@
 @import url('./vendor/normalize.css');
 @import url('./vendor/fonts/fonts.css');
-@import url('./components/Sign/Sign.css');
-@import url('./components/Main/Main.css');
 /* input */
 @import url('./components/Input/styles/Input.css');
 @import url('./components/Input/styles/_place/input_place_vouchers.css');
+@import url('./components/Sign/Sign.css');
+@import url('./components/Main/Main.css');
 @import url('./components/Main/Header/Header.css');
 /* navBar */
 @import url('components/Main/NavBar/styles/NavBar.css');
