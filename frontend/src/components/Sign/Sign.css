@@ -58,13 +58,6 @@
 	color: #667682;
 }
 
-.input {
-	max-width: 100%;
-	outline: none;
-	border: none;
-	background-color: transparent;
-}
-
 .input_place_sign {
 	min-height: 29px;
 	padding: 5.5px 12px;

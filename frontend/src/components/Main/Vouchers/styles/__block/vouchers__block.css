@@ -1,0 +1,9 @@
+.vouchers__block {
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
+	overflow: hidden;
+	border: 1px solid #ccd5db;
+	border-radius: 5px;
+	box-shadow: 0 0 5px 5px rgb(0 0 0 / 6%);
+}

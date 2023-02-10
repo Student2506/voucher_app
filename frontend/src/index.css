@@ -2,10 +2,29 @@
 @import url('./vendor/fonts/fonts.css');
 @import url('./components/Sign/Sign.css');
 @import url('./components/Main/Main.css');
+/* input */
+@import url('./components/Input/styles/Input.css');
+@import url('./components/Input/styles/_place/input_place_vouchers.css');
 @import url('./components/Main/Header/Header.css');
-@import url('./components/Main/NavBar/NavBar.css');
-@import url('./components/Main/Vouchers/Vouchers.css');
+/* navBar */
+@import url('components/Main/NavBar/styles/NavBar.css');
+@import url('components/Main/NavBar/styles/__title/navBar__title.css');
+@import url('components/Main/NavBar/styles/__navigation/navBar__navigation.css');
+@import url('components/Main/NavBar/styles/__logo/navBar__logo.css');
+@import url('components/Main/NavBar/styles/__link/navBar__link.css');
+/* vouchers */
+@import url('components/Main/Vouchers/styles/Vouchers.css');
+@import url('components/Main/Vouchers/styles/__form/vouchers__form.css');
+@import url('components/Main/Vouchers/styles/__main/vouchers__main.css');
+@import url('components/Main/Vouchers/styles/__nothing/vouchers__nothing.css');
+@import url('components/Main/Vouchers/styles/__block/vouchers__block.css');
+@import url('components/Main/Vouchers/styles/__block-container/vouchers__block-container.css');
+@import url('components/Main/Vouchers/styles/__field/vouchers__field.css');
+@import url('components/Main/Vouchers/styles/__title/vouchers__title.css');
 @import url('./components/Main/Vouchers/Customers/Customers.css');
 @import url('./components/Main/Vouchers/Templates/Templates.css');
 @import url('./components/Main/Vouchers/RadioFake/RadioFake.css');
-@import url('./components/LoadingScreen/LoadingScreen.css');
+/* loadScreen */
+@import url('./components/LoadingScreen/styles/LoadingScreen.css');
+@import url('./components/LoadingScreen/styles/__logo/loadingScreen__logo.css');
+@import url('./components/LoadingScreen/styles/__bar/loadingScreen__bar.css');

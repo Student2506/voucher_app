@@ -1,0 +1,6 @@
+.navBar {
+	padding-top: 40px;
+	background-color: #333e48;
+	grid-row-start: 1;
+	grid-row-end: 3;
+}

@@ -1,0 +1,21 @@
+.vocuhers__block-container {
+	height: calc(100% - 63px);
+	overflow-y: auto;
+}
+
+.vocuhers__block-container::-webkit-scrollbar {
+	width: 4px;               /* ширина scrollbar */
+	cursor: pointer;
+}
+.vocuhers__block-container::-webkit-scrollbar-track {
+	background: #fafbfb;        /* цвет дорожки */
+}
+.vocuhers__block-container::-webkit-scrollbar-thumb {
+	background-color: rgba(243, 105, 19, .8);    /* цвет плашки */
+	border-radius: 20px;       /* закругления плашки */
+	border: none;  /* padding вокруг плашки */
+}
+
+.vocuhers__block-container::-webkit-scrollbar-thumb:hover {
+	background-color: rgba(243, 145, 75, .8);    /* цвет плашки */
+}

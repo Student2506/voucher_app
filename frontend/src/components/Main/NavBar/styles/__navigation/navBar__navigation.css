@@ -1,0 +1,6 @@
+.navBar__navigation {
+	margin-top: 45px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
