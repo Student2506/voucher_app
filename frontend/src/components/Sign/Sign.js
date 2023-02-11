@@ -1,6 +1,7 @@
 import logo from "../../images/logo.png"
+import circle from "../../images/Rolling-1s-200px.svg"
 
-export default function Sign({ onSubmit }) {
+export default function Sign({ onSubmit, preload }) {
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -27,7 +28,7 @@ export default function Sign({ onSubmit }) {
             id="user-password"
             className="input input_place_sign"
           />
-          <button type="submit" className="button button_theme_blue">Войти</button>
+          <button type="submit" className="button button_theme_blue">{preload ? <img src={circle} className="button_preload"/> : "Войти"}</button>
         </form>
       </div>
       <div className="sign__bg" />

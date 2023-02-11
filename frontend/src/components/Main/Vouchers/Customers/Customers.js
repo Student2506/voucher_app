@@ -1,7 +1,7 @@
 import React from "react";
 import RadioFake from "../RadioFake/RadioFake";
 
-export default function Customers({ onSelectCustomer, customersData, onClear }) {
+export default React.memo(function Customers({ onSelectCustomer, customersData, onClear }) {
   function handleSelectCustomer(id) {
     onSelectCustomer(id);
     onClear();
@@ -23,3 +23,4 @@ export default function Customers({ onSelectCustomer, customersData, onClear }) 
     </div>
   )
 }
+)

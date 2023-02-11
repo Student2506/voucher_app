@@ -18,6 +18,7 @@ function App() {
   const [customerOrders, setCustomerOrders] = useState([]);
   const [orderTemplates, setOrderTemplates] = useState([]);
   const [preload, setPreload] = useState(false);
+  const [loadingScreen, setLoadingScreen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const history = useHistory();
 
@@ -27,10 +28,10 @@ function App() {
   */
   useEffect(() => {
     if (loggedIn) {
-      setPreload(true);
+      setLoadingScreen(true);
       Api.getCostumers().then((res) => {
         setCustomers(res.results);
-      }).catch((err) => {console.log(err)}).finally(() => {setPreload(false)})
+      }).catch((err) => {console.log(err)}).finally(() => {setLoadingScreen(false)})
     } else {
       // Роутинг на вход
       history.push("/sign-in");
@@ -63,12 +64,13 @@ function App() {
   }
 
   function pushVocuher(id, template, email) {
-    Api.pushVouchers(id, template, email).then((res) => {console.log('ЕБОЙ')}).catch((err) => {console.log(err)})
+    setPreload(true);
+    Api.pushVouchers(id, template, email).then((res) => {console.log('ЕБОЙ')}).catch((err) => {console.log(err)}).finally(() => {setPreload(false)})
   }
 
   return (
     <>
-      {preload ? <LoadingScreen /> : <></>}
+      {loadingScreen ? <LoadingScreen /> : <></>}
       <Switch>
         {/*
       * Защищенный роут, если пользователь не залогинен - дальше не пропустит
@@ -85,9 +87,10 @@ function App() {
           onClear={clearTemplates}
           onSubmit={pushVocuher}
           loggedIn={loggedIn}
+          preload={preload}
         />
         <Route path="/sign-in">
-          <Sign onSubmit={handleLogIn} />
+          <Sign onSubmit={handleLogIn} preload={preload} />
         </Route>
       </Switch>
     </>

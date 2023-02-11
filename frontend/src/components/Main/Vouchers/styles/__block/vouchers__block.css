@@ -1,7 +1,7 @@
 .vouchers__block {
 	display: flex;
 	flex-direction: column;
-	justify-content: start;
+	justify-content: flex-start;
 	overflow: hidden;
 	border: 1px solid #ccd5db;
 	border-radius: 5px;

@@ -5,6 +5,7 @@
 @import url('./components/button/_icon/button_icon_close.css');
 @import url('./components/button/_theme/button_theme_blue.css');
 @import url('./components/button/_place/button_place_vouchers.css');
+@import url('./components/button/_preload/button_preload.css');
 /* input */
 @import url('./components/Input/styles/Input.css');
 @import url('./components/Input/styles/_place/input_place_vouchers.css');
