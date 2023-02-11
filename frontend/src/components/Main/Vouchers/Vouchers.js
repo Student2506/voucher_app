@@ -6,20 +6,28 @@ import Templates from "./Templates/Templates";
 export default function Vouchers({ customersData, onSelectCustomer, customerOrders, onSelectOrder, orderTemplates, onClear, onSubmit, preload, success }) {
 
   const [orderId, setOrderId] = useState('');
+  const [customersState, setCustomersState] = useState(customersData);
 
   function handleSelectOrder(e) {
     onSelectOrder(e.target.value);
     setOrderId(e.target.value);
   }
 
+  function handleSearch(e) {
+    setCustomersState(customersData.filter((customer) => {
+        return customer.customer_name.toUpperCase().includes(e.target.value.toUpperCase()) ? customer : false;
+    })
+    )
+  }
+
   return (
     <section className="vouchers">
       <form className="vouchers__form_type_customers">
         <fieldset className="vouchers__filed">
-          <input className="input input_place_vouchers" placeholder="Фильтр по наименованию..."/>
+          <input onChange={handleSearch} className="input input_place_vouchers" placeholder="Фильтр по наименованию..."/>
           <button type={"reset"} className="button button_icon_close button_place_vouchers" />
         </fieldset>
-        <Customers onSelectCustomer={onSelectCustomer} customersData={customersData} onClear={onClear} />
+        <Customers onSelectCustomer={onSelectCustomer} customersData={customersState} onClear={onClear} />
       </form>
       {
         customerOrders.length > 0 ?
