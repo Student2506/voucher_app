@@ -1,4 +1,7 @@
 .templates__form {
-	display: flex;
-	flex-direction: column;
+	display: grid;
+	grid-template-columns: 1fr max-content;
+	align-items: center;
+	justify-items: normal;
+	margin: 0 19px 0;
 }

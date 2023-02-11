@@ -12,6 +12,7 @@ import Main from "./components/Main/Main";
 import Api from "./utils/Api/Api";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import LoadingScreen from "./components/LoadingScreen/LoadingScreen";
+import useSuccess from "./hooks/useSuccess";
 
 function App() {
   const [customers, setCustomers] = useState([]);
@@ -21,6 +22,8 @@ function App() {
   const [loadingScreen, setLoadingScreen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const history = useHistory();
+
+  const {handleSwitchSuccess, handleClearErrors, success} = useSuccess();
 
   /*
   * Убираем лишнее обращение.
@@ -65,7 +68,10 @@ function App() {
 
   function pushVocuher(id, template, email) {
     setPreload(true);
-    Api.pushVouchers(id, template, email).then((res) => {console.log('ЕБОЙ')}).catch((err) => {console.log(err)}).finally(() => {setPreload(false)})
+    Api.pushVouchers(id, template, email)
+      .then((res) => {handleSwitchSuccess("templateSection", true)})
+      .catch((err) => {handleSwitchSuccess("templateSection", false)})
+      .finally(() => {setPreload(false)})
   }
 
   return (
@@ -88,6 +94,7 @@ function App() {
           onSubmit={pushVocuher}
           loggedIn={loggedIn}
           preload={preload}
+          success={success}
         />
         <Route path="/sign-in">
           <Sign onSubmit={handleLogIn} preload={preload} />

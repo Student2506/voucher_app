@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Customers from "./Customers/Customers";
 import Templates from "./Templates/Templates";
 
-export default function Vouchers({ customersData, onSelectCustomer, customerOrders, onSelectOrder, orderTemplates, onClear, onSubmit, preload }) {
+export default function Vouchers({ customersData, onSelectCustomer, customerOrders, onSelectOrder, orderTemplates, onClear, onSubmit, preload, success }) {
 
   const [orderId, setOrderId] = useState('');
 
@@ -58,6 +58,7 @@ export default function Vouchers({ customersData, onSelectCustomer, customerOrde
                     orderId={orderId}
                     onSubmit={onSubmit}
                     preload={preload}
+                    success={success}
                     />
                     : <></>
                 }

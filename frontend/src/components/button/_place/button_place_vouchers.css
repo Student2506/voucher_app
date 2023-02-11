@@ -9,5 +9,6 @@
 
 .button_place_vouchers-main {
 	align-self: end;
-	margin: 0 19px 0 0;
+	margin: 0;
+	grid-column: 2/-1;
 }

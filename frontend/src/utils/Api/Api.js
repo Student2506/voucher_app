@@ -47,7 +47,7 @@ class Api {
         "template": template,
         "addresses": email,
       })
-    })
+    }).then(res => this._getResponseData(res))
 
   }
 }

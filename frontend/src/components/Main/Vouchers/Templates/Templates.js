@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import RadioFake from "../RadioFake/RadioFake";
 import circle from "../../../../images/Rolling-1s-200px.svg";
 
-export default function Templates({ orderTemplates, onSubmit, orderId, preload }) {
+export default function Templates({ orderTemplates, onSubmit, orderId, preload, success }) {
 
   const [email, setEmail] = useState('');
   const [template, setTemplate] = useState('');
@@ -31,6 +31,15 @@ export default function Templates({ orderTemplates, onSubmit, orderId, preload }
           <input onChange={(e) => {setEmail(e.target.value)}} type="email" className="input input_place_vouchers" placeholder="Введите E-Mail получателя"/>
           <button type={"reset"} className="button button_icon_close button_place_vouchers" onClick={() => {setEmail('')} }/>
         </fieldset>
+        {
+          success.templateSection === true || success.templateSection === false
+            ? <span
+              className={`templates__progress ${success.templateSection ? "templates__progress_success" : "templates__progress_failure"}`}
+            >
+              {success.templateSection ? "Все прошло успешно. Ваучеры высланы на почту" : "Что-то пошло не так, попробуйте еще раз."}
+          </span>
+            : <></>
+        }
         <button type="submit" className={`button button_theme_blue button_place_vouchers-main`}>{preload ? <img src={circle} className="button_preload"/> : "Подтвердить"}</button>
       </form>
     </>
