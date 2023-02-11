@@ -25,8 +25,6 @@ export default function Vouchers({ customersData, onSelectCustomer, customerOrde
     )
   }
 
-  console.log(customersState);
-
   return (
     <section className="vouchers">
       <form className="vouchers__form_type_customers">
