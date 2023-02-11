@@ -57,6 +57,7 @@ function App() {
 
   const clearTemplates = useCallback(() => {
     setOrderTemplates([]);
+    handleClearErrors();
   }, []);
 
   function handleSelectOrder(orderId) {
