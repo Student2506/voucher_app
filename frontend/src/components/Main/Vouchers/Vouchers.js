@@ -1,12 +1,17 @@
 import RadioFake from "./RadioFake/RadioFake";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Customers from "./Customers/Customers";
 import Templates from "./Templates/Templates";
 
 export default function Vouchers({ customersData, onSelectCustomer, customerOrders, onSelectOrder, orderTemplates, onClear, onSubmit, preload, success }) {
 
   const [orderId, setOrderId] = useState('');
-  const [customersState, setCustomersState] = useState(customersData);
+  const [customersState, setCustomersState] = useState([]);
+
+  /* Загадка, но работает только так... */
+  useEffect(() => {
+    setCustomersState(customersData);
+  },[customersData])
 
   function handleSelectOrder(e) {
     onSelectOrder(e.target.value);
@@ -19,6 +24,8 @@ export default function Vouchers({ customersData, onSelectCustomer, customerOrde
     })
     )
   }
+
+  console.log(customersState);
 
   return (
     <section className="vouchers">
