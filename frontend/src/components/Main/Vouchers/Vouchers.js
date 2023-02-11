@@ -25,7 +25,7 @@ export default function Vouchers({ customersData, onSelectCustomer, customerOrde
       <form className="vouchers__form_type_customers">
         <fieldset className="vouchers__filed">
           <input onChange={handleSearch} className="input input_place_vouchers" placeholder="Фильтр по наименованию..."/>
-          <button type={"reset"} className="button button_icon_close button_place_vouchers" />
+          <button onClick={() => {setCustomersState(customersData)}} type={"reset"} className="button button_icon_close button_place_vouchers" />
         </fieldset>
         <Customers onSelectCustomer={onSelectCustomer} customersData={customersState} onClear={onClear} />
       </form>
