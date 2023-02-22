@@ -67,7 +67,7 @@ function App() {
     }).catch((err) => {console.log(err)})
   }
 
-  function pushVocuher(id, template, email) {
+  function pushVoucher(id, template, email) {
     setPreload(true);
     Api.pushVouchers(id, template, email)
       .then((res) => {handleSwitchSuccess("templateSection", true)})
@@ -92,7 +92,7 @@ function App() {
           customerOrders={customerOrders}
           orderTemplates={orderTemplates}
           onClear={clearTemplates}
-          onSubmit={pushVocuher}
+          onSubmit={pushVoucher}
           loggedIn={loggedIn}
           preload={preload}
           success={success}
