@@ -10,6 +10,8 @@ services:
       - elasticsearch
     environment:
       - ES_HOST=elasticsearch:9200
+      - ELASTICSEARCH_HOSTS=[ "http://elasticsearch:9200" ]
+
     command: logstash -f /config/logstash.conf
 
   elasticsearch:
