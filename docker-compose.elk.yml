@@ -9,7 +9,7 @@ services:
     depends_on:
       - elasticsearch
     environment:
-      - ES_HOST=elasticsearch:9200
+      - SERVER_NAME=10.0.10.234
       - ELASTICSEARCH_HOSTS=[ "http://elasticsearch:9200" ]
 
     command: logstash -f /config/logstash.conf
