@@ -1,12 +1,17 @@
 version: '3.9'
 services:
-  # logstash:
-  #   image: logstash:8.6.2
-  #   ports:
-  #     - "5044:5044/udp"
-  #   volumes:
-  #     - ./deploy/logstash.conf:/config/logstash.conf:ro
-  #   command: logstash -f /config/logstash.conf
+  logstash:
+    image: logstash:8.6.2
+    ports:
+      - "5044:5044/udp"
+    volumes:
+      - ./deploy/logstash.conf:/config/logstash.conf:ro
+    depends_on:
+      - elasticsearch
+    environment:
+      - XPACK_MONITORING_ENABLED=false
+      - ES_HOST=elasticsearch:9200
+    command: logstash -f /config/logstash.conf
 
   elasticsearch:
     image: elasticsearch:8.6.2
