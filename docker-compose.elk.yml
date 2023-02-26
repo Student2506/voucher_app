@@ -9,10 +9,10 @@ services:
     depends_on:
       - elasticsearch
     environment:
-      - ES_HOST="elasticsearch:9200"
-      - ELASTICSEARCH_HOSTS=[ "http://elasticsearch:9200" ]
-
+      - ES_HOST=elasticsearch:9200
     command: logstash -f /config/logstash.conf
+    networks:
+      - elastic
 
   elasticsearch:
     image: elasticsearch:8.6.2
