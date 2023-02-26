@@ -9,7 +9,6 @@ services:
     depends_on:
       - elasticsearch
     environment:
-      - XPACK_MONITORING_ENABLED=false
       - ES_HOST=elasticsearch:9200
     command: logstash -f /config/logstash.conf
 
