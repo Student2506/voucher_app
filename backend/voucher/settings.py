@@ -50,8 +50,12 @@ LOCALE_PATHS = (
     BASE_DIR / 'locale',
 )
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(
+        minutes=float(os.getenv('ACCESS_TOKEN_LIFETIME', 5)),
+    ),
+    'REFRESH_TOKEN_LIFETIME': timedelta(
+        days=float(os.getenv('REFRESH_TOKEN_LIFETIME', 1)),
+    ),
     'ALGORITHM': 'HS256',
     'SIGNING_KEY': os.getenv('SECRET_KEY'),
     'AUTH_HEADER_TYPES': ('JWT',),
