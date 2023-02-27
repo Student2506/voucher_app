@@ -11,6 +11,7 @@ from rest_framework import decorators, filters, serializers, status, viewsets
 from rest_framework.parsers import JSONParser
 from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from vista_module.models import Customer, VoucherType
 from voucher_api.serializers import (
@@ -107,8 +108,9 @@ def retrieve_token(request: Request) -> Response:
     Returns:
         Response - status of creation or failure
     """
+    refresh = RefreshToken.for_user(request.user)
     userinfo = {
-        'user': str(dir(request.user)),  # noqa: WPS421
-        'auth': str(request.COOKIES),  # None
+        'refresh': str(refresh),
+        'access': str(refresh.access_token),
     }
     return Response(userinfo)
