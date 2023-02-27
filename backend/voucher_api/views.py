@@ -108,7 +108,7 @@ def retrieve_token(request: Request) -> Response:
         Response - status of creation or failure
     """
     userinfo = {
-        'user': str(request.user),  # `django.contrib.auth.User` instance.
+        'user': str(dir(request.user)),  # noqa: WPS421
         'auth': str(request.COOKIES),  # None
     }
     return Response(userinfo)
