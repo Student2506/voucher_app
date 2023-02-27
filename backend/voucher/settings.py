@@ -54,6 +54,7 @@ SIMPLE_JWT = {
     'ALGORITHM': 'HS256',
     'SIGNING_KEY': os.getenv('SECRET_KEY'),
     'AUTH_HEADER_TYPES': ('JWT',),
+    'USER_ID_FIELD': 'username',
 }
 
 TINYMCE_DEFAULT_CONFIG = {
