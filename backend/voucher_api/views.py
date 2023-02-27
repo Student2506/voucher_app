@@ -54,7 +54,6 @@ class VoucherTypeViewset(viewsets.ModelViewSet):
 
 @csrf_exempt
 @decorators.api_view(['POST'])
-@decorators.permission_classes([AllowAny])
 def put_order(request: Request, order_item_id: int) -> Response:
     """Make request to send vouchers.
 
@@ -100,6 +99,7 @@ def send_data_to_generation(body: dict[str, Any]) -> None:
 
 
 @decorators.api_view(['GET'])
+@decorators.permission_classes([AllowAny])
 def retrieve_token(request: Request) -> Response:
     """Make request to send vouchers.
 
