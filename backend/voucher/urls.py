@@ -21,6 +21,7 @@ urlpatterns = [
         'api/v1/oauth2/',
         include('django_auth_adfs.drf_urls', 'django_auth_adfs'),
     ),
+    path('api/v1/retrieve-token', views.retrieve_token, name='retrieve-token'),
     path('api/v1/auth/', include('djoser.urls')),
     path('api/v1/auth/', include('djoser.urls.jwt')),
     path('api/v1/', include(router.urls)),
