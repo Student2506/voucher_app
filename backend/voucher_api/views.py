@@ -9,7 +9,6 @@ import pika
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import decorators, filters, serializers, status, viewsets
 from rest_framework.parsers import JSONParser
-from rest_framework.permissions import AllowAny
 from rest_framework.request import Request
 from rest_framework.response import Response
 
@@ -99,7 +98,6 @@ def send_data_to_generation(body: dict[str, Any]) -> None:
 
 
 @decorators.api_view(['GET'])
-@decorators.permission_classes([AllowAny])
 def retrieve_token(request: Request) -> Response:
     """Make request to send vouchers.
 
