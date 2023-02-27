@@ -13,10 +13,10 @@ router.register('voucher_type', views.VoucherTypeViewset)
 
 
 urlpatterns = [
-    path(
-        'api/v1/oauth2/',
-        include('django_auth_adfs.urls', 'django_auth_adfs'),
-    ),
+    # path(
+    #     'api/v1/oauth2/',
+    #     include('django_auth_adfs.urls', 'django_auth_adfs'),     # noqa: E800
+    # ),
     path(
         'api/v1/oauth2/',
         include('django_auth_adfs.drf_urls', 'django_auth_adfs'),
