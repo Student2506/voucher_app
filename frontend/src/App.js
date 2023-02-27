@@ -5,7 +5,7 @@
 */
 
 import './App.css';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Route, Switch, useHistory } from "react-router-dom";
 import Sign from "./components/Sign/Sign";
 import Main from "./components/Main/Main";
@@ -13,6 +13,8 @@ import Api from "./utils/Api/Api";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import LoadingScreen from "./components/LoadingScreen/LoadingScreen";
 import useSuccess from "./hooks/useSuccess";
+import { useSelector, useDispatch } from "react-redux";
+import { updateJwt } from "./store/userSlice";
 
 function App() {
   const [customers, setCustomers] = useState([]);
@@ -20,10 +22,13 @@ function App() {
   const [orderTemplates, setOrderTemplates] = useState([]);
   const [preload, setPreload] = useState(false);
   const [loadingScreen, setLoadingScreen] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
+
+  const dispatch = useDispatch();
   const history = useHistory();
 
   const {handleSwitchSuccess, handleClearErrors, success} = useSuccess();
+
+  const {loggedIn, userData} = useSelector(state => state.user);
 
   /*
   * Убираем лишнее обращение.
@@ -32,7 +37,7 @@ function App() {
   useEffect(() => {
     if (loggedIn) {
       setLoadingScreen(true);
-      Api.getCostumers().then((res) => {
+      Api.getCostumers(userData.jwt.auth).then((res) => {
         setCustomers(res.results);
       }).catch((err) => {console.log(err)}).finally(() => {setLoadingScreen(false)})
     } else {
@@ -41,19 +46,22 @@ function App() {
     }
   }, [loggedIn])
 
-  function handleLogIn() {
-    setLoggedIn(true);
-    history.push('/vouchers');
-  }
+  useEffect(() => {
+    if (loggedIn) {
+      history.push('/vouchers');
+      /* Каждый 4 минуты обновляю jwt */
+      setInterval(() => dispatch(updateJwt({jwtRefresh: userData.jwt.refr})), 24000);
+    }
+  }, [loggedIn])
 
   /*
   * Убираем ререндер ссылки на функцию
   */
-  const handleSelectCustomer = useCallback((id) => {
-    Api.getCustomerOrders(id).then((res) => {
+  const handleSelectCustomer = (id) => {
+    Api.getCustomerOrders(id, userData.jwt.auth).then((res) => {
       setCustomerOrders(res.orders);
     }).catch((err) => {console.log(err)})
-  }, []);
+  }
 
   const clearTemplates = useCallback(() => {
     setOrderTemplates([]);
@@ -61,7 +69,7 @@ function App() {
   }, []);
 
   function handleSelectOrder(orderId) {
-    Api.getOrderTemplates(orderId).then((res) => {
+    Api.getOrderTemplates(orderId, userData.jwt.auth).then((res) => {
       /*Перевожу объект с key:value в массив объектов*/
       setOrderTemplates(Object.entries(res.templates).map((e) => ( { [e[0]]: e[1] } )));
     }).catch((err) => {console.log(err)})
@@ -69,7 +77,7 @@ function App() {
 
   function pushVoucher(id, template, email) {
     setPreload(true);
-    Api.pushVouchers(id, template, email)
+    Api.pushVouchers(id, template, email, userData.jwt.auth)
       .then((res) => {handleSwitchSuccess("templateSection", true)})
       .catch((err) => {handleSwitchSuccess("templateSection", false)})
       .finally(() => {setPreload(false)})
@@ -98,7 +106,7 @@ function App() {
           success={success}
         />
         <Route path="/sign-in">
-          <Sign onSubmit={handleLogIn} preload={preload} />
+          <Sign preload={preload} />
         </Route>
       </Switch>
     </>

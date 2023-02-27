@@ -1,11 +1,20 @@
 import logo from "../../images/logo.png"
 import circle from "../../images/Rolling-1s-200px.svg"
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { fetchUser } from "../../store/userSlice";
+import { useHistory } from "react-router-dom";
 
-export default function Sign({ onSubmit, preload }) {
+export default function Sign({ preload }) {
+
+  const [login, setLogin] = useState('');
+  const [pass, setPass] = useState('');
+
+  const dispatch = useDispatch();
 
   function handleSubmit(e) {
     e.preventDefault();
-    onSubmit();
+    dispatch(fetchUser({login, pass}));
   }
 
   return (
@@ -20,6 +29,8 @@ export default function Sign({ onSubmit, preload }) {
             name="user-name"
             id="user-name"
             className="input input_place_sign"
+            value={login}
+            onChange={(e) => {setLogin(e.target.value)}}
           />
           <label htmlFor="user-password" className="sign__label">Пароль</label>
           <input
@@ -27,6 +38,8 @@ export default function Sign({ onSubmit, preload }) {
             name="user-password"
             id="user-password"
             className="input input_place_sign"
+            value={pass}
+            onChange={(e) => {setPass(e.target.value)}}
           />
           <button type="submit" className="button button_theme_blue">{preload ? <img src={circle} className="button_preload"/> : "Войти"}</button>
         </form>
