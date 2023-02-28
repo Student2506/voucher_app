@@ -1,4 +1,7 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
+import jwt_decode from "jwt-decode";
+
+const decodeJwt = (token) => jwt_decode(token);
 
 export const fetchUser = createAsyncThunk(
   'user/fetchUser',
@@ -17,7 +20,7 @@ export const fetchUser = createAsyncThunk(
 
       if (!res.ok) throw new Error('Ошибка сервера!')
       const data = await res.json();
-      dispatch(addUserData({jwt: data, login}))
+      dispatch(addUserData({data}))
     } catch (err) {
       return rejectWithValue(err.message);
     }
@@ -39,7 +42,7 @@ export const updateJwt = createAsyncThunk(
       })
       if(!res.ok) throw new Error('Ошибка(((')
       const data = await res.json();
-      dispatch(refreshJwt(data))
+      dispatch(refreshJwt({data, jwtRefresh}))
     } catch (err) {
       return rejectWithValue(err.message);
     }
@@ -56,16 +59,24 @@ export const userSlice = createSlice({
   },
   reducers: {
     addUserData(state, action) {
+      const { user_id } = decodeJwt(action.payload.data.access);
       state.userData = {
-        login: action.payload.login,
+        login: user_id,
         jwt: {
-          auth: action.payload.jwt.access,
-          refr: action.payload.jwt.refresh,
+          auth: action.payload.data.access,
+          refr: action.payload.data.refresh,
         }
       };
     },
     refreshJwt(state, action) {
-      state.userData.jwt.auth = action.payload.access;
+      const { user_id } = decodeJwt(action.payload.data.access);
+      state.userData = {
+        login: user_id,
+        jwt: {
+          auth: action.payload.data.access,
+          refr: action.payload.data.jwtRefresh,
+        }
+      }
     }
   },
   extraReducers: {
@@ -82,6 +93,21 @@ export const userSlice = createSlice({
       state.status = 'rejected';
       state.error = action.payload;
     },
+    [updateJwt.pending]: (state, action) => {
+      state.status = 'Loading';
+      state.error = null;
+      state.loggedIn = false;
+    },
+    [updateJwt.fulfilled]: (state, action) => {
+      state.status = 'resolved';
+      if (!state.loggedIn) {
+        state.loggedIn = true;
+      }
+    },
+    [updateJwt.rejected]: (state, action) => {
+      state.status = 'rejected';
+      state.error = action.payload;
+    }
   }
 })
 
