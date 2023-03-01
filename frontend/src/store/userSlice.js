@@ -80,12 +80,12 @@ export const userSlice = createSlice({
     }
   },
   extraReducers: {
-    [fetchUser.pending]: (state, action) => {
+    [fetchUser.pending]: (state) => {
       state.status = 'Loading';
       state.error = null;
       state.loggedIn = false;
     },
-    [fetchUser.fulfilled]: (state, action) => {
+    [fetchUser.fulfilled]: (state) => {
       state.status = 'resolved';
       state.loggedIn = true;
     },
@@ -93,12 +93,11 @@ export const userSlice = createSlice({
       state.status = 'rejected';
       state.error = action.payload;
     },
-    [updateJwt.pending]: (state, action) => {
+    [updateJwt.pending]: (state) => {
       state.status = 'Loading';
       state.error = null;
-      state.loggedIn = false;
     },
-    [updateJwt.fulfilled]: (state, action) => {
+    [updateJwt.fulfilled]: (state) => {
       state.status = 'resolved';
       if (!state.loggedIn) {
         state.loggedIn = true;

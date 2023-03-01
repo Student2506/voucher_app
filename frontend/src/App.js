@@ -54,6 +54,12 @@ function App() {
     }
   }, [loggedIn])
 
+  useEffect(() => {
+    if (userData.jwt) {
+      dispatch(updateJwt({jwtRefresh: userData.jwt.refr}));
+    }
+  }, [])
+
   /*
   * Убираем ререндер ссылки на функцию
   */
