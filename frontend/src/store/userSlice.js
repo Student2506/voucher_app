@@ -59,17 +59,16 @@ export const userSlice = createSlice({
   },
   reducers: {
     addUserData(state, action) {
-      const jwt = document.cookie
-        .split(';')
-        .map((item, i) => {
-          const arr = item.split('=')
-          return {
-            key: arr[0],
-            value: arr[1]
-          }
-          }
-        );
+      const jwt = document.cookie.split('; ').reduce(function(result, v, i, a) { var k = v.split('='); result[k[0]] = k[1]; return result; }, {})
+      // const { user_id } = decodeJwt(jwt[2].value);
       state.loggedIn = true;
+      // state.userData = {
+      //   login: user_id,
+      //   jwt: {
+      //     auth: jwt[1].value,
+      //     refr: jwt[2].value,
+      //   }
+      // }
       console.log(jwt);
     },
     refreshJwt(state, action) {
