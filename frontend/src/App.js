@@ -52,13 +52,18 @@ function App() {
   }, [loggedIn])
 
   useEffect(() => {
-    dispatch(updateJwt({jwtRefresh: userData.jwt.refr}));
     if (loggedIn) {
       history.push('/vouchers');
       /* Каждый 4 минуты обновляю jwt */
       setInterval(() => dispatch(updateJwt({jwtRefresh: userData.jwt.refr})), 24000);
     }
   }, [loggedIn])
+
+  useEffect(() => {
+    if (!userData.jwt.auth) {
+      dispatch(updateJwt({jwtRefresh: userData.jwt.refr}));
+    }
+  }, [userData.jwt])
 
 
   /*
