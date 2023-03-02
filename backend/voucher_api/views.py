@@ -133,14 +133,12 @@ def retrieve_token(request: Request) -> Response:
         'auth_access',
         value=userinfo['access'].strip("'"),
         secure=False,
-        httponly=True,
         expires=datetime.fromtimestamp(access['exp']),
     )
     response.set_cookie(
         'auth_refresh',
         value=userinfo['refresh'].strip("'"),
         secure=False,
-        httponly=True,
         expires=datetime.fromtimestamp(refresh['exp']),
     )
     return response
