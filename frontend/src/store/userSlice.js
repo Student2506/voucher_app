@@ -59,10 +59,16 @@ export const userSlice = createSlice({
   },
   reducers: {
     addUserData(state, action) {
-      const jwt = document.cookie;
-      state.userData = {
-        jwt: jwt,
-      }
+      const jwt = document.cookie
+        .split(';')
+        .map((item, i) => {
+          const arr = item.split('=')
+          return {
+            key: arr[0],
+            value: arr[1]
+          }
+          }
+        );
       state.loggedIn = true;
       console.log(jwt);
     },
