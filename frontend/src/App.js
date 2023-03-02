@@ -57,13 +57,10 @@ function App() {
       /* Каждый 4 минуты обновляю jwt */
       // setInterval(() => dispatch(updateJwt({jwtRefresh: userData.jwt.refr})), 24000);
     }
-  }, [loggedIn])
-
-  useEffect(() => {
     if (userData.jwt) {
       dispatch(updateJwt({jwtRefresh: userData.jwt.refr}));
     }
-  }, [])
+  }, [loggedIn])
 
 
   /*
