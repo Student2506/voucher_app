@@ -58,19 +58,18 @@ export const userSlice = createSlice({
     error: null,
   },
   reducers: {
-    addUserData(state, action) {
-      const jwt = document.cookie.split('; ').reduce(function(result, v, i, a) { var k = v.split('='); result[k[0]] = k[1]; return result; }, {})
-      // const { user_id } = decodeJwt(jwt.auth_access);
-      if (document.cookie){
-        state.userData = {
-          // login: user_id,
-          jwt: {
-            auth: jwt.auth_access,
-            refr: jwt.auth_refresh,
-          }
-        }
-      }
-    },
+    // addUserData(state, action) {
+    //   // const { user_id } = decodeJwt(jwt.auth_access);
+    //   if (document.cookie){
+    //     state.userData = {
+    //       // login: user_id,
+    //       jwt: {
+    //         auth: jwt.auth_access,
+    //         refr: jwt.auth_refresh,
+    //       }
+    //     }
+    //   }
+    // },
     refreshJwt(state, action) {
       // const { user_id } = decodeJwt(action.payload.data.access);
       state.userData = {

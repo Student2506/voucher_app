@@ -36,7 +36,10 @@ function App() {
   */
 
   useEffect(() => {
-    dispatch(addUserData())
+    if (document.cookie) {
+      const jwt = document.cookie.split('; ').reduce(function(result, v, i, a) { var k = v.split('='); result[k[0]] = k[1]; return result; }, {})
+      dispatch(updateJwt({jwtRefresh: jwt.auth_refresh}))
+    }
   }, [])
 
   useEffect(() => {
@@ -58,13 +61,6 @@ function App() {
       setInterval(() => dispatch(updateJwt({jwtRefresh: userData.jwt.refr})), 24000);
     }
   }, [loggedIn])
-
-  useEffect(() => {
-    if (userData.jwt) {
-      dispatch(updateJwt({jwtRefresh: userData.jwt.refr}));
-    }
-  })
-
 
   /*
   * Убираем ререндер ссылки на функцию
