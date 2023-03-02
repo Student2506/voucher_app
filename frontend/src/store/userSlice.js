@@ -61,10 +61,10 @@ export const userSlice = createSlice({
     addUserData(state, action) {
       const jwt = document.cookie;
       state.userData = {
-        jwt: JSON.parse(jwt),
+        jwt: jwt,
       }
       state.loggedIn = true;
-      console.log(JSON.parse(jwt));
+      console.log(jwt);
     },
     refreshJwt(state, action) {
       const { user_id } = decodeJwt(action.payload.data.access);
