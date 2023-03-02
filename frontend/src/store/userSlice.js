@@ -77,7 +77,7 @@ export const userSlice = createSlice({
         // login: user_id,
         jwt: {
           auth: action.payload.data.access,
-          refr: action.payload.data.jwtRefresh,
+          refr: state.userData.jwt.refr,
         }
       }
     }
