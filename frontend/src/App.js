@@ -14,7 +14,7 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import LoadingScreen from "./components/LoadingScreen/LoadingScreen";
 import useSuccess from "./hooks/useSuccess";
 import { useSelector, useDispatch } from "react-redux";
-import { updateJwt } from "./store/userSlice";
+import { addUserData, updateJwt } from "./store/userSlice";
 
 function App() {
   const [customers, setCustomers] = useState([]);
@@ -36,24 +36,28 @@ function App() {
   */
 
   useEffect(() => {
-    if (loggedIn) {
-      setLoadingScreen(true);
-      Api.getCostumers(userData.jwt.auth).then((res) => {
-        setCustomers(res.results);
-      }).catch((err) => {console.log(err)}).finally(() => {setLoadingScreen(false)})
-    } else {
-      // Роутинг на вход
-      history.push("/sign-in");
-    }
-  }, [loggedIn])
+    dispatch(addUserData())
+  }, [])
 
-  useEffect(() => {
-    if (loggedIn) {
-      history.push('/vouchers');
-      /* Каждый 4 минуты обновляю jwt */
-      setInterval(() => dispatch(updateJwt({jwtRefresh: userData.jwt.refr})), 24000);
-    }
-  }, [loggedIn])
+  // useEffect(() => {
+  //   if (loggedIn) {
+  //     setLoadingScreen(true);
+  //     Api.getCostumers(userData.jwt.auth).then((res) => {
+  //       setCustomers(res.results);
+  //     }).catch((err) => {console.log(err)}).finally(() => {setLoadingScreen(false)})
+  //   } else {
+  //     // Роутинг на вход
+  //     history.push("/sign-in");
+  //   }
+  // }, [loggedIn])
+  //
+  // useEffect(() => {
+  //   if (loggedIn) {
+  //     history.push('/vouchers');
+  //     /* Каждый 4 минуты обновляю jwt */
+  //     setInterval(() => dispatch(updateJwt({jwtRefresh: userData.jwt.refr})), 24000);
+  //   }
+  // }, [loggedIn])
 
   useEffect(() => {
     if (userData.jwt) {
@@ -89,8 +93,6 @@ function App() {
       .catch((err) => {handleSwitchSuccess("templateSection", false)})
       .finally(() => {setPreload(false)})
   }
-
-  console.log(document.cookie);
 
   return (
     <>
