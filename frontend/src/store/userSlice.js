@@ -60,10 +60,10 @@ export const userSlice = createSlice({
   reducers: {
     addUserData(state, action) {
       const jwt = document.cookie.split('; ').reduce(function(result, v, i, a) { var k = v.split('='); result[k[0]] = k[1]; return result; }, {})
-      const { user_id } = decodeJwt(jwt.auth_access);
+      // const { user_id } = decodeJwt(jwt.auth_access);
       state.loggedIn = true;
       state.userData = {
-        login: user_id,
+        // login: user_id,
         jwt: {
           auth: jwt.auth_access,
           refr: jwt.auth_refresh,
@@ -71,9 +71,9 @@ export const userSlice = createSlice({
       }
     },
     refreshJwt(state, action) {
-      const { user_id } = decodeJwt(action.payload.data.access);
+      // const { user_id } = decodeJwt(action.payload.data.access);
       state.userData = {
-        login: user_id,
+        // login: user_id,
         jwt: {
           auth: action.payload.data.access,
           refr: action.payload.data.jwtRefresh,
