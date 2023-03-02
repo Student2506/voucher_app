@@ -41,7 +41,10 @@ export default function Sign({ preload }) {
             value={pass}
             onChange={(e) => {setPass(e.target.value)}}
           />
-          <button type="submit" className="button button_theme_blue">{preload ? <img src={circle} className="button_preload"/> : "Войти"}</button>
+          <button type="submit" className="button button_theme_blue">
+            {/*{preload ? <img src={circle} className="button_preload"/> : "Войти"}*/}
+            <a href={"http://10.0.10.234/api/v1/oauth2/login"}>Войти</a>
+          </button>
         </form>
       </div>
       <div className="sign__bg" />

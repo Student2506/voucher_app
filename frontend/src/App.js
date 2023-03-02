@@ -34,6 +34,7 @@ function App() {
   * Убираем лишнее обращение.
   * сработает только если юзер залогинился
   */
+
   useEffect(() => {
     if (loggedIn) {
       setLoadingScreen(true);
@@ -88,6 +89,8 @@ function App() {
       .catch((err) => {handleSwitchSuccess("templateSection", false)})
       .finally(() => {setPreload(false)})
   }
+
+  console.log(document.cookie);
 
   return (
     <>
