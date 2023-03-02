@@ -14,7 +14,7 @@ export default function Sign({ preload }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    dispatch(fetchUser({login, pass}));
+    // dispatch(fetchUser({login, pass}));
   }
 
   return (
