@@ -63,7 +63,7 @@ function App() {
     if (userData.jwt) {
       dispatch(updateJwt({jwtRefresh: userData.jwt.refr}));
     }
-  }, [userData.jwt])
+  }, [])
 
 
   /*
