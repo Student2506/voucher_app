@@ -3,6 +3,7 @@
 import json
 import logging
 import os
+from datetime import datetime
 from typing import Any
 
 import jwt
@@ -133,13 +134,13 @@ def retrieve_token(request: Request) -> Response:
         value=userinfo['access'].strip("'"),
         secure=False,
         httponly=True,
-        expires=access['exp'],
+        expires=datetime.fromtimestamp(access['exp']),
     )
     response.set_cookie(
         'auth_refresh',
         value=userinfo['refresh'].strip("'"),
         secure=False,
         httponly=True,
-        expires=refresh['exp'],
+        expires=datetime.fromtimestamp(refresh['exp']),
     )
     return response
