@@ -5,6 +5,7 @@ import logging
 import os
 from typing import Any
 
+import jwt
 import pika
 from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
@@ -13,6 +14,8 @@ from rest_framework.parsers import JSONParser
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
+
+from voucher import settings
 
 from vista_module.models import Customer, VoucherType
 from voucher_api.serializers import (
@@ -114,17 +117,29 @@ def retrieve_token(request: Request) -> Response:
         'refresh': str(refresh),
         'access': str(refresh.access_token),
     }
+    access = jwt.decode(
+        userinfo['access'],
+        str(settings.SIMPLE_JWT.get('SIGNING_KEY')),
+        algorithms=[str(settings.SIMPLE_JWT.get('ALGORITHM'))],
+    )
+    refresh = jwt.decode(
+        userinfo['refresh'],
+        str(settings.SIMPLE_JWT.get('SIGNING_KEY')),
+        algorithms=[str(settings.SIMPLE_JWT.get('ALGORITHM'))],
+    )
     response = redirect('/vouchers')
     response.set_cookie(
         'auth_access',
         value=userinfo['access'].strip("'"),
         secure=False,
         httponly=True,
+        expires=access['exp'],
     )
     response.set_cookie(
         'auth_refresh',
         value=userinfo['refresh'].strip("'"),
         secure=False,
         httponly=True,
+        expires=refresh['exp'],
     )
     return response
