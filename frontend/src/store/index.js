@@ -3,27 +3,23 @@ import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, 
 import storage from 'redux-persist/lib/storage'
 import userSlice from "./userSlice";
 
-const rootReducer = combineReducers({
-  user: userSlice,
-})
-
-const persistConfig = {
-  key: 'user',
-  storage,
-}
-
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+// const rootReducer = combineReducers({
+//   user: userSlice,
+// })
+//
+// const persistConfig = {
+//   key: 'user',
+//   storage,
+// }
+//
+// const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 const store = configureStore({
-  reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }),
+  reducer: {
+    user: userSlice,
+  },
 })
 
-export const persistor = persistStore(store);
+// export const persistor = persistStore(store);
 
 export default store;

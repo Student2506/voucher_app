@@ -61,12 +61,14 @@ export const userSlice = createSlice({
     addUserData(state, action) {
       const jwt = document.cookie.split('; ').reduce(function(result, v, i, a) { var k = v.split('='); result[k[0]] = k[1]; return result; }, {})
       // const { user_id } = decodeJwt(jwt.auth_access);
-      state.loggedIn = true;
-      state.userData = {
-        // login: user_id,
-        jwt: {
-          auth: jwt.auth_access,
-          refr: jwt.auth_refresh,
+      if (document.cookie){
+        state.loggedIn = true;
+        state.userData = {
+          // login: user_id,
+          jwt: {
+            auth: jwt.auth_access,
+            refr: jwt.auth_refresh,
+          }
         }
       }
     },
