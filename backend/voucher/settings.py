@@ -46,6 +46,7 @@ include('components/_authentication.py')
 LOGIN_REDIRECT_URL = 'retrieve-token'
 LOGIN_URL = 'django_auth_adfs:login'
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 LOCALE_PATHS = (
     BASE_DIR / 'locale',
 )

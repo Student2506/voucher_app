@@ -6,6 +6,7 @@ import os
 from typing import Any
 
 import pika
+from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import decorators, filters, serializers, status, viewsets
 from rest_framework.parsers import JSONParser
@@ -113,4 +114,17 @@ def retrieve_token(request: Request) -> Response:
         'refresh': str(refresh),
         'access': str(refresh.access_token),
     }
-    return Response(userinfo)
+    response = redirect('/vouchers')
+    response.set_cookie(
+        'auth_access',
+        value=userinfo['access'].strip("'"),
+        secure=False,
+        httponly=True,
+    )
+    response.set_cookie(
+        'auth_refresh',
+        value=userinfo['refresh'].strip("'"),
+        secure=False,
+        httponly=True,
+    )
+    return response
