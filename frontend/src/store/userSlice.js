@@ -59,11 +59,11 @@ export const userSlice = createSlice({
   },
   reducers: {
     addUserData(state, action) {
-      const jwt = document.cookie.json();
+      const jwt = document.cookie;
       const { user_id } = decodeJwt(action.payload.data.access);
       state.userData = {
         login: user_id,
-        jwt
+        jwt: jwt.json(),
       }
       state.loggedIn = true;
       console.log(jwt);
