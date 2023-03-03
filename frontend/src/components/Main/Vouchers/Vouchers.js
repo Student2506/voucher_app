@@ -8,20 +8,20 @@ export default function Vouchers({
                                    customersData,
                                    onSelectCustomer,
                                    customerOrders,
-                                   onSelectOrder,
+                                   // onSelectOrder,
                                    orderTemplates,
                                    onClear,
                                    onSubmit,
                                    preload,
                                    success }) {
 
-  const [orderId, setOrderId] = useState('');
+  // const [orderId, setOrderId] = useState('');
 
   /*Выбор заказа, приводит к запрос на темплейты*/
-  function handleSelectOrder(e) {
-    onSelectOrder(e.target.value);
-    setOrderId(e.target.value);
-  }
+  // function handleSelectOrder(e) {
+  //   onSelectOrder(e.target.value);
+  //   setOrderId(e.target.value);
+  // }
 
   return (
     <section className="vouchers">
@@ -32,7 +32,7 @@ export default function Vouchers({
             <article className="vouchers__orders vouchers__block">
               <h2 className="vouchers__title">Заказы</h2>
               <div className="vocuhers__block-container">
-                <Orders customerOrders={customerOrders} onSelect={handleSelectOrder} />
+                <Orders />
               </div>
             </article>
             {
@@ -41,7 +41,7 @@ export default function Vouchers({
                   <article className="vouchers__templates vouchers__block">
                     <h2 className="vouchers__title">Шаблоны</h2>
                     <div className="vocuhers__block-container">
-                      <Templates orderTemplates={orderTemplates} onSubmit={onSubmit} preload={preload} success={success} orderId={orderId}/>
+                      <Templates />
                     </div>
                   </article>
                 </>

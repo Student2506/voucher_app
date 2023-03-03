@@ -11,35 +11,36 @@
 @import url('./components/Input/styles/_place/input_place_vouchers.css');
 @import url('./components/Input/styles/_place/input_place_sign.css');
 /* sign */
-@import url('components/Sign/styles/Sign.css');
+@import url('./components/Sign/styles/Sign.css');
 @import url('./components/Sign/styles/__bg/sign__bg.css');
 @import url('./components/Sign/styles/__form/sign__form.css');
 @import url('./components/Sign/styles/__container/sign__container.css');
 @import url('./components/Sign/styles/__label/sign__label.css');
 @import url('./components/Sign/styles/__logo/sign__logo.css');
-@import url('components/Sign/styles/__title/sign__title.css');
+@import url('./components/Sign/styles/__title/sign__title.css');
+@import url('./components/Sign/styles/__link/sign__link.css');
 @import url('./components/Main/Main.css');
 /* header */
-@import url('components/Main/Header/styles/Header.css');
-@import url('components/Main/Header/styles/__account/headers__account.css');
+@import url('./components/Main/Header/styles/Header.css');
+@import url('./components/Main/Header/styles/__account/headers__account.css');
 /* navBar */
-@import url('components/Main/NavBar/styles/NavBar.css');
-@import url('components/Main/NavBar/styles/__title/navBar__title.css');
-@import url('components/Main/NavBar/styles/__navigation/navBar__navigation.css');
-@import url('components/Main/NavBar/styles/__logo/navBar__logo.css');
-@import url('components/Main/NavBar/styles/__link/navBar__link.css');
+@import url('./components/Main/NavBar/styles/NavBar.css');
+@import url('./components/Main/NavBar/styles/__title/navBar__title.css');
+@import url('./components/Main/NavBar/styles/__navigation/navBar__navigation.css');
+@import url('./components/Main/NavBar/styles/__logo/navBar__logo.css');
+@import url('./components/Main/NavBar/styles/__link/navBar__link.css');
 /* vouchers */
-@import url('components/Main/Vouchers/styles/Vouchers.css');
-@import url('components/Main/Vouchers/styles/__form/vouchers__form.css');
-@import url('components/Main/Vouchers/styles/__main/vouchers__main.css');
-@import url('components/Main/Vouchers/styles/__nothing/vouchers__nothing.css');
-@import url('components/Main/Vouchers/styles/__block/vouchers__block.css');
-@import url('components/Main/Vouchers/styles/__block-container/vouchers__block-container.css');
-@import url('components/Main/Vouchers/styles/__field/vouchers__field.css');
-@import url('components/Main/Vouchers/styles/__title/vouchers__title.css');
+@import url('./components/Main/Vouchers/styles/Vouchers.css');
+@import url('./components/Main/Vouchers/styles/__form/vouchers__form.css');
+@import url('./components/Main/Vouchers/styles/__main/vouchers__main.css');
+@import url('./components/Main/Vouchers/styles/__nothing/vouchers__nothing.css');
+@import url('./components/Main/Vouchers/styles/__block/vouchers__block.css');
+@import url('./components/Main/Vouchers/styles/__block-container/vouchers__block-container.css');
+@import url('./components/Main/Vouchers/styles/__field/vouchers__field.css');
+@import url('./components/Main/Vouchers/styles/__title/vouchers__title.css');
 /* customers */
-@import url('components/Main/Vouchers/Customers/styles/Customers.css');
-@import url('components/Main/Vouchers/Customers/styles/__name/customers__name.css');
+@import url('./components/Main/Vouchers/Customers/styles/Customers.css');
+@import url('./components/Main/Vouchers/Customers/styles/__name/customers__name.css');
 /* template */
 @import url('./components/Main/Vouchers/Templates/styles/__form/templates__form.css');
 @import url('./components/Main/Vouchers/Templates/styles/__field/templates__field.css');

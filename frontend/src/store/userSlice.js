@@ -3,30 +3,6 @@ import jwt_decode from "jwt-decode";
 
 const decodeJwt = (token) => jwt_decode(token);
 
-export const fetchUser = createAsyncThunk(
-  'user/fetchUser',
-  async function({login, pass}, {rejectWithValue, dispatch}) {
-    try {
-      const res = await fetch(`http://10.0.10.234/api/v1/auth/jwt/create`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          "username": login,
-          "password": pass,
-        })
-      })
-
-      if (!res.ok) throw new Error('Ошибка сервера!')
-      const data = await res.json();
-      dispatch(addUserData({data}))
-    } catch (err) {
-      return rejectWithValue(err.message);
-    }
-  }
-)
-
 export const updateJwt = createAsyncThunk(
   'user/updateJwt',
   async function({jwtRefresh}, {rejectWithValue, dispatch}) {
@@ -58,18 +34,6 @@ export const userSlice = createSlice({
     error: null,
   },
   reducers: {
-    // addUserData(state, action) {
-    //   // const { user_id } = decodeJwt(jwt.auth_access);
-    //   if (document.cookie){
-    //     state.userData = {
-    //       // login: user_id,
-    //       jwt: {
-    //         auth: jwt.auth_access,
-    //         refr: jwt.auth_refresh,
-    //       }
-    //     }
-    //   }
-    // },
     refreshJwt(state, action) {
       // const { user_id } = decodeJwt(action.payload.data.access);
       state.userData = {
@@ -82,19 +46,6 @@ export const userSlice = createSlice({
     }
   },
   extraReducers: {
-    [fetchUser.pending]: (state) => {
-      state.status = 'Loading';
-      state.error = null;
-      state.loggedIn = false;
-    },
-    [fetchUser.fulfilled]: (state) => {
-      state.status = 'resolved';
-      state.loggedIn = true;
-    },
-    [fetchUser.rejected]: (state, action) => {
-      state.status = 'rejected';
-      state.error = action.payload;
-    },
     [updateJwt.pending]: (state) => {
       state.status = 'Loading';
       state.error = null;

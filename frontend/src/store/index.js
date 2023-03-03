@@ -1,25 +1,12 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist' // imports from redux-persist
-import storage from 'redux-persist/lib/storage'
+import { configureStore } from '@reduxjs/toolkit';
 import userSlice from "./userSlice";
-
-// const rootReducer = combineReducers({
-//   user: userSlice,
-// })
-//
-// const persistConfig = {
-//   key: 'user',
-//   storage,
-// }
-//
-// const persistedReducer = persistReducer(persistConfig, rootReducer)
+import customersSlice from "./customersSlice";
 
 const store = configureStore({
   reducer: {
     user: userSlice,
+    customers: customersSlice,
   },
 })
-
-// export const persistor = persistStore(store);
 
 export default store;
