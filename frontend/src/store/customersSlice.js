@@ -79,7 +79,7 @@ export const customersSlice = createSlice({
       state.orders = action.payload.data.orders;
     },
     addTemplates(state, action) {
-      state.templates = action.payload.data;
+      state.templates = action.payload.data.templates;
     }
   }
 })
