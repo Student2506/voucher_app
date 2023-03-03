@@ -26,8 +26,6 @@ export default function Vouchers({
   return (
     <section className="vouchers">
       <Customers />
-      {
-        customerOrders.length > 0 ?
           <div className="vouchers__main">
             <article className="vouchers__orders vouchers__block">
               <h2 className="vouchers__title">Заказы</h2>
@@ -35,21 +33,13 @@ export default function Vouchers({
                 <Orders />
               </div>
             </article>
-            {
-              orderTemplates.length > 0 ?
-                <>
                   <article className="vouchers__templates vouchers__block">
                     <h2 className="vouchers__title">Шаблоны</h2>
                     <div className="vocuhers__block-container">
                       <Templates />
                     </div>
                   </article>
-                </>
-                : <></>
-            }
           </div>
-          : <div className="vouchers__nothing"></div>
-      }
     </section>
   )
 }
