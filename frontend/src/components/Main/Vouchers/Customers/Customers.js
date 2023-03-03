@@ -19,7 +19,6 @@ export default React.memo(function Customers({ onClear }) {
   function handleSelectCustomer(id) {
     // onSelectCustomer(id);
     dispatch(getCustomerOrders({id}))
-    onClear();
   }
 
   /*Не централизованный поиск*/
