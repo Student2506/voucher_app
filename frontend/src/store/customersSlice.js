@@ -79,7 +79,7 @@ export const customersSlice = createSlice({
       state.orders = action.payload.data.orders;
     },
     addTemplates(state, action) {
-      state.templates = action.payload.data.templates;
+      state.templates = Object.entries(action.payload.data.templates).map((e) => ( { [e[0]]: e[1] } ));
     }
   }
 })
