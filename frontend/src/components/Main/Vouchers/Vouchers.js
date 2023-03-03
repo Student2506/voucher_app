@@ -25,7 +25,7 @@ export default function Vouchers({
 
   return (
     <section className="vouchers">
-      <Customers onSelectCustomer={onSelectCustomer} customersData={customersData} onClear={onClear} />
+      <Customers />
       {
         customerOrders.length > 0 ?
           <div className="vouchers__main">
