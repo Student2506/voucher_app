@@ -16,7 +16,7 @@ export default function Orders() {
             value={order.order_id}
             key={order.order_id}
             id={order.order_id}
-            onChange={(e) => {dispatch(getOrderTemplates(e.target.value))}}
+            onChange={(e) => {dispatch(getOrderTemplates({e.target.value}))}}
             description={order.order_name}
             name={"order"}
           />
