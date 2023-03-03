@@ -73,8 +73,7 @@ export const customersSlice = createSlice({
   },
   reducers: {
     addCustomers(state, action) {
-      state.customers = action.payload.data;
-      console.log(action.payload.data);
+      state.customers = action.payload.data.results;
     },
     addOrders(state, action) {
       state.orders = action.payload.data;
