@@ -76,7 +76,7 @@ export const customersSlice = createSlice({
       state.customers = action.payload.data.results;
     },
     addOrders(state, action) {
-      state.orders = action.payload.data;
+      state.orders = action.payload.data.orders;
     },
     addTemplates(state, action) {
       state.templates = action.payload.data;
