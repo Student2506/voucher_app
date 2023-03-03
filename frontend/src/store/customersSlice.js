@@ -1,6 +1,9 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import { baseUrl } from "../constants";
 
+let lastOrder;
+let lastCustomer;
+
 export const getCustomers = createAsyncThunk(
   'customers/getCustomers',
   async function(_, {rejectWithValue, dispatch, getState}) {
@@ -25,6 +28,7 @@ export const getCustomers = createAsyncThunk(
 export const getCustomerOrders = createAsyncThunk(
   'customers/getCustomerOrders',
   async function({ id }, {rejectWithValue, dispatch, getState}) {
+    lastCustomer = id;
     const jwt = getState().user.userData.jwt.auth;
     try {
       const res = await fetch(`${baseUrl}/api/v1/customers/${id}/`, {
@@ -46,6 +50,7 @@ export const getCustomerOrders = createAsyncThunk(
 export const getOrderTemplates = createAsyncThunk(
   'customers/getOrderTemplates',
   async function({id}, {rejectWithValue, dispatch, getState}) {
+    lastOrder = id;
     const jwt = getState().user.userData.jwt.auth;
     try {
       const res = await fetch(`${baseUrl}/api/v1/voucher_type/${id}`, {
@@ -58,6 +63,30 @@ export const getOrderTemplates = createAsyncThunk(
       if (!res.ok) throw new Error(`Ошибка при получении данных`);
       const data = await res.json();
       dispatch(addTemplates({data}))
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+)
+
+export const pushVoucher = createAsyncThunk(
+  'customers/pushVoucher',
+  async function({ email, template}, {rejectWithValue, getState}) {
+    const jwt = getState().user.userData.jwt.auth;
+    try {
+      const res = await fetch(`${baseUrl}/api/v1/order_item/${lastOrder}`, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `JWT ${jwt}`,
+        },
+        body: JSON.stringify({
+          "template": template,
+          "addresses": email,
+        })
+      })
+      if (!res.ok) throw new Error(`Ошибка при получении данных`);
+
     } catch (err) {
       return rejectWithValue(err);
     }
