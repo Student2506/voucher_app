@@ -27,7 +27,7 @@ function App() {
       dispatch(getCustomers(userData.jwt.auth));
       history.push('/vouchers');
       /* Каждый 4 минуты обновляю jwt */
-      setInterval(() => dispatch(updateJwt({jwtRefresh: userData.jwt.refr})), 24000);
+      setInterval(() => dispatch(updateJwt({jwtRefresh: userData.jwt.refr})), 240000);
     } else {
       // Роутинг на вход
       history.push("/sign-in");
