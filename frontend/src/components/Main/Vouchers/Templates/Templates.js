@@ -19,7 +19,7 @@ export default function Templates() {
   }
 
   console.log(pushError);
-
+  console.log(pushStatus);
   return (
     <>
       {
