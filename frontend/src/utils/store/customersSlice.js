@@ -1,5 +1,6 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import { baseUrl } from "../../constants";
+import { fulfilledFetch, pendingFetch, rejectFetch } from "./statusAppSlice";
 
 let lastOrder;
 let lastCustomer;
@@ -8,6 +9,7 @@ export const getCustomers = createAsyncThunk(
   'customers/getCustomers',
   async function(_, {rejectWithValue, dispatch, getState}) {
     const jwt = getState().user.userData.jwt.auth;
+    dispatch(pendingFetch());
     try {
       const res = await fetch(`${baseUrl}/api/v1/customers/`, {
         method: 'GET',
@@ -19,7 +21,9 @@ export const getCustomers = createAsyncThunk(
       if (!res.ok) throw new Error(`Ошибка при получении данных`);
       const data = await res.json();
       dispatch(addCustomers({data}))
+      dispatch(fulfilledFetch());
     } catch (err) {
+      dispatch(rejectFetch(err));
       return rejectWithValue(err);
     }
   }
@@ -30,6 +34,7 @@ export const getCustomerOrders = createAsyncThunk(
   async function({ id }, {rejectWithValue, dispatch, getState}) {
     lastCustomer = id;
     const jwt = getState().user.userData.jwt.auth;
+    dispatch(pendingFetch());
     try {
       const res = await fetch(`${baseUrl}/api/v1/customers/${id}/`, {
         method: 'GET',
@@ -41,7 +46,9 @@ export const getCustomerOrders = createAsyncThunk(
       if (!res.ok) throw new Error(`Ошибка при получении данных`);
       const data = await res.json();
       dispatch(addOrders({data}))
+      dispatch(fulfilledFetch());
     } catch (err) {
+      dispatch(rejectFetch(err));
       return rejectWithValue(err);
     }
   }
@@ -52,6 +59,7 @@ export const getOrderTemplates = createAsyncThunk(
   async function({id}, {rejectWithValue, dispatch, getState}) {
     lastOrder = id;
     const jwt = getState().user.userData.jwt.auth;
+    dispatch(pendingFetch());
     try {
       const res = await fetch(`${baseUrl}/api/v1/voucher_type/${id}`, {
         method: 'GET',
@@ -63,7 +71,9 @@ export const getOrderTemplates = createAsyncThunk(
       if (!res.ok) throw new Error(`Ошибка при получении данных`);
       const data = await res.json();
       dispatch(addTemplates({data}))
+      dispatch(fulfilledFetch());
     } catch (err) {
+      dispatch(rejectFetch(err));
       return rejectWithValue(err);
     }
   }
@@ -71,8 +81,9 @@ export const getOrderTemplates = createAsyncThunk(
 
 export const pushVoucher = createAsyncThunk(
   'customers/pushVoucher',
-  async function({ email, template}, {rejectWithValue, getState}) {
+  async function({ email, template}, {rejectWithValue, getState, dispatch}) {
     const jwt = getState().user.userData.jwt.auth;
+    dispatch(pendingFetch());
     try {
       const res = await fetch(`${baseUrl}/api/v1/order_item/${lastOrder}`, {
         method: 'POST',
@@ -86,8 +97,9 @@ export const pushVoucher = createAsyncThunk(
         })
       })
       if (!res.ok) throw new Error(`Ошибка при получении данных`);
-
+      dispatch(fulfilledFetch());
     } catch (err) {
+      return rejectWithValue(err);
       return rejectWithValue(err);
     }
   }
