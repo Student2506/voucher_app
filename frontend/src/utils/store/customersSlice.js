@@ -53,7 +53,7 @@ export const getOrderTemplates = createAsyncThunk(
     lastOrder = id;
     const jwt = getState().user.userData.jwt.auth;
     try {
-      const res = await fetch(`${baseUrl}/api/v1/voucher_type/${id}`, {
+      const res = await fetch(`${baseUrl}/api/v1/voucher_type/${id}/`, {
         method: 'GET',
         headers: {
           "Content-Type": "application/json",
