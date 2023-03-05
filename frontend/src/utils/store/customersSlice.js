@@ -53,7 +53,7 @@ export const getOrderTemplates = createAsyncThunk(
     lastOrder = id;
     const jwt = getState().user.userData.jwt.auth;
     try {
-      const res = await fetch(`${baseUrl}/api/v1/voucher_type/${id}/`, {
+      const res = await fetch(`${baseUrl}/api/v1/voucher_type/${id}`, {
         method: 'GET',
         headers: {
           "Content-Type": "application/json",
@@ -111,6 +111,10 @@ export const customersSlice = createSlice({
     },
     addTemplates(state, action) {
       state.templates = Object.entries(action.payload.data.templates).map((e) => ( { [e[0]]: e[1] } ));
+    },
+    clearOrdersAndTemplates(state, action) {
+      state.templates = [];
+      state.orders = [];
     }
   },
   extraReducers: {
@@ -128,6 +132,6 @@ export const customersSlice = createSlice({
   }
 })
 
-export const {addCustomers, addOrders, addTemplates} = customersSlice.actions;
+export const {addCustomers, addOrders, addTemplates, clearOrdersAndTemplates} = customersSlice.actions;
 
 export default customersSlice.reducer;
