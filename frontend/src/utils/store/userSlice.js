@@ -1,14 +1,11 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import jwt_decode from "jwt-decode";
-import { useDispatch } from "react-redux";
-import { fulfilledFetch, pendingFetch, rejectFetch } from "./statusAppSlice";
 
 const decodeJwt = (token) => jwt_decode(token);
 
 export const updateJwt = createAsyncThunk(
   'user/updateJwt',
   async function({jwtRefresh}, {rejectWithValue, dispatch}) {
-    dispatch(pendingFetch());
     try {
       const res = await fetch(`http://10.0.10.234/api/v1/auth/jwt/refresh/`, {
         method: 'POST',
@@ -22,9 +19,7 @@ export const updateJwt = createAsyncThunk(
       if(!res.ok) throw new Error('Ошибка(((')
       const data = await res.json();
       dispatch(refreshJwt({data, jwtRefresh}))
-      dispatch(fulfilledFetch());
     } catch (err) {
-      dispatch(rejectFetch(err));
       return rejectWithValue(err.message);
     }
   }
@@ -34,9 +29,9 @@ export const userSlice = createSlice({
   name: 'user',
   initialState: {
     userData: {},
-    // status: null,
+    status: null,
     loggedIn: false,
-    // error: null,
+    error: null,
   },
   reducers: {
     refreshJwt(state, action) {
@@ -51,11 +46,20 @@ export const userSlice = createSlice({
     }
   },
   extraReducers: {
+    [updateJwt.pending]: (state) => {
+      state.status = 'Loading';
+      state.error = null;
+    },
     [updateJwt.fulfilled]: (state) => {
+      state.status = 'resolved';
       if (!state.loggedIn) {
         state.loggedIn = true;
       }
     },
+    [updateJwt.rejected]: (state, action) => {
+      state.status = 'rejected';
+      state.error = action.payload;
+    }
   }
 })
 

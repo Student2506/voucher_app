@@ -7,7 +7,9 @@ import { pushVoucher } from "../../../../utils/store/customersSlice";
 export default function Templates() {
 
   const dispatch = useDispatch();
-  const templates = useSelector(state => state.customers.templates);
+  // const templates = useSelector(state => state.customers.templates);
+
+  const {templates, pushStatus, pushError} = useSelector(state => state.customers);
 
   const [template, setTemplate] = useState('');
   const [email, setEmail] = useState('');
@@ -15,6 +17,8 @@ export default function Templates() {
     e.preventDefault();
     dispatch(pushVoucher({email, template}))
   }
+
+  console.log(pushError);
 
   return (
     <>
@@ -35,16 +39,16 @@ export default function Templates() {
           <input required={true} type="email" className="input input_place_vouchers" placeholder="Введите E-Mail получателя" onChange={(e) => {setEmail(e.target.value)}} />
           <button type={"reset"} className="button button_icon_close button_place_vouchers" />
         </fieldset>
-        {/*{*/}
-        {/*  success.templateSection === true || success.templateSection === false*/}
-        {/*    ? <span*/}
-        {/*      className={`templates__progress ${success.templateSection ? "templates__progress_success" : "templates__progress_failure"}`}*/}
-        {/*    >*/}
-        {/*      {success.templateSection ? "Все прошло успешно. Ваучеры высланы на почту" : "Что-то пошло не так, попробуйте еще раз."}*/}
-        {/*  </span>*/}
-        {/*    : <></>*/}
-        {/*}*/}
-        <button type="submit" className={`button button_theme_blue button_place_vouchers-main`}>{false ? <img src={circle} className="button_preload"/> : "Подтвердить"}</button>
+        {
+          pushStatus === 'resolved' || pushStatus === 'rejected'
+            ? <span
+              className={`templates__progress ${!pushError ? "templates__progress_success" : "templates__progress_failure"}`}
+            >
+              {!pushError ? "Все прошло успешно. Ваучеры высланы на почту" : "Что-то пошло не так, попробуйте еще раз."}
+          </span>
+            : <></>
+        }
+        <button type="submit" className={`button button_theme_blue button_place_vouchers-main`}>{pushStatus === 'loading' ? <img src={circle} className="button_preload"/> : "Подтвердить"}</button>
       </form>
     </>
   )
