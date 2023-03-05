@@ -3,7 +3,7 @@ import RadioFake from "../RadioFake/RadioFake";
 import { useDispatch, useSelector } from "react-redux";
 import { getCustomerOrders } from "../../../../utils/store/customersSlice";
 
-export default React.memo(function Customers({ onClear }) {
+export default React.memo(function Customers() {
 
   const dispatch = useDispatch();
   const customers = useSelector(state => state.customers.customers);

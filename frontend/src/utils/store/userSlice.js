@@ -1,7 +1,10 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import jwt_decode from "jwt-decode";
+import { useDispatch } from "react-redux";
+import { fulfilledFetch, pendingFetch, rejectFetch } from "./statusAppSlice";
 
 const decodeJwt = (token) => jwt_decode(token);
+const dispatch = useDispatch();
 
 export const updateJwt = createAsyncThunk(
   'user/updateJwt',
@@ -29,9 +32,9 @@ export const userSlice = createSlice({
   name: 'user',
   initialState: {
     userData: {},
-    status: null,
+    // status: null,
     loggedIn: false,
-    error: null,
+    // error: null,
   },
   reducers: {
     refreshJwt(state, action) {
@@ -46,19 +49,17 @@ export const userSlice = createSlice({
     }
   },
   extraReducers: {
-    [updateJwt.pending]: (state) => {
-      state.status = 'Loading';
-      state.error = null;
+    [updateJwt.pending]: () => {
+      dispatch(pendingFetch());
     },
     [updateJwt.fulfilled]: (state) => {
-      state.status = 'resolved';
+      dispatch(fulfilledFetch());
       if (!state.loggedIn) {
         state.loggedIn = true;
       }
     },
     [updateJwt.rejected]: (state, action) => {
-      state.status = 'rejected';
-      state.error = action.payload;
+      dispatch(rejectFetch(action.payload));
     }
   }
 })

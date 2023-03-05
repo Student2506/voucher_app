@@ -1,11 +1,5 @@
-/*
-* Где используется React.memo это предотвращение лишнего ререндера компонента
-* в useState хранятся данные о Customers его заказах и шаблонах
-* Временно использую loggedIn как имитацию входа
-*/
-
 import './App.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Route, Switch, useHistory } from "react-router-dom";
 import Sign from "./components/Sign/Sign";
 import Main from "./components/Main/Main";
@@ -16,18 +10,10 @@ import { updateJwt } from "./utils/store/userSlice";
 import { getCustomers } from "./utils/store/customersSlice";
 
 function App() {
-  const [preload, setPreload] = useState(false);
-  const [loadingScreen, setLoadingScreen] = useState(false);
-
   const dispatch = useDispatch();
   const history = useHistory();
-
   const {loggedIn, userData} = useSelector(state => state.user);
-
-  /*
-  * Убираем лишнее обращение.
-  * сработает только если юзер залогинился
-  */
+  const {error, status} = useSelector(state => state.status);
 
   useEffect(() => {
     if (document.cookie) {
@@ -48,9 +34,11 @@ function App() {
     }
   }, [loggedIn])
 
+  console.log(error);
+  console.log(status);
+
   return (
     <>
-      {loadingScreen ? <LoadingScreen /> : <></>}
       <Switch>
         {/*
       * Защищенный роут, если пользователь не залогинен - дальше не пропустит
@@ -60,10 +48,9 @@ function App() {
           component={Main}
           path={"/vouchers"}
           loggedIn={loggedIn}
-          preload={preload}
         />
         <Route path="/sign-in">
-          <Sign preload={preload} />
+          <Sign />
         </Route>
       </Switch>
     </>
