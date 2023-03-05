@@ -115,6 +115,8 @@ export const customersSlice = createSlice({
     clearOrdersAndTemplates(state, action) {
       state.templates = [];
       state.orders = [];
+      state.pushStatus = null;
+      state.pushError = null;
     }
   },
   extraReducers: {
