@@ -85,10 +85,10 @@ export const pushVoucher = createAsyncThunk(
           "addresses": email,
         })
       })
-      if (!res.ok) throw new Error(`Ошибка при получении данных`);
+      if (!res.ok) throw new Error(`Ошибка ${res.status}`);
 
     } catch (err) {
-      return rejectWithValue(err);
+      return rejectWithValue(err.message);
     }
   }
 )
