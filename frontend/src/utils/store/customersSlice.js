@@ -124,6 +124,7 @@ export const customersSlice = createSlice({
     [pushVoucher.rejected]: (state, action) => {
       state.pushStatus = 'rejected';
       state.error = action.payload;
+      console.log(action.payload);
     }
   }
 })
