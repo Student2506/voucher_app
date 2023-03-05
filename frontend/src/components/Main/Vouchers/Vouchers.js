@@ -31,7 +31,7 @@ export default function Vouchers() {
                   : <></>
               }
             </>
-            : <div className="voucher__nothing"></div>
+            : <div className="vouchers__nothing"></div>
         }
 
       </div>
