@@ -74,7 +74,7 @@ export const pushVoucher = createAsyncThunk(
   async function({ email, template}, {rejectWithValue, getState}) {
     const jwt = getState().user.userData.jwt.auth;
     try {
-      const res = await fetch(`${baseUrl}/api/v1/order_item/${lastOrder}`, {
+      const res = await fetch(`${baseUrl}/api/v1/order_item/${lastOrder}/`, {
         method: 'POST',
         headers: {
           "Content-Type": "application/json",
