@@ -1,10 +1,5 @@
 import logo from "../../images/logo.png"
-import { useState } from "react";
-
-export default function Sign({ preload }) {
-
-  // const [login, setLogin] = useState('');
-  // const [pass, setPass] = useState('');
+export default function Sign() {
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -22,8 +17,6 @@ export default function Sign({ preload }) {
             name="user-name"
             id="user-name"
             className="input input_place_sign"
-            // value={login}
-            // onChange={(e) => {setLogin(e.target.value)}}
           />
           <label htmlFor="user-password" className="sign__label">Пароль</label>
           <input
@@ -31,8 +24,6 @@ export default function Sign({ preload }) {
             name="user-password"
             id="user-password"
             className="input input_place_sign"
-            // value={pass}
-            // onChange={(e) => {setPass(e.target.value)}}
           />
           <button type="submit" className="button button_theme_blue">
             <a className="sign__link" href={"http://10.0.10.234/api/v1/oauth2/login"}>Войти</a>

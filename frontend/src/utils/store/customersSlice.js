@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
-import { baseUrl } from "../constants";
+import { baseUrl } from "../../constants";
 
 let lastOrder;
 let lastCustomer;

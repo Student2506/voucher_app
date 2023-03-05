@@ -6,14 +6,6 @@ import Orders from "./Orders/Orders";
 
 export default function Vouchers() {
 
-  // const [orderId, setOrderId] = useState('');
-
-  /*Выбор заказа, приводит к запрос на темплейты*/
-  // function handleSelectOrder(e) {
-  //   onSelectOrder(e.target.value);
-  //   setOrderId(e.target.value);
-  // }
-
   return (
     <section className="vouchers">
       <Customers />

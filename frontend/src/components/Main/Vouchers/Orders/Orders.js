@@ -1,7 +1,7 @@
 import RadioFake from "../RadioFake/RadioFake";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrderTemplates } from "../../../../store/customersSlice";
+import { getOrderTemplates } from "../../../../utils/store/customersSlice";
 
 export default function Orders() {
 

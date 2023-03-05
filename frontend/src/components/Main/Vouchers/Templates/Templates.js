@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import RadioFake from "../RadioFake/RadioFake";
 import circle from "../../../../images/Rolling-1s-200px.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { pushVoucher } from "../../../../store/customersSlice";
+import { pushVoucher } from "../../../../utils/store/customersSlice";
 
 export default function Templates() {
 
@@ -13,7 +13,6 @@ export default function Templates() {
   const [email, setEmail] = useState('');
   function handleSubmit(e) {
     e.preventDefault();
-    // onSubmit(orderId, template, email);
     dispatch(pushVoucher({email, template}))
   }
 

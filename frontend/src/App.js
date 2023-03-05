@@ -5,29 +5,22 @@
 */
 
 import './App.css';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Switch, useHistory } from "react-router-dom";
 import Sign from "./components/Sign/Sign";
 import Main from "./components/Main/Main";
-import Api from "./utils/Api/Api";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import LoadingScreen from "./components/LoadingScreen/LoadingScreen";
-import useSuccess from "./hooks/useSuccess";
 import { useSelector, useDispatch } from "react-redux";
-import { updateJwt } from "./store/userSlice";
-import { getCustomers } from "./store/customersSlice";
+import { updateJwt } from "./utils/store/userSlice";
+import { getCustomers } from "./utils/store/customersSlice";
 
 function App() {
-  // const [customers, setCustomers] = useState([]);
-  // const [customerOrders, setCustomerOrders] = useState([]);
-  // const [orderTemplates, setOrderTemplates] = useState([]);
   const [preload, setPreload] = useState(false);
   const [loadingScreen, setLoadingScreen] = useState(false);
 
   const dispatch = useDispatch();
   const history = useHistory();
-
-  const {handleSwitchSuccess, handleClearErrors, success} = useSuccess();
 
   const {loggedIn, userData} = useSelector(state => state.user);
 
@@ -55,35 +48,6 @@ function App() {
     }
   }, [loggedIn])
 
-  /*
-  * Убираем ререндер ссылки на функцию
-  */
-  // const handleSelectCustomer = (id) => {
-  //   Api.getCustomerOrders(id, userData.jwt.auth).then((res) => {
-  //     setCustomerOrders(res.orders);
-  //   }).catch((err) => {console.log(err)})
-  // }
-  //
-  // const clearTemplates = useCallback(() => {
-  //   setOrderTemplates([]);
-  //   handleClearErrors();
-  // }, []);
-  //
-  // function handleSelectOrder(orderId) {
-  //   Api.getOrderTemplates(orderId, userData.jwt.auth).then((res) => {
-  //     /*Перевожу объект с key:value в массив объектов*/
-  //     setOrderTemplates(Object.entries(res.templates).map((e) => ( { [e[0]]: e[1] } )));
-  //   }).catch((err) => {console.log(err)})
-  // }
-
-  // function pushVoucher(id, template, email) {
-  //   setPreload(true);
-  //   Api.pushVouchers(id, template, email, userData.jwt.auth)
-  //     .then((res) => {handleSwitchSuccess("templateSection", true)})
-  //     .catch((err) => {handleSwitchSuccess("templateSection", false)})
-  //     .finally(() => {setPreload(false)})
-  // }
-
   return (
     <>
       {loadingScreen ? <LoadingScreen /> : <></>}
@@ -95,16 +59,8 @@ function App() {
         <ProtectedRoute
           component={Main}
           path={"/vouchers"}
-          // customersData={customers}
-          // onSelectCustomer={handleSelectCustomer}
-          // onSelectOrder={handleSelectOrder}
-          // customerOrders={customerOrders}
-          // orderTemplates={orderTemplates}
-          // onClear={clearTemplates}
-          // onSubmit={pushVoucher}
           loggedIn={loggedIn}
           preload={preload}
-          success={success}
         />
         <Route path="/sign-in">
           <Sign preload={preload} />
