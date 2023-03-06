@@ -35,9 +35,9 @@ export const userSlice = createSlice({
   },
   reducers: {
     refreshJwt(state, action) {
-      // const { user_id } = decodeJwt(action.payload.data.access);
+      const { user_id } = decodeJwt(action.payload.data.access);
       state.userData = {
-        // login: user_id,
+        login: user_id,
         jwt: {
           auth: action.payload.data.access,
           refr: action.payload.jwtRefresh,

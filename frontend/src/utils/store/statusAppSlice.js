@@ -19,6 +19,9 @@ const statusAppSlice = createSlice({
       state.status = 'loading';
       state.error = null;
     },
+    clearError(state) {
+      state.error = null;
+    }
   }
 })
 
