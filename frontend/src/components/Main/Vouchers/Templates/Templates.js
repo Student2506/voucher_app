@@ -7,7 +7,6 @@ import { pushVoucher } from "../../../../utils/store/customersSlice";
 export default function Templates() {
 
   const dispatch = useDispatch();
-  // const templates = useSelector(state => state.customers.templates);
 
   const {templates, pushStatus, pushError} = useSelector(state => state.customers);
 
@@ -18,8 +17,6 @@ export default function Templates() {
     dispatch(pushVoucher({email, template}))
   }
 
-  console.log(pushError);
-  console.log(pushStatus);
   return (
     <>
       {

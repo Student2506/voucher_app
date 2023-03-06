@@ -34,9 +34,6 @@ function App() {
     }
   }, [loggedIn])
 
-  console.log(error);
-  console.log(status);
-
   return (
     <>
       <Switch>
