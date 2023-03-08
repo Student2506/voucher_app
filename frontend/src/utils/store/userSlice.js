@@ -57,7 +57,6 @@ export const userSlice = createSlice({
     },
     exitUser(state, action) {
       document.cookie = 'my_cookie=; path=/adsf; domain=.adfs.karo-film.ru; expires=' + new Date(0).toUTCString();
-      deleteAllCookies();
       state.userData = {};
       state.status = null;
       state.loggedIn = false;
