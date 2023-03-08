@@ -45,7 +45,7 @@ export const userSlice = createSlice({
       }
     },
     exitUser(state, action) {
-      document.cookie = "auth_refresh=-1";
+      document.cookie = "csrftoken=-1";
       state.userData = {};
       state.status = null;
       state.loggedIn = false;
