@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import cross from '../../../images/cross.svg';
 import { MenuPopup } from "../../popups/MenuPopup/MenuPopup";
 
 export default React.memo(function Header() {
