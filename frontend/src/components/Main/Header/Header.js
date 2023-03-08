@@ -12,9 +12,8 @@ export default React.memo(function Header() {
 
   return (
     <header className="header">
-      {/*<p className="header__account">{ login }</p>*/}
-      <p className="header__account" onClick={() => {setPopupOpen(true)}}>Нажми на меня</p>
-      <MenuPopup isOpen={popupOpen} onClose={closePopup}/>
+      <p className="header__account" onClick={() => {setPopupOpen(true)}}>{ login }</p>
+      <MenuPopup isOpen={popupOpen} onClose={closePopup} login={login}/>
     </header>
   )
 }
