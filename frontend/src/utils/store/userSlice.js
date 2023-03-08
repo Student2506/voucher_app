@@ -45,7 +45,7 @@ export const userSlice = createSlice({
       }
     },
     exitUser(state, action) {
-      document.cookie = "";
+      document.cookie = "max-age=0";
       state.userData = {};
       state.status = null;
       state.loggedIn = false;
