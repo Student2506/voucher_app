@@ -43,6 +43,13 @@ export const userSlice = createSlice({
           refr: action.payload.jwtRefresh,
         }
       }
+    },
+    exitUser(state, action) {
+      document.cookie = "expires=0";
+      state.userData = {};
+      state.status = null;
+      state.loggedIn = false;
+      state.error = null;
     }
   },
   extraReducers: {
@@ -63,6 +70,6 @@ export const userSlice = createSlice({
   }
 })
 
-export const {addUserData, refreshJwt} = userSlice.actions;
+export const {refreshJwt, exitUser} = userSlice.actions;
 
 export default userSlice.reducer;

@@ -5,6 +5,7 @@
 @import url('./components/button/_icon/button_icon_close.css');
 @import url('./components/button/_theme/button_theme_blue.css');
 @import url('./components/button/_place/button_place_vouchers.css');
+@import url('./components/button/_place/button_place_menu.css');
 @import url('./components/button/_preload/button_preload.css');
 /* input */
 @import url('./components/Input/styles/Input.css');
@@ -23,6 +24,12 @@
 /* header */
 @import url('./components/Main/Header/styles/Header.css');
 @import url('./components/Main/Header/styles/__account/headers__account.css');
+/*menu*/
+@import url('components/popups/MenuPopup/styles/menu.css');
+@import url('components/popups/MenuPopup/styles/menu_open.css');
+@import url('components/popups/MenuPopup/styles/__name/menu__name.css');
+@import url('components/popups/MenuPopup/styles/__exit/menu__exit.css');
+@import url('components/popups/MenuPopup/styles/__head/menu__head.css');
 /* navBar */
 @import url('./components/Main/NavBar/styles/NavBar.css');
 @import url('./components/Main/NavBar/styles/__title/navBar__title.css');
