@@ -45,7 +45,7 @@ export const userSlice = createSlice({
       }
     },
     exitUser(state, action) {
-      document.cookie = "expires=0";
+      document.cookie = "";
       state.userData = {};
       state.status = null;
       state.loggedIn = false;
