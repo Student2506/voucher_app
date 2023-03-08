@@ -10,7 +10,7 @@ function deleteAllCookies() {
     const cookie = cookies[i];
     const eqPos = cookie.indexOf("=");
     const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/adsf";
+    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;;
   }
 }
 
@@ -57,6 +57,7 @@ export const userSlice = createSlice({
     },
     exitUser(state, action) {
       document.cookie = 'my_cookie=; path=/adsf; domain=.adfs.karo-film.ru; expires=' + new Date(0).toUTCString();
+      deleteAllCookies();
       state.userData = {};
       state.status = null;
       state.loggedIn = false;
