@@ -19,8 +19,7 @@ export function MenuPopup({ isOpen, onClose, login }) {
         <p className="menu__name">{ login }</p>
       </div>
       <button className="button button_theme_blue" style={{margin: 0}} onClick={exit}>
-        {/*<a href={'https://adfs.karo-film.ru/adfs/oauth2/logout'}>Выйти</a>*/}
-        dsaaa
+        <a href={'https://adfs.karo-film.ru/adfs/oauth2/logout'}>Выйти</a>
       </button>
       <button className="button button_icon_close button_place_menu" onClick={() => {onClose()}} />
     </article>
