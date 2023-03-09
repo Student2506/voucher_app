@@ -9,7 +9,7 @@ export function MenuPopup({ isOpen, onClose, login }) {
   const history = useHistory();
 
   function exit() {
-    dispatch(clearSession);
+    dispatch(clearSession());
     history.push('/sign-in');
   }
 
