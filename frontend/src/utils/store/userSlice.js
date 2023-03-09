@@ -72,6 +72,7 @@ export const userSlice = createSlice({
       }
     },
     exitUser(state, action) {
+      deleteAllCookies();
       state.userData = {};
       state.status = null;
       state.loggedIn = false;
