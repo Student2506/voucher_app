@@ -29,7 +29,7 @@ msgstr "Пользователи"
 
 #: .\voucher_app\admin.py:11
 msgid "My site name"
-msgstr "Сайт посвящён Ане"
+msgstr "Ваучеры"
 
 #: .\voucher_app\admin.py:12
 msgid "My site header"
