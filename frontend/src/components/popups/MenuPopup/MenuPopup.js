@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { exitUser } from "../../../utils/store/userSlice";
+import { clearSession } from "../../../utils/store/userSlice";
 import { useHistory } from "react-router-dom";
 
 export function MenuPopup({ isOpen, onClose, login }) {
@@ -9,7 +9,7 @@ export function MenuPopup({ isOpen, onClose, login }) {
   const history = useHistory();
 
   function exit() {
-    dispatch(exitUser());
+    dispatch(clearSession);
     history.push('/sign-in');
   }
 

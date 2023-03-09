@@ -36,6 +36,22 @@ export const updateJwt = createAsyncThunk(
   }
 )
 
+export const clearSession = createAsyncThunk(
+  'user/clearSession',
+  async function(_, {rejectWithValue, dispatch}) {
+    try {
+      const res = await fetch(`http://10.0.10.234/api/v1/clear-session`, {
+        method: 'GET',
+      })
+      if (!res.ok) throw new Error('Что-то пошло нет');
+      dispatch(exitUser());
+    } catch (err) {
+      return rejectWithValue(`${err.message}`);
+    }
+  }
+
+)
+
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
@@ -56,7 +72,6 @@ export const userSlice = createSlice({
       }
     },
     exitUser(state, action) {
-      deleteAllCookies();
       state.userData = {};
       state.status = null;
       state.loggedIn = false;
