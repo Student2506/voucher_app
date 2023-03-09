@@ -3,6 +3,7 @@
 import json
 import logging
 import os
+import time
 from datetime import datetime
 from typing import Any
 
@@ -140,5 +141,31 @@ def retrieve_token(request: Request) -> Response:
         value=userinfo['refresh'].strip("'"),
         secure=False,
         expires=datetime.fromtimestamp(refresh['exp']),
+    )
+    return response
+
+
+@decorators.api_view(['GET'])
+def clear_session(request: Request) -> Response:
+    """Make request to send vouchers.
+
+    Args:
+        request: Request - data to create order
+
+    Returns:
+        Response - status of creation or failure
+    """
+    response = redirect('/sign-in')
+    response.set_cookie(
+        'auth_access',
+        value='',
+        secure=False,
+        expires=datetime.fromtimestamp(time.time()),
+    )
+    response.set_cookie(
+        'auth_refresh',
+        value='',
+        secure=False,
+        expires=datetime.fromtimestamp(time.time()),
     )
     return response
