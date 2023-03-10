@@ -111,6 +111,7 @@ export const customersSlice = createSlice({
   name: 'customers',
   initialState: {
     customers: [],
+    filteredCustomers: null,
     orders: [],
     templates: [],
     pushStatus: null,
@@ -137,6 +138,14 @@ export const customersSlice = createSlice({
           checked: customer.id === action.payload.id,
         }
       });
+    },
+    filterCustomers(state, action) {
+      if (action.payload.searchQuery) {
+        state.filteredCustomers = state.customers.filter(customer => customer.customer_name === action.payload.searchQuery);
+      } else {
+        state.filteredCustomers = null;
+      }
+
     }
   },
   extraReducers: {
@@ -154,6 +163,6 @@ export const customersSlice = createSlice({
   }
 })
 
-export const {addCustomers, addOrders, addTemplates, toggleCheckedCustomer} = customersSlice.actions;
+export const {addCustomers, addOrders, addTemplates, toggleCheckedCustomer, filterCustomers} = customersSlice.actions;
 
 export default customersSlice.reducer;

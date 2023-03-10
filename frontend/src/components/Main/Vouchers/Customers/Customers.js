@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import RadioFake from "../RadioFake/RadioFake";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  filterCustomers,
   getCustomerOrders,
   toggleCheckedCustomer
 } from "../../../../utils/store/customersSlice";
@@ -9,7 +10,7 @@ import {
 export default React.memo(function Customers() {
 
   const dispatch = useDispatch();
-  const customers = useSelector(state => state.customers.customers);
+  const { customers, filteredCustomers } = useSelector(state => state.customers);
 
   /*Выбор Контрагента, внутри чистим заказы и темплейты, ради избежания мискликов*/
   function handleSelectCustomer(id) {
@@ -17,15 +18,19 @@ export default React.memo(function Customers() {
     dispatch(getCustomerOrders({id}))
   }
 
+  const customersArr = useMemo(() => {
+    return filteredCustomers ? filteredCustomers : customers;
+  }, [filteredCustomers, customers])
+
   return (
     <form className="vouchers__form_type_customers">
       <fieldset className="vouchers__filed">
-        <input className="input input_place_vouchers" placeholder="Фильтр по наименованию..."/>
+        <input className="input input_place_vouchers" placeholder="Фильтр по наименованию..." onChange={(e) => {dispatch(filterCustomers({searchQuery: e.target.value}))}}/>
         <button type={"reset"} className="button button_icon_close button_place_vouchers" />
       </fieldset>
       <div className="customers">
         {
-          customers.map((customer) =>
+          customersArr.map((customer) =>
             <RadioFake
               onChange={() => {handleSelectCustomer(customer.customer_id)}}
               key={customer.customer_id}
