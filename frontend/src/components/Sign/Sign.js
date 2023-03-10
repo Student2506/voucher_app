@@ -26,9 +26,9 @@ export default function Sign() {
         {/*    className="input input_place_sign"*/}
         {/*  />*/}
         {/*</form>*/}
-        <button type="submit" className="button button_theme_blue">
-          <a className="sign__link" href={"http://10.0.10.234/api/v1/oauth2/login"}>Войти</a>
-        </button>
+        {/*<button type="submit" className="button button_theme_blue">*/}
+        {/*  <a className="sign__link" href={"http://10.0.10.234/api/v1/oauth2/login"}>Войти</a>*/}
+        {/*</button>*/}
       </div>
       <div className="sign__bg" />
     </section>

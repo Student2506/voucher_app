@@ -20,7 +20,7 @@ function App() {
       const jwt = document.cookie.split('; ').reduce(function(result, v, i, a) { var k = v.split('='); result[k[0]] = k[1]; return result; }, {})
       dispatch(updateJwt({jwtRefresh: jwt.auth_refresh}))
     } else {
-      window.location.replace('http://10.0.10.234/api/v1/oauth2/login_no_sso');
+      window.location.replace('http://10.0.10.234/api/v1/oauth2/login');
     }
   }, [])
 
