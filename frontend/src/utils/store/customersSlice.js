@@ -22,7 +22,7 @@ export const getCustomers = createAsyncThunk(
       const dataWithChecked = data.results.map((item) => {
         return {
           ...item,
-          checked: item.id === 39,
+          checked: item.customer_id === 39,
         }
       })
       dispatch(addCustomers({dataWithChecked}));
@@ -135,7 +135,7 @@ export const customersSlice = createSlice({
       state.customers.map((customer) => {
         return {
           ...customer,
-          checked: customer.id === action.payload.id,
+          checked: customer.customer_id === action.payload.id,
         }
       });
     },
