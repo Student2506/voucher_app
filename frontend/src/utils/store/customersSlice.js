@@ -132,7 +132,7 @@ export const customersSlice = createSlice({
       state.orders = [];
       state.pushStatus = null;
       state.pushError = null;
-      state.customers.map((customer) => {
+      state.customers = state.customers.map((customer) => {
         return {
           ...customer,
           checked: customer.customer_id === action.payload.id,
