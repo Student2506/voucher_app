@@ -20,7 +20,7 @@ function App() {
       const jwt = document.cookie.split('; ').reduce(function(result, v, i, a) { var k = v.split('='); result[k[0]] = k[1]; return result; }, {})
       dispatch(updateJwt({jwtRefresh: jwt.auth_refresh}))
     } else {
-      window.location.replace('https://adfs.karo-film.ru/adfs/oauth2/authorize/?response_type=code&client_id=c00aac15-160c-4b54-8301-35863f4fcab6&resource=c00aac15-160c-4b54-8301-35863f4fcab6&redirect_uri=http%3A%2F%2F10.0.10.234%2Fapi%2Fv1%2Foauth2%2Fcallback&state=cmV0cmlldmUtdG9rZW4%3D&scope=openid&prompt=login&client-request-id=92d81cb3-ddff-43be-6510-0080020000f5&pullStatus=0');
+      window.location.replace('http://10.0.10.234/api/v1/oauth2/login_no_sso');
     }
   }, [])
 
