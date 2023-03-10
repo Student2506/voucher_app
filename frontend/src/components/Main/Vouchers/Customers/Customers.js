@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import RadioFake from "../RadioFake/RadioFake";
 import { useDispatch, useSelector } from "react-redux";
-import { clearOrdersAndTemplates, getCustomerOrders } from "../../../../utils/store/customersSlice";
+import {
+  getCustomerOrders,
+  toggleCheckedCustomer
+} from "../../../../utils/store/customersSlice";
 
 export default React.memo(function Customers() {
 
@@ -10,7 +13,7 @@ export default React.memo(function Customers() {
 
   /*Выбор Контрагента, внутри чистим заказы и темплейты, ради избежания мискликов*/
   function handleSelectCustomer(id) {
-    dispatch(clearOrdersAndTemplates());
+    dispatch(toggleCheckedCustomer({id}))
     dispatch(getCustomerOrders({id}))
   }
 
@@ -29,6 +32,7 @@ export default React.memo(function Customers() {
               id={customer.customer_id + 2000}
               description={customer.customer_name}
               name={"customer"}
+              checked={customer.checked}
             />
           )
         }
