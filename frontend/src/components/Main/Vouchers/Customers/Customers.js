@@ -20,7 +20,7 @@ export default React.memo(function Customers() {
 
   function filterCustomers(query) {
     const filtred = customers.filter((customer) => {
-      return customer.customer_name === query
+      return customer.customer_name.toUpperCase().includes(query.toUpperCase());
     });
     dispatch(setFilteredCustomers(filtred));
   }
