@@ -25,7 +25,7 @@ export default React.memo(function Customers() {
   return (
     <form className="vouchers__form_type_customers">
       <fieldset className="vouchers__filed">
-        <input className="input input_place_vouchers" placeholder="Фильтр по наименованию..." onChange={(e) => {setA(e.target.value)}}/>
+        <input className="input input_place_vouchers" placeholder="Фильтр по наименованию..."/>
         <button type={"reset"} className="button button_icon_close button_place_vouchers" />
       </fieldset>
       <div className="customers">
