@@ -18,6 +18,8 @@ export default React.memo(function Customers() {
     dispatch(getCustomerOrders({id}))
   }
 
+  const [a, setA] = useState('');
+
   const customersArr = useMemo(() => {
     return filteredCustomers ? filteredCustomers : customers;
   }, [filteredCustomers, customers])
@@ -25,7 +27,7 @@ export default React.memo(function Customers() {
   return (
     <form className="vouchers__form_type_customers">
       <fieldset className="vouchers__filed">
-        <input className="input input_place_vouchers" placeholder="Фильтр по наименованию..." onChange={(e) => {dispatch(filterCustomers({searchQuery: e.target.value}))}}/>
+        <input className="input input_place_vouchers" placeholder="Фильтр по наименованию..." onChange={(e) => {setA(e.target.value)}}/>
         <button type={"reset"} className="button button_icon_close button_place_vouchers" />
       </fieldset>
       <div className="customers">
