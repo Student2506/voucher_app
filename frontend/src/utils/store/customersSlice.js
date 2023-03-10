@@ -139,16 +139,8 @@ export const customersSlice = createSlice({
         }
       });
     },
-    filterCustomers(state, action) {
-      if (action.payload.searchQuery) {
-        state.filteredCustomers = state.customers.filter(customer => {
-          console.log(customer);
-          return customer.customer_name == action.payload.searchQuery
-        });
-      } else {
-        state.filteredCustomers = null;
-      }
-
+    setFilteredCustomers(state, action) {
+      state.filteredCustomers = action.payload;
     }
   },
   extraReducers: {
@@ -166,6 +158,6 @@ export const customersSlice = createSlice({
   }
 })
 
-export const {addCustomers, addOrders, addTemplates, toggleCheckedCustomer, filterCustomers} = customersSlice.actions;
+export const {addCustomers, addOrders, addTemplates, toggleCheckedCustomer, setFilteredCustomers} = customersSlice.actions;
 
 export default customersSlice.reducer;
