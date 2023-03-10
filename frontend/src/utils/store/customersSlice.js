@@ -20,7 +20,7 @@ export const getCustomers = createAsyncThunk(
       })
       if (!res.ok) throw new Error(`Ошибка при получении данных`);
       const data = await res.json();
-      const dataWithChecked = data.map((item) => {
+      const dataWithChecked = data.results.map((item) => {
         return {
           ...item,
           checked: false,
@@ -120,7 +120,7 @@ export const customersSlice = createSlice({
   },
   reducers: {
     addCustomers(state, action) {
-      state.customers = action.payload.data.results;
+      state.customers = action.payload.dataWithChecked;
     },
     addOrders(state, action) {
       state.orders = action.payload.data.orders;
