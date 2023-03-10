@@ -3,7 +3,6 @@ import { baseUrl } from "../../constants";
 import { fulfilledFetch, pendingFetch, rejectFetch } from "./statusAppSlice";
 
 let lastOrder;
-let lastCustomer;
 
 export const getCustomers = createAsyncThunk(
   'customers/getCustomers',
@@ -38,7 +37,6 @@ export const getCustomers = createAsyncThunk(
 export const getCustomerOrders = createAsyncThunk(
   'customers/getCustomerOrders',
   async function({ id }, {rejectWithValue, dispatch, getState}) {
-    lastCustomer = id;
     const jwt = getState().user.userData.jwt.auth;
     dispatch(pendingFetch());
     try {
@@ -133,15 +131,12 @@ export const customersSlice = createSlice({
       state.orders = [];
       state.pushStatus = null;
       state.pushError = null;
-      // state.customers.map((customer) => {
-      //   return {
-      //     ...customer,
-      //     checked: false,
-      //   }
-      // });
-      // console.log(state.customers);
-      const toggledCustomer = state.customers.find(customer => customer.id === action.payload.id);
-      toggledCustomer.checked = true;
+      state.customers.map((customer) => {
+        return {
+          ...customer,
+          checked: customer.id === action.payload.id,
+        }
+      });
     }
   },
   extraReducers: {
