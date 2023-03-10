@@ -33,7 +33,7 @@ export default React.memo(function Customers() {
     <form className="vouchers__form_type_customers">
       <fieldset className="vouchers__filed">
         <input className="input input_place_vouchers" placeholder="Фильтр по наименованию..." onChange={(e) => {filterCustomers(e.target.value)}}/>
-        <button type={"reset"} className="button button_icon_close button_place_vouchers" />
+        <button type={"reset"} className="button button_icon_close button_place_vouchers" onClick={() => {filterCustomers('')}} />
       </fieldset>
       <div className="customers">
         {
