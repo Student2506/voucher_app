@@ -27,7 +27,7 @@ export default React.memo(function Customers() {
         {
           customers.map((customer) =>
             <RadioFake
-              onClick={() => {handleSelectCustomer(customer.customer_id)}}
+              onChange={() => {handleSelectCustomer(customer.customer_id)}}
               key={customer.customer_id}
               id={customer.customer_id + 2000}
               description={customer.customer_name}
