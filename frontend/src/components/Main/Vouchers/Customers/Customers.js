@@ -32,7 +32,7 @@ export default React.memo(function Customers() {
               id={customer.customer_id + 2000}
               description={customer.customer_name}
               name={"customer"}
-              checked={customer.checked}
+              defaultChecked={customer.checked}
             />
           )
         }
