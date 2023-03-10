@@ -20,8 +20,13 @@ export const getCustomers = createAsyncThunk(
       })
       if (!res.ok) throw new Error(`Ошибка при получении данных`);
       const data = await res.json();
-      data["checked"] = false;
-      dispatch(addCustomers({data}));
+      const dataWithChecked = data.map((item) => {
+        return {
+          ...item,
+          "checked": false,
+        }
+      })
+      dispatch(addCustomers({dataWithChecked}));
       dispatch(fulfilledFetch());
     } catch (err) {
       dispatch(rejectFetch());
