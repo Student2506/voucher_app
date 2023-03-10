@@ -139,6 +139,7 @@ export const customersSlice = createSlice({
           checked: false,
         }
       });
+      console.log(state.customers);
       const toggledCustomer = state.customers.find(customer => customer.id === action.payload.id);
       toggledCustomer.checked = true;
     }
