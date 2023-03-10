@@ -133,13 +133,13 @@ export const customersSlice = createSlice({
       state.orders = [];
       state.pushStatus = null;
       state.pushError = null;
-      state.customers.map((customer) => {
-        return {
-          ...customer,
-          checked: false,
-        }
-      });
-      console.log(state.customers);
+      // state.customers.map((customer) => {
+      //   return {
+      //     ...customer,
+      //     checked: false,
+      //   }
+      // });
+      // console.log(state.customers);
       const toggledCustomer = state.customers.find(customer => customer.id === action.payload.id);
       toggledCustomer.checked = true;
     }
