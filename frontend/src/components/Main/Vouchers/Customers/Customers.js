@@ -18,8 +18,6 @@ export default React.memo(function Customers() {
     dispatch(getCustomerOrders({id}))
   }
 
-  const [a, setA] = useState('');
-
   const customersArr = useMemo(() => {
     return filteredCustomers ? filteredCustomers : customers;
   }, [filteredCustomers, customers])
