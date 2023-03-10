@@ -19,7 +19,7 @@ export default React.memo(function Customers() {
   }
 
   function filterCustomers(query) {
-    const filtred = customers.filter(customer => customer.customer_name === query);
+    const filtred = customers.filter((customer) => {console.log(customer); return customer.customer_name === query});
     dispatch(setFilteredCustomers(filtred));
   }
 
