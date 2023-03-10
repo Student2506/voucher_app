@@ -141,7 +141,10 @@ export const customersSlice = createSlice({
     },
     filterCustomers(state, action) {
       if (action.payload.searchQuery) {
-        state.filteredCustomers = state.customers.filter(customer => customer.customer_name == action.payload.searchQuery);
+        state.filteredCustomers = state.customers.filter(customer => {
+          console.log(customer);
+          return customer.customer_name == action.payload.searchQuery
+        });
       } else {
         state.filteredCustomers = null;
       }
