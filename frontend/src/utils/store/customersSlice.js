@@ -78,7 +78,7 @@ export const getOrderTemplates = createAsyncThunk(
       dispatch(fulfilledFetch());
     } catch (err) {
       dispatch(rejectFetch());
-      return rejectWithValue(err);
+      // return rejectWithValue(err);
     }
   }
 )
