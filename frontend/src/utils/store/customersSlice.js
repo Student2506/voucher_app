@@ -28,7 +28,7 @@ export const getCustomers = createAsyncThunk(
       dispatch(addCustomers({dataWithChecked}));
       dispatch(fulfilledFetch());
     } catch (err) {
-      dispatch(rejectFetch());
+      dispatch(rejectFetch(err));
       return rejectWithValue(err);
     }
   }
@@ -52,7 +52,7 @@ export const getCustomerOrders = createAsyncThunk(
       dispatch(addOrders({data}))
       dispatch(fulfilledFetch());
     } catch (err) {
-      dispatch(rejectFetch());
+      dispatch(rejectFetch(err));
       return rejectWithValue(err);
     }
   }
@@ -77,7 +77,7 @@ export const getOrderTemplates = createAsyncThunk(
       dispatch(addTemplates({data}));
       dispatch(fulfilledFetch());
     } catch (err) {
-      dispatch(rejectFetch());
+      dispatch(rejectFetch(err));
       return rejectWithValue(err);
     }
   }
