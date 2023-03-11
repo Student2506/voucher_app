@@ -6,6 +6,7 @@
 @import url('./components/button/_theme/button_theme_blue.css');
 @import url('./components/button/_place/button_place_vouchers.css');
 @import url('./components/button/_place/button_place_menu.css');
+@import url('./components/button/_place/button_place_statusPopup.css');
 @import url('./components/button/_preload/button_preload.css');
 /* input */
 @import url('./components/Input/styles/Input.css');
@@ -30,6 +31,11 @@
 @import url('components/popups/MenuPopup/styles/__name/menu__name.css');
 @import url('components/popups/MenuPopup/styles/__exit/menu__exit.css');
 @import url('components/popups/MenuPopup/styles/__head/menu__head.css');
+/* statusPopoup */
+@import url('components/popups/StatusPopup/styles/StatusPopup.css');
+@import url('components/popups/StatusPopup/styles/statusPopup_opened.css');
+@import url('components/popups/StatusPopup/styles/__caption/statusPopup__caption.css');
+@import url('components/popups/StatusPopup/styles/__image/statusPopup__image.css');
 /* navBar */
 @import url('./components/Main/NavBar/styles/NavBar.css');
 @import url('./components/Main/NavBar/styles/__title/navBar__title.css');

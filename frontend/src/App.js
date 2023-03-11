@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateJwt } from "./utils/store/userSlice";
 import { getCustomers } from "./utils/store/customersSlice";
 import { NotFound } from "./components/NotFound/NotFound";
+import { StatusPopup } from "./components/popups/StatusPopup/StatusPopup";
 
 function App() {
   const dispatch = useDispatch();
@@ -40,6 +41,7 @@ function App() {
 
   return (
     <>
+      <StatusPopup />
       <Switch>
         {/*
       * Защищенный роут, если пользователь не залогинен - дальше не пропустит
@@ -53,9 +55,9 @@ function App() {
         <Route path="/sign-in">
           <Sign />
         </Route>
-        <Route path="/*">
-          <NotFound />
-        </Route>
+        {/*<Route path="/*">*/}
+        {/*  <NotFound />*/}
+        {/*</Route>*/}
       </Switch>
     </>
   );

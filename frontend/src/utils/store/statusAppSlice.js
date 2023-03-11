@@ -21,10 +21,11 @@ const statusAppSlice = createSlice({
     },
     clearError(state) {
       state.error = null;
+      state.status = null;
     }
   }
 })
 
-export const { rejectFetch, fulfilledFetch, pendingFetch } = statusAppSlice.actions;
+export const { rejectFetch, fulfilledFetch, pendingFetch, clearError } = statusAppSlice.actions;
 
 export default statusAppSlice.reducer;
