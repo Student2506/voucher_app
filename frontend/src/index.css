@@ -57,3 +57,8 @@
 @import url('./components/LoadingScreen/styles/LoadingScreen.css');
 @import url('./components/LoadingScreen/styles/__logo/loadingScreen__logo.css');
 @import url('./components/LoadingScreen/styles/__bar/loadingScreen__bar.css');
+/* notFound */
+@import url('./components/NotFound/styles/NotFound.css');
+@import url('./components/NotFound/styles/__image/notFound__image.css');
+@import url('./components/NotFound/styles/__caption/notFound__caption.css');
+@import url('./components/NotFound/styles/__link/notFound__link.css');

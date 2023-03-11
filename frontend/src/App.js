@@ -8,6 +8,7 @@ import LoadingScreen from "./components/LoadingScreen/LoadingScreen";
 import { useSelector, useDispatch } from "react-redux";
 import { updateJwt } from "./utils/store/userSlice";
 import { getCustomers } from "./utils/store/customersSlice";
+import { NotFound } from "./components/NotFound/NotFound";
 
 function App() {
   const dispatch = useDispatch();
@@ -34,9 +35,6 @@ function App() {
       history.push('/vouchers');
       /* Каждый 4 минуты обновляю jwt */
       setInterval(() => dispatch(updateJwt({jwtRefresh: userData.jwt.refr})), 240000);
-    } else {
-      // Роутинг на вход
-      history.push("/sign-in");
     }
   }, [loggedIn])
 
@@ -54,6 +52,9 @@ function App() {
         />
         <Route path="/sign-in">
           <Sign />
+        </Route>
+        <Route path="/*">
+          <NotFound />
         </Route>
       </Switch>
     </>
