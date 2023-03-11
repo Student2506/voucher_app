@@ -1,15 +1,16 @@
 import failureImage from '../../../images/fail.png';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearError } from "../../../utils/store/statusAppSlice";
 
-export function StatusPopup({error, status}) {
+export function StatusPopup() {
 
   const dispatch = useDispatch();
+  const {status} = useSelector(state => state.status);
 
   return(
     <div className={`statusPopup ${status === "rejected" ? "statusPopup_opened" : ""}`}>
       <img src={failureImage} className="statusPopup__image"/>
-      <p className="statusPopup__caption">{`Упс... Произошла ошибка, попробуйте еще раз ${error}`}</p>
+      <p className="statusPopup__caption">{`Упс... Произошла ошибка, попробуйте еще раз`}</p>
       <button className="button button_icon_close button_place_statusPopup" onClick={() => {dispatch(clearError())}} />
     </div>
   )

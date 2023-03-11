@@ -15,7 +15,6 @@ function App() {
   const dispatch = useDispatch();
   const history = useHistory();
   const {loggedIn, userData} = useSelector(state => state.user);
-  const {error, status} = useSelector(state => state.status);
 
   useEffect(() => {
     if (document.cookie) {
