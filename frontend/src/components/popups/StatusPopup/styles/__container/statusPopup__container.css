@@ -1,0 +1,12 @@
+.statusPopup__container {
+	max-width: 250px;
+	z-index: 2;
+	background-color: white;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 20px;
+	padding: 20px;
+	border-radius: 30px;
+	box-shadow: 0 0 10px 1px rgba(0,0,0, .4);
+}

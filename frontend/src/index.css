@@ -34,6 +34,7 @@
 /* statusPopoup */
 @import url('components/popups/StatusPopup/styles/StatusPopup.css');
 @import url('components/popups/StatusPopup/styles/statusPopup_opened.css');
+@import url('components/popups/StatusPopup/styles/__container/statusPopup__container.css');
 @import url('components/popups/StatusPopup/styles/__caption/statusPopup__caption.css');
 @import url('components/popups/StatusPopup/styles/__image/statusPopup__image.css');
 @import url('./components/popups/StatusPopup/styles/__overlay/statusPopup__overlay.css');

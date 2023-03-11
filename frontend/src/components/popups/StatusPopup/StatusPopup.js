@@ -14,9 +14,9 @@ export function StatusPopup() {
   }
 
   return(
-    <>
+    <div className={`statusPopup ${status === "rejected" ? "statusPopup_opened" : ""}`}>
       <div className="statusPopup__overlay" />
-      <div className={`statusPopup ${status === "rejected" ? "statusPopup_opened" : ""}`}>
+      <div className={"statusPopup__container"}>
         <img src={failureImage} className="statusPopup__image"/>
         <p className="statusPopup__caption">{`Упс... Произошла ошибка, попробуйте еще раз`}</p>
         <button className="button button_icon_close button_place_statusPopup" onClick={handleClose} />
