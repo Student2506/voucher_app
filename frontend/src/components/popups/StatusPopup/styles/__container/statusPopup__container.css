@@ -1,6 +1,7 @@
 .statusPopup__container {
 	max-width: 250px;
-	z-index: 2;
+	display: flex;
+	z-index: 20;
 	background-color: white;
 	flex-direction: column;
 	justify-content: center;
