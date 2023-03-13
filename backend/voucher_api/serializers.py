@@ -13,6 +13,25 @@ logger = logging.getLogger(__name__)
 class VoucherTypeSerializer(serializers.ModelSerializer):
     """Voucher type serializer."""
 
+    def to_representation(
+        self,
+        instance: Any,
+    ) -> Any:
+        """Cut whitespaces in the end.
+
+        Args:
+            instance: Any - instance of serializer
+
+        Returns:
+            Any - instance of serializer
+
+        Raise:
+            TypeError
+        """
+        ret = super().to_representation(instance)
+        ret['voucher_description'] = ret['voucher_description'].rstrip()
+        return ret  # noqa: WPS427
+
     class Meta:
         """Regular django Meta for Voucher Type."""
 
@@ -55,9 +74,7 @@ class VoucherTypeOrderingSerializer(VoucherTypeSerializer):
             TypeError
         """
         ret = super().to_representation(instance)
-        logger.debug(instance)
-        logger.debug(type(instance))
-        ret['voucher_description'] = ret['voucher_description'].rstrip() # noqa: WPS427, E501
+        ret['voucher_description'] = ret['voucher_description'].rstrip()
         return ret  # noqa: WPS427
 
     class Meta:
