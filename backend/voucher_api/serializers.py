@@ -1,10 +1,13 @@
 """Describe serializers."""
+import logging
 from typing import Any
 
 from rest_framework import serializers
 from voucher_app.models import RequestOrder, Template
 
 from vista_module.models import Customer, Order, OrderItem, VoucherType
+
+logger = logging.getLogger(__name__)
 
 
 class VoucherTypeSerializer(serializers.ModelSerializer):
@@ -48,6 +51,7 @@ class VoucherTypeOrderingSerializer(VoucherTypeSerializer):
         Returns:
             Any - instance of serializer
         """
+        logger.debug(instance)
         ret = super().to_representation(instance)
         ret['voucher_description'] = ret['voucher_description'].rtrim()
         return ret
