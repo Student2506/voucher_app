@@ -50,11 +50,14 @@ class VoucherTypeOrderingSerializer(VoucherTypeSerializer):
 
         Returns:
             Any - instance of serializer
+
+        Raise:
+            TypeError
         """
         ret = super().to_representation(instance)
-        instance = instance + 1
-        ret['voucher_description'] = ret['voucher_description'].rtrim()
-        return ret
+        raise TypeError(instance)
+        ret['voucher_description'] = ret['voucher_description'].rtrim() # noqa: WPS427, E501
+        return ret  # noqa: WPS427
 
     class Meta:
         """Regular django Meta class for Voucher Order."""
