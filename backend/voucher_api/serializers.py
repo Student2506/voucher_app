@@ -57,7 +57,7 @@ class VoucherTypeOrderingSerializer(VoucherTypeSerializer):
         ret = super().to_representation(instance)
         logger.debug(instance)
         logger.debug(type(instance))
-        ret['voucher_description'] = ret['voucher_description'].rtrim() # noqa: WPS427, E501
+        ret['voucher_description'] = ret['voucher_description'].rstrip() # noqa: WPS427, E501
         return ret  # noqa: WPS427
 
     class Meta:
