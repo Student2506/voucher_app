@@ -7,7 +7,7 @@ export default React.memo(function NavBar() {
       <div className="navBar__logo" />
       <h2 className="navBar__title">Сертификаты</h2>
       <nav className="navBar__navigation">
-        <Link to="/vouchers" className="navBar__link navBar__link_current" >Сертификаты</Link>
+        <Link to="/vouchers" className="navBar__link navBar__link_current" >Заказы</Link>
       </nav>
     </aside>
   )
