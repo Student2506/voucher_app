@@ -51,8 +51,8 @@ class VoucherTypeOrderingSerializer(VoucherTypeSerializer):
         Returns:
             Any - instance of serializer
         """
-        logger.debug(instance)
         ret = super().to_representation(instance)
+        instance = instance + 1
         ret['voucher_description'] = ret['voucher_description'].rtrim()
         return ret
 
