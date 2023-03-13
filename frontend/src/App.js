@@ -51,11 +51,6 @@ function App() {
           path={"/vouchers"}
           loggedIn={loggedIn}
         />
-        <ProtectedRoute
-          component={Main}
-          path={"/nnn"}
-          loggedIn={loggedIn}
-        />
         <Route path="/sign-in">
           <Sign />
         </Route>
