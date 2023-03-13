@@ -3,7 +3,6 @@ import { baseUrl } from "../../constants";
 import { fulfilledFetch, pendingFetch, rejectFetch } from "./statusAppSlice";
 
 let lastOrder;
-let lastCustomer;
 
 export const getCustomers = createAsyncThunk(
   'customers/getCustomers',
@@ -20,7 +19,13 @@ export const getCustomers = createAsyncThunk(
       })
       if (!res.ok) throw new Error(`Ошибка при получении данных`);
       const data = await res.json();
-      dispatch(addCustomers({data}));
+      const dataWithChecked = data.results.map((item) => {
+        return {
+          ...item,
+          checked: false,
+        }
+      })
+      dispatch(addCustomers({dataWithChecked}));
       dispatch(fulfilledFetch());
     } catch (err) {
       dispatch(rejectFetch());
@@ -32,7 +37,6 @@ export const getCustomers = createAsyncThunk(
 export const getCustomerOrders = createAsyncThunk(
   'customers/getCustomerOrders',
   async function({ id }, {rejectWithValue, dispatch, getState}) {
-    lastCustomer = id;
     const jwt = getState().user.userData.jwt.auth;
     dispatch(pendingFetch());
     try {
@@ -74,7 +78,7 @@ export const getOrderTemplates = createAsyncThunk(
       dispatch(fulfilledFetch());
     } catch (err) {
       dispatch(rejectFetch());
-      return rejectWithValue(err);
+      // return rejectWithValue(err);
     }
   }
 )
@@ -107,6 +111,7 @@ export const customersSlice = createSlice({
   name: 'customers',
   initialState: {
     customers: [],
+    filteredCustomers: null,
     orders: [],
     templates: [],
     pushStatus: null,
@@ -114,7 +119,7 @@ export const customersSlice = createSlice({
   },
   reducers: {
     addCustomers(state, action) {
-      state.customers = action.payload.data.results;
+      state.customers = action.payload.dataWithChecked;
     },
     addOrders(state, action) {
       state.orders = action.payload.data.orders;
@@ -122,11 +127,20 @@ export const customersSlice = createSlice({
     addTemplates(state, action) {
       state.templates = Object.entries(action.payload.data.templates).map((e) => ( { [e[0]]: e[1] } ));
     },
-    clearOrdersAndTemplates(state, action) {
+    toggleCheckedCustomer(state, action) {
       state.templates = [];
       state.orders = [];
       state.pushStatus = null;
       state.pushError = null;
+      state.customers = state.customers.map((customer) => {
+        return {
+          ...customer,
+          checked: customer.customer_id === action.payload.id,
+        }
+      });
+    },
+    setFilteredCustomers(state, action) {
+      state.filteredCustomers = action.payload;
     }
   },
   extraReducers: {
@@ -144,6 +158,6 @@ export const customersSlice = createSlice({
   }
 })
 
-export const {addCustomers, addOrders, addTemplates, clearOrdersAndTemplates} = customersSlice.actions;
+export const {addCustomers, addOrders, addTemplates, toggleCheckedCustomer, setFilteredCustomers} = customersSlice.actions;
 
 export default customersSlice.reducer;

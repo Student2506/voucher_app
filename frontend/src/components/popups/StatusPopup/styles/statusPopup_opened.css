@@ -1,0 +1,4 @@
+.statusPopup_opened {
+	display: flex;
+	opacity: 1;
+}

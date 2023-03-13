@@ -7,9 +7,9 @@ const statusAppSlice = createSlice({
     error: null,
   },
   reducers: {
-    rejectFetch(state, action) {
+    rejectFetch(state) {
       state.status = 'rejected';
-      state.error = action.payload;
+      state.error = 'someErr';
     },
     fulfilledFetch(state, action) {
       state.status = 'resolved';
@@ -21,10 +21,11 @@ const statusAppSlice = createSlice({
     },
     clearError(state) {
       state.error = null;
+      state.status = null;
     }
   }
 })
 
-export const { rejectFetch, fulfilledFetch, pendingFetch } = statusAppSlice.actions;
+export const { rejectFetch, fulfilledFetch, pendingFetch, clearError } = statusAppSlice.actions;
 
 export default statusAppSlice.reducer;
