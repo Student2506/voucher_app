@@ -48,6 +48,12 @@ function App() {
       */}
         <ProtectedRoute
           component={Main}
+          path={"/vouchers"}
+          loggedIn={loggedIn}
+        />
+        <ProtectedRoute
+          component={Main}
+          path={"/nnn"}
           loggedIn={loggedIn}
         />
         <Route path="/sign-in">
