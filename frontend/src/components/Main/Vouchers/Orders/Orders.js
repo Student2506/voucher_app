@@ -13,9 +13,9 @@ export default function Orders() {
       {
         orders.map((order) =>
           <RadioFake
-            value={order.order_items[0].voucher_attached.voucher_type_id}
-            key={order.order_items[0].voucher_attached.voucher_type_id}
-            id={order.order_items[0].voucher_attached.voucher_type_id}
+            value={order.order_items[0].order_item_id}
+            key={order.order_items[0].order_item_id}
+            id={order.order_items[0].order_item_id}
             onChange={(e) => {dispatch(getOrderTemplates({id: e.target.value}))}}
             description={order.order_name}
             name={"order"}
