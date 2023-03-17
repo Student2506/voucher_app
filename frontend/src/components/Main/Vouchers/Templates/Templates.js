@@ -37,7 +37,7 @@ export default function Templates() {
           placeholder={"Введите E-Mail получателя"}
           onChange={(e) => {setEmail(e.target.value)}}
           onClickButton={() => {setEmail('')}}
-          inputType={"email"}
+          // inputType={"email"}
           minMax={{min: 5, max: 30}}
         />
         {
