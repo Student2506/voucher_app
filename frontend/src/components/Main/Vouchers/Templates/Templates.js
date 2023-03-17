@@ -38,7 +38,7 @@ export default function Templates() {
           onChange={(e) => {setEmail(e.target.value)}}
           onClickButton={() => {setEmail('')}}
           // inputType={"email"}
-          minMax={{min: 5, max: 30}}
+          minMax={{min: 5, max: 300}}
         />
         {
           pushStatus === 'resolved' || pushStatus === 'rejected'
