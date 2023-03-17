@@ -10,7 +10,6 @@ export default function Templates() {
   const dispatch = useDispatch();
 
   const {templates, pushStatus, pushError} = useSelector(state => state.customers);
-
   const [template, setTemplate] = useState('');
   const [email, setEmail] = useState('');
   function handleSubmit(e) {
@@ -39,6 +38,7 @@ export default function Templates() {
           onChange={(e) => {setEmail(e.target.value)}}
           onClickButton={() => {setEmail('')}}
           inputType={"email"}
+          minMax={{min: 5, max: 30}}
         />
         {
           pushStatus === 'resolved' || pushStatus === 'rejected'

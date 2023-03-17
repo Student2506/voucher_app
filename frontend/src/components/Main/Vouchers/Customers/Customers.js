@@ -37,6 +37,7 @@ export default React.memo(function Customers() {
         onChange={(e) => {filterCustomers(e.target.value)}}
         onClickButton={() => {filterCustomers('')}}
         placeholder={"Фильтр по наименованию..."}
+        minMax={{min: 0, max: 30}}
       />
       <div className="customers">
         {
