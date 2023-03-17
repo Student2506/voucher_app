@@ -1,7 +1,4 @@
 .templates__filed {
 	grid-column: 1/-1;
-	position: relative;
-	border: none;
-	padding: 0;
 	margin: 19px 0;
 }
