@@ -60,7 +60,7 @@
 @import url('./components/Main/Vouchers/Templates/styles/__form/templates__form.css');
 @import url('./components/Main/Vouchers/Templates/styles/__field/templates__field.css');
 @import url('./components/Main/Vouchers/Templates/styles/__progress/templates__progress.css');
-@import url('./components/Main/Vouchers/RadioFake/RadioFake.css');
+@import url('components/RadioFake/RadioFake.css');
 /* loadScreen */
 @import url('./components/LoadingScreen/styles/LoadingScreen.css');
 @import url('./components/LoadingScreen/styles/__logo/loadingScreen__logo.css');

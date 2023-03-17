@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import RadioFake from "../RadioFake/RadioFake";
+import RadioFake from "../../../RadioFake/RadioFake";
 import circle from "../../../../images/Rolling-1s-200px.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { pushVoucher } from "../../../../utils/store/customersSlice";
+import InputField from "../../../InputField/InputField";
 
 export default function Templates() {
 
@@ -32,6 +33,7 @@ export default function Templates() {
         )
       }
       <form className="templates__form" onSubmit={handleSubmit}>
+        <InputField fieldClass={"templates__field"} placeholder={"Введите E-Mail получателя"} onChange={(e) => {setEmail(e.target.value)}} />
         <fieldset className="templates__filed">
           <input required={true} type="email" className="input input_place_vouchers" placeholder="Введите E-Mail получателя" onChange={(e) => {setEmail(e.target.value)}} />
           <button type={"reset"} className="button button_icon_close button_place_vouchers" />

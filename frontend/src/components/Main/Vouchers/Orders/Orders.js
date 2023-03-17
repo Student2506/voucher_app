@@ -1,4 +1,4 @@
-import RadioFake from "../RadioFake/RadioFake";
+import RadioFake from "../../../RadioFake/RadioFake";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrderTemplates } from "../../../../utils/store/customersSlice";
