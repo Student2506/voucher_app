@@ -32,7 +32,12 @@ export default React.memo(function Customers() {
 
   return (
     <form className="vouchers__form_type_customers">
-      <InputField fieldClass={"customers__field"} onChange={(e) => {filterCustomers(e.target.value)}} onClickButton={() => {filterCustomers('')}} placeholder={"Фильтр по наименованию..."}/>
+      <InputField
+        fieldClass={"customers__field"}
+        onChange={(e) => {filterCustomers(e.target.value)}}
+        onClickButton={() => {filterCustomers('')}}
+        placeholder={"Фильтр по наименованию..."}
+      />
       <div className="customers">
         {
           customersArr.map((customer) =>
