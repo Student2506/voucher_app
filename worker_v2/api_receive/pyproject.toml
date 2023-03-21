@@ -18,6 +18,7 @@ psycopg2-binary = "^2.9.5"
 pillow = "^9.4.0"
 pydantic = "^1.10.4"
 redis = "^4.5.1"
+pyicu = {version = "^2.10.2", platform = "linux"}
 
 
 [tool.poetry.group.dev.dependencies]

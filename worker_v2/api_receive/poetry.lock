@@ -613,6 +613,17 @@ dotenv = ["python-dotenv (>=0.10.4)"]
 email = ["email-validator (>=1.0.3)"]
 
 [[package]]
+name = "pyicu"
+version = "2.10.2"
+description = "Python extension wrapping the ICU C++ API"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "PyICU-2.10.2.tar.gz", hash = "sha256:0c3309eea7fab6857507ace62403515b60fe096cbfb4f90d14f55ff75c5441c1"},
+]
+
+[[package]]
 name = "pyodbc"
 version = "4.0.35"
 description = "DB API Module for ODBC"
@@ -875,4 +886,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "f777dc965b86e0718cf055aee8daf228e01c6a04dee96cf9d5ef7bca9b663990"
+content-hash = "41780217e4b79f72072c19804b4602629468577b2254718e83dcbe58d7ec2eca"
