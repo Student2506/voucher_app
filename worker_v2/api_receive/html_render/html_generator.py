@@ -76,6 +76,7 @@ def html_render(
     code_to_fill: str,
     folder: str,
     code_type: str,
+    expiry_date: str,
 ) -> None:
     """Generate html files to preprocess.
 
@@ -102,6 +103,7 @@ def html_render(
         'refactorOrder_template.html',
     ).render(
         barcode=barcode_filename.name,
+        expiry_date=expiry_date,
     )
     logger.debug(f'html_content {html_content}')
     with open(Path(folder) / f'{code_to_fill}.html', 'w') as fh:

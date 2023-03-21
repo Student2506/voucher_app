@@ -78,6 +78,7 @@ def make_html_templates(
             code_to_fill=str(stock.stock_strbarcode),
             folder=html_folder,
             code_type=code_type,
+            expiry_date=stock.expiry_date.strftime('%Y-%m-%d')
         )
         message = {
             'index': index,
