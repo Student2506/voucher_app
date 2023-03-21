@@ -88,7 +88,7 @@ def html_render(
         folder: str - folder to keep templates
         code_type: str - type of code generator
     """
-    expiry_date_dt = dt.strptime(expiry_date, '%Y-%m-%d %H:%M:%S')
+    expiry_date_dt = dt.strptime(expiry_date, '%Y-%m-%d')
     df = icu.SimpleDateFormat('dd MMMM YYYY', icu.Locale('ru'))
     with open(
         Path('templates') / 'refactorOrder_template.html', 'w',
