@@ -4,6 +4,7 @@ import { fulfilledFetch, pendingFetch, rejectFetch } from "./statusAppSlice";
 
 let lastOrder;
 
+/*Получение всех контрагентов*/
 export const getCustomers = createAsyncThunk(
   'customers/getCustomers',
   async function(_, {rejectWithValue, dispatch, getState}) {
@@ -29,11 +30,11 @@ export const getCustomers = createAsyncThunk(
       dispatch(fulfilledFetch());
     } catch (err) {
       dispatch(rejectFetch());
-      return rejectWithValue(err);
     }
   }
 )
 
+/* Получение заказов выбранного контраагента */
 export const getCustomerOrders = createAsyncThunk(
   'customers/getCustomerOrders',
   async function({ id }, {rejectWithValue, dispatch, getState}) {
@@ -53,11 +54,11 @@ export const getCustomerOrders = createAsyncThunk(
       dispatch(fulfilledFetch());
     } catch (err) {
       dispatch(rejectFetch());
-      return rejectWithValue(err);
     }
   }
 )
 
+/* Получение шаблонов для выбранного заказа */
 export const getOrderTemplates = createAsyncThunk(
   'customers/getOrderTemplates',
   async function({id}, {rejectWithValue, dispatch, getState}) {
@@ -78,11 +79,11 @@ export const getOrderTemplates = createAsyncThunk(
       dispatch(fulfilledFetch());
     } catch (err) {
       dispatch(rejectFetch());
-      // return rejectWithValue(err);
     }
   }
 )
 
+/* Отправка воучера с выбранным заказом и шаблоном */
 export const pushVoucher = createAsyncThunk(
   'customers/pushVoucher',
   async function({ email, template}, {rejectWithValue, getState}) {
@@ -144,11 +145,11 @@ export const customersSlice = createSlice({
     }
   },
   extraReducers: {
-    [pushVoucher.pending]: (state, action) => {
+    [pushVoucher.pending]: (state) => {
       state.pushStatus = 'loading';
       state.pushError = null;
     },
-    [pushVoucher.fulfilled]: (state, action) => {
+    [pushVoucher.fulfilled]: (state) => {
       state.pushStatus = 'resolved';
     },
     [pushVoucher.rejected]: (state, action) => {

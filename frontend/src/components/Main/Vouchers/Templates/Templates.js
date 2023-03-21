@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import RadioFake from "../RadioFake/RadioFake";
+import RadioFake from "../../../RadioFake/RadioFake";
 import circle from "../../../../images/Rolling-1s-200px.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { pushVoucher } from "../../../../utils/store/customersSlice";
+import InputField from "../../../InputField/InputField";
 
 export default function Templates() {
 
   const dispatch = useDispatch();
 
   const {templates, pushStatus, pushError} = useSelector(state => state.customers);
-
   const [template, setTemplate] = useState('');
   const [email, setEmail] = useState('');
   function handleSubmit(e) {
@@ -32,10 +32,14 @@ export default function Templates() {
         )
       }
       <form className="templates__form" onSubmit={handleSubmit}>
-        <fieldset className="templates__filed">
-          <input required={true} type="email" className="input input_place_vouchers" placeholder="Введите E-Mail получателя" onChange={(e) => {setEmail(e.target.value)}} />
-          <button type={"reset"} className="button button_icon_close button_place_vouchers" />
-        </fieldset>
+        <InputField
+          fieldClass={"templates__field"}
+          placeholder={"Введите E-Mail получателя"}
+          onChange={(e) => {setEmail(e.target.value)}}
+          onClickButton={() => {setEmail('')}}
+          // inputType={"email"}
+          minMax={{min: 5, max: 300}}
+        />
         {
           pushStatus === 'resolved' || pushStatus === 'rejected'
             ? <span

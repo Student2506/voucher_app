@@ -1,11 +1,12 @@
-import React, { useEffect, useMemo, useState } from "react";
-import RadioFake from "../RadioFake/RadioFake";
+import React, { useMemo } from "react";
+import RadioFake from "../../../RadioFake/RadioFake";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setFilteredCustomers,
   getCustomerOrders,
   toggleCheckedCustomer
 } from "../../../../utils/store/customersSlice";
+import InputField from "../../../InputField/InputField";
 
 export default React.memo(function Customers() {
 
@@ -31,10 +32,13 @@ export default React.memo(function Customers() {
 
   return (
     <form className="vouchers__form_type_customers">
-      <fieldset className="vouchers__filed">
-        <input className="input input_place_vouchers" placeholder="Фильтр по наименованию..." onChange={(e) => {filterCustomers(e.target.value)}}/>
-        <button type={"reset"} className="button button_icon_close button_place_vouchers" onClick={() => {filterCustomers('')}} />
-      </fieldset>
+      <InputField
+        fieldClass={"customers__field"}
+        onChange={(e) => {filterCustomers(e.target.value)}}
+        onClickButton={() => {filterCustomers('')}}
+        placeholder={"Фильтр по наименованию..."}
+        minMax={{min: 0, max: 30}}
+      />
       <div className="customers">
         {
           customersArr.map((customer) =>

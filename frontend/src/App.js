@@ -54,7 +54,7 @@ function App() {
         <Route path="/sign-in">
           <Sign />
         </Route>
-        <Route path="/*">
+        <Route path="*">
           <NotFound />
         </Route>
       </Switch>
