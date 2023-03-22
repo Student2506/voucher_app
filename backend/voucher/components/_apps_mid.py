@@ -11,11 +11,12 @@ INSTALLED_APPS = [
     'voucher_app.apps.VoucherAppConfig',
     'vista_module.apps.VistaModuleConfig',
     'rest_framework',
-    'rest_framework.authtoken',
+    # 'rest_framework.authtoken',
     'django_auth_adfs',
     'corsheaders',
     'tinymce',
     'django_filters',
+    'djoser',
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,14 @@
+.button_place_vouchers {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	right: 9px;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.button_place_vouchers-main {
+	align-self: end;
+	margin: 0;
+	grid-column: 2/-1;
+}

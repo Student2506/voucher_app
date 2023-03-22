@@ -3,14 +3,21 @@
 import json
 import logging
 import os
+import time
+from datetime import datetime
 from typing import Any
 
+import jwt
 import pika
+from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import decorators, filters, serializers, status, viewsets
 from rest_framework.parsers import JSONParser
 from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework_simplejwt.tokens import RefreshToken
+
+from voucher import settings
 
 from vista_module.models import Customer, VoucherType
 from voucher_api.serializers import (
@@ -107,8 +114,58 @@ def retrieve_token(request: Request) -> Response:
     Returns:
         Response - status of creation or failure
     """
+    refresh = RefreshToken.for_user(request.user)
     userinfo = {
-        'user': str(request.user),  # `django.contrib.auth.User` instance.
-        'auth': str(request.COOKIES),  # None
+        'refresh': str(refresh),
+        'access': str(refresh.access_token),
     }
-    return Response(userinfo)
+    access = jwt.decode(
+        userinfo['access'],
+        str(settings.SIMPLE_JWT.get('SIGNING_KEY')),
+        algorithms=[str(settings.SIMPLE_JWT.get('ALGORITHM'))],
+    )
+    refresh = jwt.decode(
+        userinfo['refresh'],
+        str(settings.SIMPLE_JWT.get('SIGNING_KEY')),
+        algorithms=[str(settings.SIMPLE_JWT.get('ALGORITHM'))],
+    )
+    response = redirect('/vouchers')
+    response.set_cookie(
+        'auth_access',
+        value=userinfo['access'].strip("'"),
+        secure=False,
+        expires=datetime.fromtimestamp(access['exp']),
+    )
+    response.set_cookie(
+        'auth_refresh',
+        value=userinfo['refresh'].strip("'"),
+        secure=False,
+        expires=datetime.fromtimestamp(refresh['exp']),
+    )
+    return response
+
+
+@decorators.api_view(['GET'])
+def clear_session(request: Request) -> Response:
+    """Make request to send vouchers.
+
+    Args:
+        request: Request - data to create order
+
+    Returns:
+        Response - status of creation or failure
+    """
+    response = redirect('/sign-in')
+    response.set_cookie(
+        'auth_access',
+        value='',
+        secure=False,
+        expires=datetime.fromtimestamp(time.time()),
+    )
+    response.set_cookie(
+        'auth_refresh',
+        value='',
+        secure=False,
+        expires=datetime.fromtimestamp(time.time()),
+    )
+    return response

@@ -1,9 +1,11 @@
 """Module responible to assembly htmls."""
 
 import logging
+from datetime import datetime as dt
 from io import BytesIO
 from pathlib import Path
 
+import icu
 import qrcode
 from barcode import Code128
 from barcode.writer import ImageWriter
@@ -76,6 +78,7 @@ def html_render(
     code_to_fill: str,
     folder: str,
     code_type: str,
+    expiry_date: str,
 ) -> None:
     """Generate html files to preprocess.
 
@@ -85,6 +88,8 @@ def html_render(
         folder: str - folder to keep templates
         code_type: str - type of code generator
     """
+    expiry_date_dt = dt.strptime(expiry_date, '%Y-%m-%d')
+    df = icu.SimpleDateFormat('dd MMMM YYYY', icu.Locale('ru'))
     with open(
         Path('templates') / 'refactorOrder_template.html', 'w',
     ) as user_template:
@@ -102,6 +107,7 @@ def html_render(
         'refactorOrder_template.html',
     ).render(
         barcode=barcode_filename.name,
+        expiry_date=df.format(expiry_date_dt),
     )
     logger.debug(f'html_content {html_content}')
     with open(Path(folder) / f'{code_to_fill}.html', 'w') as fh:

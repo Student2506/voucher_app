@@ -1,8 +1,8 @@
 """Models to use with database."""
 
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Date, Integer, String
 from sqlalchemy.dialects.postgresql import TEXT, UUID
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
@@ -16,6 +16,7 @@ class TblStock(Base):
     lvouchernumber = Column('lVoucherNumber', Integer, primary_key=True)
     lvouchertypeid = Column('lVoucherTypeID', Integer)
     stock_strbarcode = Column('Stock_strBarcode', String(50))
+    expiry_date = Column('dExpiryDate', Date)
 
 
 class Template(Base):

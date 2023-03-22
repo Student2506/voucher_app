@@ -1,0 +1,10 @@
+.sign__title {
+	margin: 75px 0 0;
+	align-self: start;
+	/* Шрифт */
+	font-size: 1.75rem;
+	font-family: 'Montserrat';
+	font-weight: 700;
+	color: #2a2d32;
+	letter-spacing: -.2px;
+}

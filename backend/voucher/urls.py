@@ -13,17 +13,33 @@ router.register('voucher_type', views.VoucherTypeViewset)
 
 
 urlpatterns = [
-    path('api/v1/oauth2/', include('django_auth_adfs.urls', 'django_auth_adfs')),
-    path('api/v1/oauth2/', include('django_auth_adfs.drf_urls', 'django_auth_adfs')),
-    path('api/v1/auth/token/', include('rest_framework.urls')),
+    path(
+        'api/v1/oauth2/',
+        include('django_auth_adfs.urls', 'django_auth_adfs'),
+    ),
+    path(
+        'api/v1/oauth2/',
+        include('django_auth_adfs.drf_urls', 'django_auth_adfs'),
+    ),
+    path('api/v1/retrieve-token', views.retrieve_token, name='retrieve-token'),
+    path('api/v1/clear-session', views.clear_session, name='clear-session'),
+    path('api/v1/auth/', include('djoser.urls')),
+    path('api/v1/auth/', include('djoser.urls.jwt')),
     path('api/v1/', include(router.urls)),
-    path('api/v1/order_item/<int:order_item_id>/', views.put_order, name='order-detail'),
+    path(
+        'api/v1/order_item/<int:order_item_id>/',
+        views.put_order,
+        name='order-detail',
+    ),
     path('admin/v1/', admin.site.urls),
     path('tinymce/', include('tinymce.urls')),
-    path('api/v1/get_cookes/', views.retrieve_token, name='retrieve-token'),
     path(
         'openapi',
-        get_schema_view(title='Voucher API', description='API for voucher generation', version='1.0.0'),
+        get_schema_view(
+            title='Voucher API',
+            description='API for voucher generation',
+            version='1.0.0',
+        ),
         name='openapi-schema',
     ),
 ]

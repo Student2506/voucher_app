@@ -4,35 +4,3 @@
 	align-items: start;
 	height: calc(100vh - 47px);
 }
-
-.button_icon_close {
-	background-image: url("../../../../images/cross-svgrepo-com.svg");
-	background-position: center center;
-	background-size: 20px;
-	background-repeat: no-repeat;
-	/*Анимация*/
-	transition: filter linear .2s, opacity linear .2s;
-}
-
-.button_icon_close:hover {
-	cursor: pointer;
-	filter: drop-shadow(0 0 10px #000);
-}
-
-.button_icon_close:active {
-	opacity: .8;
-}
-
-.button_place_vouchers {
-	position: absolute;
-	width: 20px;
-	height: 20px;
-	right: 9px;
-	top: 50%;
-	transform: translateY(-50%);
-}
-
-.button_place_vouchers-main {
-	align-self: end;
-	margin: 0 19px 0 0;
-}

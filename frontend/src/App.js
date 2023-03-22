@@ -1,74 +1,46 @@
-/*
-* Где используется React.memo это предотвращение лишнего ререндера компонента
-* в useState хранятся данные о Customers его заказах и шаблонах
-* Временно использую loggedIn как имитацию входа
-*/
-
 import './App.css';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Route, Switch, useHistory } from "react-router-dom";
 import Sign from "./components/Sign/Sign";
 import Main from "./components/Main/Main";
-import Api from "./utils/Api/Api";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import LoadingScreen from "./components/LoadingScreen/LoadingScreen";
+import { useSelector, useDispatch } from "react-redux";
+import { updateJwt } from "./utils/store/userSlice";
+import { getCustomers } from "./utils/store/customersSlice";
+import { NotFound } from "./components/NotFound/NotFound";
+import { StatusPopup } from "./components/popups/StatusPopup/StatusPopup";
 
 function App() {
-  const [customers, setCustomers] = useState([]);
-  const [customerOrders, setCustomerOrders] = useState([]);
-  const [orderTemplates, setOrderTemplates] = useState([]);
-  const [preload, setPreload] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const dispatch = useDispatch();
   const history = useHistory();
+  const {loggedIn, userData} = useSelector(state => state.user);
 
-  /*
-  * Убираем лишнее обращение.
-  * сработает только если юзер залогинился
-  */
+  useEffect(() => {
+    if (document.cookie) {
+      const jwt = document.cookie.split('; ').reduce(function(result, v, i, a) { var k = v.split('='); result[k[0]] = k[1]; return result; }, {})
+      if (!jwt.auth_refresh) {
+        window.location.replace('http://10.0.10.234/api/v1/oauth2/login');
+      } else {
+        dispatch(updateJwt({jwtRefresh: jwt.auth_refresh}))
+      }
+    } else {
+      window.location.replace('http://10.0.10.234/api/v1/oauth2/login');
+    }
+  }, [])
+
   useEffect(() => {
     if (loggedIn) {
-      setPreload(true);
-      Api.getCostumers().then((res) => {
-        setCustomers(res.results);
-      }).catch((err) => {console.log(err)}).finally(() => {setPreload(false)})
-    } else {
-      // Роутинг на вход
-      history.push("/sign-in");
+      dispatch(getCustomers(userData.jwt.auth));
+      history.push('/vouchers');
+      /* Каждый 4 минуты обновляю jwt */
+      setInterval(() => dispatch(updateJwt({jwtRefresh: userData.jwt.refr})), 240000);
     }
   }, [loggedIn])
 
-  function handleLogIn() {
-    setLoggedIn(true);
-    history.push('/vouchers');
-  }
-
-  /*
-  * Убираем ререндер ссылки на функцию
-  */
-  const handleSelectCustomer = useCallback((id) => {
-    Api.getCustomerOrders(id).then((res) => {
-      setCustomerOrders(res.orders);
-    }).catch((err) => {console.log(err)})
-  }, []);
-
-  const clearTemplates = useCallback(() => {
-    setOrderTemplates([]);
-  }, []);
-
-  function handleSelectOrder(orderId) {
-    Api.getOrderTemplates(orderId).then((res) => {
-      /*Перевожу объект с key:value в массив объектов*/
-      setOrderTemplates(Object.entries(res.templates).map((e) => ( { [e[0]]: e[1] } )));
-    }).catch((err) => {console.log(err)})
-  }
-
-  function pushVocuher(id, template, email) {
-    Api.pushVouchers(id, template, email).then((res) => {console.log('ЕБОЙ')}).catch((err) => {console.log(err)})
-  }
-
   return (
     <>
-      {preload ? <LoadingScreen /> : <></>}
+      <StatusPopup />
       <Switch>
         {/*
       * Защищенный роут, если пользователь не залогинен - дальше не пропустит
@@ -77,17 +49,13 @@ function App() {
         <ProtectedRoute
           component={Main}
           path={"/vouchers"}
-          customersData={customers}
-          onSelectCustomer={handleSelectCustomer}
-          onSelectOrder={handleSelectOrder}
-          customerOrders={customerOrders}
-          orderTemplates={orderTemplates}
-          onClear={clearTemplates}
-          onSubmit={pushVocuher}
           loggedIn={loggedIn}
         />
         <Route path="/sign-in">
-          <Sign onSubmit={handleLogIn} />
+          <Sign />
+        </Route>
+        <Route path="*">
+          <NotFound />
         </Route>
       </Switch>
     </>
