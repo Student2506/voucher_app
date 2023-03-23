@@ -10,6 +10,7 @@ import { updateJwt } from "./utils/store/userSlice";
 import { getCustomers } from "./utils/store/customersSlice";
 import { NotFound } from "./components/NotFound/NotFound";
 import { StatusPopup } from "./components/popups/StatusPopup/StatusPopup";
+import { baseUrl } from "./constants";
 
 function App() {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ function App() {
     if (document.cookie) {
       const jwt = document.cookie.split('; ').reduce(function(result, v, i, a) { var k = v.split('='); result[k[0]] = k[1]; return result; }, {})
       if (!jwt.auth_refresh) {
-        window.location.replace('http://10.0.10.234/api/v1/oauth2/login');
+        window.location.replace(`${baseUrl}/api/v1/oauth2/login`);
       } else {
         dispatch(updateJwt({jwtRefresh: jwt.auth_refresh}))
       }

@@ -1,4 +1,5 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
+import {baseUrl} from "../../constants";
 import jwt_decode from "jwt-decode";
 
 const decodeJwt = (token) => jwt_decode(token);
@@ -18,7 +19,7 @@ export const updateJwt = createAsyncThunk(
   'user/updateJwt',
   async function({jwtRefresh}, {rejectWithValue, dispatch}) {
     try {
-      const res = await fetch(`http://10.0.10.234/api/v1/auth/jwt/refresh/`, {
+      const res = await fetch(`${baseUrl}/api/v1/auth/jwt/refresh/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,7 +41,7 @@ export const clearSession = createAsyncThunk(
   'user/clearSession',
   async function(_, {rejectWithValue, dispatch}) {
     try {
-      const res = await fetch(`http://10.0.10.234/api/v1/clear-session`, {
+      const res = await fetch(`${baseUrl}/api/v1/clear-session`, {
         method: 'GET',
       })
       if (!res.ok) throw new Error('Что-то пошло нет');
