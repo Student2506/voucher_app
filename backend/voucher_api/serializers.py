@@ -36,7 +36,7 @@ class VoucherTypeSerializer(serializers.ModelSerializer):
         """Regular django Meta for Voucher Type."""
 
         model = VoucherType
-        fields = '__all__'
+        fields = ['voucher_type_id', 'voucher_code', 'voucher_description']
 
 
 class VoucherTypeOrderingSerializer(VoucherTypeSerializer):
