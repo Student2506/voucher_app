@@ -155,7 +155,6 @@ class Stock(models.Model):
     """Stock Model."""
 
     voucher_number = models.IntegerField(db_column='lVoucherNumber', primary_key=True)
-    # voucher_type_id = models.IntegerField(db_column='lVoucherTypeID')
     voucher_type_id = models.ForeignKey(
         'VoucherType',
         on_delete=models.DO_NOTHING,
@@ -169,7 +168,7 @@ class Stock(models.Model):
         'OrderItem',
         on_delete=models.DO_NOTHING,
         db_column='lClientOrderItemID',
-        related_name='order_item_id'
+        related_name='order_item_id_set'
     )
 
     class Meta:

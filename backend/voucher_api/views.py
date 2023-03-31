@@ -80,7 +80,7 @@ class StockViewset(viewsets.ModelViewSet):
     )
     serializer_class = StockSerializer
     filter_backends = [filters.SearchFilter]
-    search_fields = ['stock_strbarcode', ]
+    search_fields = ['stock_strbarcode', 'client_order_item__order_id__order_id']
 
 
 @csrf_exempt

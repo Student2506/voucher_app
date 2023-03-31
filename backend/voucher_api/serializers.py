@@ -159,6 +159,8 @@ class CustomerDetailSerializer(CustomerListSerializer):
 class StockSerializer(serializers.ModelSerializer):
     """Stock Serializer."""
 
+    order_id = serializers.IntegerField(source='client_order_item.order_id.order_id')
+
     class Meta:
         """Regular django Meta."""
 
