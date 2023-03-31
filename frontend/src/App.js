@@ -60,7 +60,7 @@ function App() {
         />
         <ProtectedRoute
           component={Main}
-          path={"/refund"}
+          path={"/time-management"}
           loggedIn={loggedIn}
         />
         <Route path="/sign-in">
