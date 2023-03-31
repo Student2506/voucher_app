@@ -97,13 +97,16 @@ class RequestOrderSerializer(serializers.ModelSerializer):
 class OrderItemSerializer(serializers.ModelSerializer):
     """Order item serializer."""
 
-    voucher_attached = VoucherTypeSerializer(read_only=True)
+    # voucher_attached = VoucherTypeSerializer(read_only=True)
+    voucher_type_id = serializers.IntegerField(source='voucher_attached.voucher_type_id')
+    voucher_code = serializers.CharField(source='voucher_attached.voucher_code')
+    voucher_description = serializers.CharField(source='voucher_attached.voucher_description')
 
     class Meta:
         """Regular django Meta."""
 
         model = OrderItem
-        fields = '__all__'
+        exclude = ('voucher_attached',)
 
 
 class OrderSerializer(serializers.ModelSerializer):

@@ -18,7 +18,10 @@ class Customer(models.Model):
         blank=False,
         null=False,
     )
-    customer_id = models.IntegerField(db_column=ID_COLUMN_NAME, primary_key=True)
+    customer_id = models.IntegerField(
+        db_column=ID_COLUMN_NAME,
+        primary_key=True,
+    )
 
     class Meta:
         """Generic Meta class."""
@@ -79,7 +82,10 @@ class Order(models.Model):
 class VoucherType(models.Model):
     """Voucher model."""
 
-    voucher_type_id = models.IntegerField(db_column=ID_COLUMN_NAME, primary_key=True)
+    voucher_type_id = models.IntegerField(
+        db_column=ID_COLUMN_NAME,
+        primary_key=True,
+    )
     voucher_code = models.CharField(
         db_column='nVoucherCode',
         max_length=VOUCHER_TYPE_LENGTH,
@@ -108,7 +114,9 @@ class VoucherType(models.Model):
 class OrderItem(models.Model):
     """Order item model."""
 
-    order_item_id = models.IntegerField(db_column=ID_COLUMN_NAME, primary_key=True)
+    order_item_id = models.IntegerField(
+        db_column=ID_COLUMN_NAME, primary_key=True
+    )
     order_id = models.ForeignKey(
         'Order',
         on_delete=models.DO_NOTHING,
@@ -117,7 +125,7 @@ class OrderItem(models.Model):
     )
     order_item_quantity = models.IntegerField(db_column='lQtyOrdered')
     order_item_price = models.FloatField(db_column='mIssuePrice')
-    voucher_attached = models.ForeignKey(
+    voucher_attached = models.OneToOneField(
         'VoucherType',
         on_delete=models.DO_NOTHING,
         db_column='lVoucherTypeID',
