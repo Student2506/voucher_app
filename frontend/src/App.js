@@ -53,6 +53,16 @@ function App() {
           path={"/vouchers"}
           loggedIn={loggedIn}
         />
+        <ProtectedRoute
+          component={Main}
+          path={"/refund"}
+          loggedIn={loggedIn}
+        />
+        <ProtectedRoute
+          component={Main}
+          path={"/refund"}
+          loggedIn={loggedIn}
+        />
         <Route path="/sign-in">
           <Sign />
         </Route>
