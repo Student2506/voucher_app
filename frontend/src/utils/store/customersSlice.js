@@ -66,7 +66,7 @@ export const getOrderTemplates = createAsyncThunk(
     const jwt = getState().user.userData.jwt.auth;
     dispatch(pendingFetch());
     try {
-      const res = await fetch(`${baseUrl}/api/v1/order_item/${id}`, {
+      const res = await fetch(`${baseUrl}/api/v1/order_items/${id}`, {
         method: 'GET',
         headers: {
           "Content-Type": "application/json",
