@@ -108,6 +108,25 @@ class OrderItemSerializer(serializers.ModelSerializer):
         model = OrderItem
         exclude = ('voucher_attached',)
 
+    def to_representation(
+        self,
+        instance: Any,
+    ) -> Any:
+        """Cut whitespaces in the end.
+
+        Args:
+            instance: Any - instance of serializer
+
+        Returns:
+            Any - instance of serializer
+
+        Raise:
+            TypeError
+        """
+        ret = super().to_representation(instance)
+        ret['voucher_description'] = ret['voucher_description'].rstrip()
+        return ret  # noqa: WPS427
+
 
 class OrderSerializer(serializers.ModelSerializer):
     """Order serializer."""
