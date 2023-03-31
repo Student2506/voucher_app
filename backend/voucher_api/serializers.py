@@ -5,7 +5,7 @@ from typing import Any
 from rest_framework import serializers
 from voucher_app.models import RequestOrder, Template
 
-from vista_module.models import Customer, Order, OrderItem, VoucherType
+from vista_module.models import Customer, Order, OrderItem, Stock, VoucherType
 
 logger = logging.getLogger(__name__)
 
@@ -154,3 +154,13 @@ class CustomerDetailSerializer(CustomerListSerializer):
     """Customer Detail serializer."""
 
     orders = OrderSerializer(many=True, read_only=True)
+
+
+class StockSerializer(serializers.ModelSerializer):
+    """Stock Serializer."""
+
+    class Meta:
+        """Regular django Meta."""
+
+        model = Stock
+        fields = '__all__'

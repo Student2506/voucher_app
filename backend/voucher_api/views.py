@@ -19,12 +19,13 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from voucher import settings
 
-from vista_module.models import Customer, OrderItem, VoucherType
+from vista_module.models import Customer, OrderItem, Stock, VoucherType
 from voucher_api.serializers import (
     CustomerDetailSerializer,
     CustomerListSerializer,
     OrderItemSerializer,
     RequestOrderSerializer,
+    StockSerializer,
     VoucherTypeOrderingSerializer,
 )
 
@@ -65,6 +66,21 @@ class OrderItemViewset(viewsets.ModelViewSet):
     queryset = OrderItem.objects.using('vista')
     serializer_class = OrderItemSerializer
     filter_backends = [filters.SearchFilter]
+
+
+class StockViewset(viewsets.ModelViewSet):
+    """API Endpoint to query order_items"""
+
+    queryset = Stock.objects.using(
+        'vista'
+    ).filter(
+        voucher_type_id__vouchertype_strgiftcard='Y'
+    ).exclude(
+        issued_date='1900-01-01 00:00:00.000'
+    )
+    serializer_class = StockSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['stock_strbarcode', ]
 
 
 @csrf_exempt

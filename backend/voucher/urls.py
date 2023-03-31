@@ -11,6 +11,7 @@ router = routers.DefaultRouter()
 router.register('customers', views.CustomerViewset)
 router.register('voucher_type', views.VoucherTypeViewset)
 router.register('order_items', views.OrderItemViewset)
+router.register('stocks', views.StockViewset)
 
 
 urlpatterns = [

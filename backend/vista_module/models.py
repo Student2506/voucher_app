@@ -94,6 +94,9 @@ class VoucherType(models.Model):
         db_column='sDescription',
         max_length=NAME_LENGTH,
     )
+    vouchertype_strgiftcard = models.CharField(
+        db_column='VoucherType_strGiftCard', max_length=1,
+    )
 
     class Meta:
         """Generic Meta class for VoucherType."""
@@ -146,3 +149,32 @@ class OrderItem(models.Model):
             str - name of a customer
         """
         return f'{self.order_id.order_name} - {self.order_item_id}'
+
+
+class Stock(models.Model):
+    """Stock Model."""
+
+    voucher_number = models.IntegerField(db_column='lVoucherNumber', primary_key=True)
+    # voucher_type_id = models.IntegerField(db_column='lVoucherTypeID')
+    voucher_type_id = models.ForeignKey(
+        'VoucherType',
+        on_delete=models.DO_NOTHING,
+        db_column='lVoucherTypeID',
+        related_name='order_items',
+    )
+    stock_strbarcode = models.CharField(db_column='Stock_strBarcode', max_length=NAME_LENGTH)
+    expiry_date = models.DateTimeField(db_column='dExpiryDate')
+    issued_date = models.DateTimeField(db_column='dIssuedDate')
+    client_order_item = models.ForeignKey(
+        'OrderItem',
+        on_delete=models.DO_NOTHING,
+        db_column='lClientOrderItemID',
+        related_name='order_item_id'
+    )
+
+    class Meta:
+        """Generic Meta class."""
+
+        managed = False
+        db_table = 'tblStock'
+        ordering = ['voucher_number']
