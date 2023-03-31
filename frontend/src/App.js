@@ -11,6 +11,7 @@ import { getCustomers } from "./utils/store/customersSlice";
 import { NotFound } from "./components/NotFound/NotFound";
 import { StatusPopup } from "./components/popups/StatusPopup/StatusPopup";
 import { baseUrl } from "./constants";
+import Refund from "./components/Main/Refund/Refund";
 
 function App() {
   const dispatch = useDispatch();

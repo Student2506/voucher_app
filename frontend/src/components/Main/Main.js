@@ -2,8 +2,8 @@ import NavBar from "./NavBar/NavBar";
 import Header from "./Header/Header";
 import Vouchers from "./Vouchers/Vouchers";
 import { Route } from "react-router-dom";
-import { NotFound } from "../NotFound/NotFound";
-import Sign from "../Sign/Sign";
+import Refund from "./Refund/Refund";
+import VoucherTime from "./VoucherTime/VoucherTime";
 
 export default function Main(props) {
   return (
@@ -15,10 +15,12 @@ export default function Main(props) {
           {...props}
         />
       </Route>
-      <Route path={"/nnn"}>
-        <Sign />
+      <Route path="/refund">
+        <Refund />
       </Route>
-
+      <Route path="/time-management">
+        <VoucherTime />
+      </Route>
     </main>
   )
 }
