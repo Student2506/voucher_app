@@ -162,8 +162,8 @@ class Stock(models.Model):
         related_name='order_items',
     )
     stock_strbarcode = models.CharField(db_column='Stock_strBarcode', max_length=NAME_LENGTH)
-    expiry_date = models.CharField(db_column='dExpiryDate')
-    issued_date = models.CharField(db_column='dIssuedDate')
+    expiry_date = models.CharField(db_column='dExpiryDate', max_length=NAME_LENGTH)
+    issued_date = models.CharField(db_column='dIssuedDate', max_length=NAME_LENGTH)
     client_order_item = models.ForeignKey(
         'OrderItem',
         on_delete=models.DO_NOTHING,
