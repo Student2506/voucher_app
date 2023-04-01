@@ -11,7 +11,14 @@ import jwt
 import pika
 from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework import decorators, filters, serializers, status, viewsets
+from rest_framework import (
+    decorators,
+    filters,
+    mixins,
+    serializers,
+    status,
+    viewsets,
+)
 from rest_framework.parsers import JSONParser
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -68,7 +75,9 @@ class OrderItemViewset(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter]
 
 
-class StockViewset(viewsets.ModelViewSet):
+class StockViewset(
+    mixins.RetrieveModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet
+):
     """API Endpoint to query order_items"""
 
     queryset = Stock.objects.using(
