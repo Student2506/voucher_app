@@ -148,7 +148,6 @@ class OrderItemItemSerializer(OrderItemListSerializer):
         Returns:
             dict - dict with Templates
         """
-        logger.debug('Here I\'m')
         return {str(template.id): template.title for template in Template.objects.all()}
 
 
