@@ -30,7 +30,8 @@ from vista_module.models import Customer, OrderItem, Stock, VoucherType
 from voucher_api.serializers import (
     CustomerDetailSerializer,
     CustomerListSerializer,
-    OrderItemSerializer,
+    OrderItemItemSerializer,
+    OrderItemListSerializer,
     RequestOrderSerializer,
     StockSerializer,
     VoucherTypeOrderingSerializer,
@@ -71,8 +72,13 @@ class OrderItemViewset(viewsets.ModelViewSet):
     """API Endpoint to query order_items"""
 
     queryset = OrderItem.objects.using('vista')
-    serializer_class = OrderItemSerializer
+    # serializer_class = OrderItemSerializer
     filter_backends = [filters.SearchFilter]
+
+    def get_serializer_class(self) -> serializers.ModelSerializer:
+        if self.action == 'retrieve':
+            return OrderItemItemSerializer
+        return OrderItemListSerializer
 
 
 class StockViewset(

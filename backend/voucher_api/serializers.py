@@ -94,7 +94,7 @@ class RequestOrderSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class OrderItemSerializer(serializers.ModelSerializer):
+class OrderItemListSerializer(serializers.ModelSerializer):
     """Order item serializer."""
 
     # voucher_attached = VoucherTypeSerializer(read_only=True)
@@ -128,16 +128,27 @@ class OrderItemSerializer(serializers.ModelSerializer):
         return ret  # noqa: WPS427
 
 
-class OrderSerializer(serializers.ModelSerializer):
-    """Order serializer."""
+class OrderItemItemSerializer(OrderItemListSerializer):
+    """Order item serializer."""
 
-    order_items = OrderItemSerializer(many=True, read_only=True)
+    templates = serializers.SerializerMethodField()
 
     class Meta:
         """Regular django Meta."""
 
-        model = Order
-        fields = '__all__'
+        model = OrderItem
+        exclude = ('voucher_attached',)
+
+    def get_templates(self, source: object) -> dict[str, str]:
+        """Return dict of templates.
+
+        Args:
+            source: object - additional inheritance
+
+        Returns:
+            dict - dict with Templates
+        """
+        return {str(template.id): template.title for template in Template.objects.all()}
 
 
 class CustomerListSerializer(serializers.ModelSerializer):
@@ -147,6 +158,18 @@ class CustomerListSerializer(serializers.ModelSerializer):
         """Regular django Meta."""
 
         model = Customer
+        fields = '__all__'
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    """Order serializer."""
+
+    order_items = OrderItemListSerializer(many=True, read_only=True)
+
+    class Meta:
+        """Regular django Meta."""
+
+        model = Order
         fields = '__all__'
 
 
