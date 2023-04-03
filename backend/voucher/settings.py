@@ -42,6 +42,8 @@ REST_FRAMEWORK = {
     ],
 }
 include('components/_authentication.py')
+include('components/_log.py')
+
 
 LOGIN_REDIRECT_URL = 'retrieve-token'
 LOGIN_URL = 'django_auth_adfs:login'
