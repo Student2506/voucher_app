@@ -161,6 +161,7 @@ class Stock(models.Model):
         db_column='lVoucherTypeID',
         related_name='order_items',
     )
+    duplicate_no = models.IntegerField(db_column='nDuplicateNo')
     stock_strbarcode = models.CharField(db_column='Stock_strBarcode', max_length=NAME_LENGTH)
     expiry_date = models.CharField(db_column='dExpiryDate', max_length=NAME_LENGTH)
     issued_date = models.CharField(db_column='dIssuedDate', max_length=NAME_LENGTH)
@@ -177,3 +178,7 @@ class Stock(models.Model):
         managed = False
         db_table = 'tblStock'
         ordering = ['voucher_number']
+        constraints = [models.UniqueConstraint(
+            fields=['voucher_number', 'voucher_type_id', 'duplicate_no'],
+            name='unique_barcode',
+        ),]

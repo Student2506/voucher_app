@@ -189,3 +189,11 @@ class StockSerializer(serializers.ModelSerializer):
 
         model = Stock
         fields = '__all__'
+
+
+class StockWriteSerializer(serializers.ModelSerializer):
+    """Write data to DB."""
+
+    class Meta:
+        model = Stock
+        fields = ('stock_strbarcode', 'expiry_date')

@@ -25,13 +25,14 @@ LOGGING = {
             'propagate': False,
         },
         'django': {
+            'level': 'DEBUG',
             'handlers': ['debug-console'],
-            'propogate': True,
+            'propagate': True,
         },
         'django.request': {
             'handlers': ['debug-console'],
-            'level': 'ERROR',
-            'propogate': False,
+            'level': 'DEBUG',
+            'propagate': False,
         },
     },
 }

@@ -17,8 +17,10 @@ from rest_framework import (
     mixins,
     serializers,
     status,
+    views,
     viewsets,
 )
+from rest_framework.exceptions import ValidationError
 from rest_framework.parsers import JSONParser
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -34,6 +36,7 @@ from voucher_api.serializers import (
     OrderItemListSerializer,
     RequestOrderSerializer,
     StockSerializer,
+    StockWriteSerializer,
     VoucherTypeOrderingSerializer,
 )
 
@@ -121,6 +124,31 @@ def put_order(request: Request, order_item_id: int) -> Response:
         send_data_to_generation(order_data)
         return Response(order.data, status=status.HTTP_201_CREATED)
     return Response(order.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UpdateExpiry(views.APIView):
+
+    def get_object(self, obj_id: str) -> Any:
+        try:
+            return Stock.objects.using('vista').get(stock_strbarcode=obj_id)
+        except (Stock.DoesNotExist, ValidationError):
+            raise status.HTTP_400_BAD_REQUEST
+
+    def validate_ids(self, obj_list: list[str]) -> bool:
+        for code in obj_list:
+            try:
+                Stock.objects.using('vista').get(stock_strbarcode=code)
+            except (Stock.DoesNotExist, ValidationError):
+                raise status.HTTP_400_BAD_REQUEST
+        return True
+
+    def put(self, request: Request, *args: list[Any], **kwargs: dict[Any, Any]) -> Response:
+        codes = request.data['codes']
+        self.validate_ids(codes)
+        new_expiry_objs = Stock.objects.using('vista').filter(stock_strbarcode__in=codes)
+        new_expiry_objs.update(expiry_date=request.data['extend_date'])
+        serializer = StockWriteSerializer(new_expiry_objs, many=True)
+        return Response(serializer.data)
 
 
 def send_data_to_generation(body: dict[str, Any]) -> None:

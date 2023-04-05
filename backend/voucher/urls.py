@@ -33,6 +33,7 @@ urlpatterns = [
         views.put_order,
         name='order-detail',
     ),
+    path('api/v1/extend_vouchers/', views.UpdateExpiry.as_view(), name='voucher-extend'),
     path('admin/v1/', admin.site.urls),
     path('tinymce/', include('tinymce.urls')),
     path(
