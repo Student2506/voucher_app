@@ -33,8 +33,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS':
         'voucher_api.paginators.StandardResultsSetPagination',
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-        # 'rest_framework.permissions.AllowAny',
+        # 'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
     ],
     'PAGE_SIZE': os.getenv('PAGE_SIZE', 1000),
     'DEFAULT_FILTER_BACKENDS': [

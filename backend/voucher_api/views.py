@@ -132,19 +132,22 @@ class UpdateExpiry(views.APIView):
         try:
             return Stock.objects.using('vista').get(stock_strbarcode=obj_id)
         except (Stock.DoesNotExist, ValidationError):
-            raise status.HTTP_400_BAD_REQUEST
+            raise
 
     def validate_ids(self, obj_list: list[str]) -> bool:
         for code in obj_list:
             try:
                 Stock.objects.using('vista').get(stock_strbarcode=code)
             except (Stock.DoesNotExist, ValidationError):
-                raise status.HTTP_400_BAD_REQUEST
+                raise
         return True
 
     def put(self, request: Request, *args: list[Any], **kwargs: dict[Any, Any]) -> Response:
         codes = request.data['codes']
-        self.validate_ids(codes)
+        try:
+            self.validate_ids(codes)
+        except (Stock.DoesNotExist, ValidationError):
+            return Response(status=status.HTTP_404_NOT_FOUND)
         new_expiry_objs = Stock.objects.using('vista').filter(stock_strbarcode__in=codes)
         new_expiry_objs.update(expiry_date=request.data['extend_date'])
         serializer = StockWriteSerializer(new_expiry_objs, many=True)
