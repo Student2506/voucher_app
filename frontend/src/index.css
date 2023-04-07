@@ -72,3 +72,13 @@
 @import url('./components/NotFound/styles/__image/notFound__image.css');
 @import url('./components/NotFound/styles/__caption/notFound__caption.css');
 @import url('./components/NotFound/styles/__link/notFound__link.css');
+/* voucher-time */
+@import url('./components/Main/VoucherTime/styles/voucher-time.css');
+@import url('./components/Main/VoucherTime/styles/__form/voucher-time__form.css');
+@import url('./components/Main/VoucherTime/styles/__title/voucher-time__title.css');
+@import url('./components/Main/VoucherTime/styles/__text/voucher-time__text.css');
+@import url('./components/Main/VoucherTime/styles/__table/voucher-time__table.css');
+@import url('./components/Main/VoucherTime/styles/__filter/voucher-time__filter.css');
+@import url('./components/Main/VoucherTime/styles/__filter/_item/voucher-time__filter_item.css');
+@import url('./components/Main/VoucherTime/styles/__table/_item/voucher-time__table_item.css');
+@import url('./components/Main/VoucherTime/styles/__table/_title/voucher-time__table_title.css');

@@ -1,0 +1,5 @@
+.voucher-time {
+	display: grid;
+	grid-template-columns: 400px 1fr;
+	height: calc(100vh - 47px);
+}
