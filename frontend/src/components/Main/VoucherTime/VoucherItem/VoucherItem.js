@@ -1,11 +1,16 @@
 import React from 'react';
+import { useDispatch } from "react-redux";
+import { chooseVoucher } from "../../../../utils/store/changeDateSlice";
 
-const VoucherItem = () => {
+const VoucherItem = ({data}) => {
+
+  const dispatch = useDispatch();
+
   return (
-      <li className={"voucher-time__table_item"}>
-        <p>2212</p>
-        <p>32719372137213798</p>
-        <p>21.01.2002 00:00:00 - 21.01.2002 00:00:00</p>
+      <li className={"voucher-time__table_item"} onClick={() => {dispatch(chooseVoucher(data))}}>
+        <p>{data.order ? data.order : "Номер заказа отсутсвует"}</p>
+        <p>{data.shtrih}</p>
+        <p>{`${data.issuedDate} - ${data.expiryDate}`}</p>
       </li>
   );
 };

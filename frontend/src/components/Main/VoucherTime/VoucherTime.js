@@ -1,12 +1,17 @@
 import React from 'react';
 import hpNotFound from "../../../images/happy_not_found.svg";
 import VoucherItem from "./VoucherItem/VoucherItem";
+import { useDispatch, useSelector } from "react-redux";
 
 /*
 * 550 px
 * */
 
 const VoucherTime = () => {
+
+  const dispatch = useDispatch();
+  const vouchers = useSelector(state => state.changeDate.vouchers);
+
   return (
     <div className={"voucher-time"}>
       <form className={"voucher-time__form"}>
@@ -29,7 +34,13 @@ const VoucherTime = () => {
           <p>Штрих-код</p>
           <p>Текущий срок действия</p>
         </div>
-        <VoucherItem />
+        {
+          vouchers.map((voucher) =>
+            <VoucherItem
+              data={voucher}
+            />
+          )
+        }
       </ul>
     </div>
   );
