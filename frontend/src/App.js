@@ -27,7 +27,7 @@ function App() {
         dispatch(updateJwt({jwtRefresh: jwt.auth_refresh}))
       }
     } else {
-      window.location.replace('http://10.0.10.234/api/v1/oauth2/login');
+      window.location.replace('${baseUrl}/api/v1/oauth2/login');
     }
   }, [])
 
@@ -60,7 +60,7 @@ function App() {
         />
         <ProtectedRoute
           component={Main}
-          path={"/refund"}
+          path={"/time-management"}
           loggedIn={loggedIn}
         />
         <Route path="/sign-in">

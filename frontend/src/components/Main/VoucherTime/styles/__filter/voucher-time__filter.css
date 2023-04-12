@@ -1,0 +1,7 @@
+.voucher-time__filter {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	padding: 15px;
+	border: none;
+	border-bottom: 1px solid lightgray;
+}
