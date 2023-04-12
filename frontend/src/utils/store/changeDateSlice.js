@@ -24,6 +24,32 @@ export const getVouchers = createAsyncThunk(
   }
 )
 
+export const pushNewExpiryDate = createAsyncThunk(
+  'voucherDate/pushNewExpiryDate',
+  async function (date, {dispatch, getState}) {
+    const jwt = getState().user.userData.jwt.auth;
+    const checkedVoucher = getState().changeDate.vouchers.find(voucher => voucher.checked === true)
+    try {
+      const res = await fetch(`${baseUrl}/api/v1/extend_vouchers/`, {
+        method: 'PUT',
+        headers: {
+          "Authorization": `JWT ${jwt}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          "codes": [checkedVoucher.stock_strbarcode],
+          "extend_date": date,
+        })
+      })
+      if (!res.ok) throw new Error(`Ошибка при получении данных`);
+      const data = await res.json();
+      dispatch(updateVouchers({ data: data }))
+    } catch (e) {
+      console.log(e);
+    }
+  }
+)
+
 export const changeDateSlice = createSlice({
   name: "voucherDate",
   initialState: {
@@ -32,14 +58,28 @@ export const changeDateSlice = createSlice({
   },
   reducers: {
     addVouchers(state, action) {
-      state.vouchers = action.payload.data;
+      state.vouchers = action.payload.data.map((item) => {
+        return {
+          ...item,
+          order_id: item.order_id === null ? 0 : item.order_id,
+          "checked": false,
+        }
+      });
     },
     chooseVoucher(state, action) {
-      state.checkedVoucher = action.payload;
+      state.vouchers.forEach((item) => {item.checked = false});
+      const checkedVoucher = state.vouchers.find(voucher => voucher.stock_strbarcode === action.payload.stock_strbarcode);
+      checkedVoucher.checked = true;
+      state.checkedVoucher = checkedVoucher;
+    },
+    updateVouchers(state, action) {
+      const date = action.payload.data[0].expiry_date;
+      const editedVoucher = state.vouchers.find((voucher) => voucher.stock_strbarcode === action.payload.data[0].stock_strbarcode);
+      editedVoucher.expiry_date = date;
     }
   }
 })
 
-export const {addVouchers, chooseVoucher} = changeDateSlice.actions;
+export const {addVouchers, chooseVoucher, updateVouchers} = changeDateSlice.actions;
 
 export default changeDateSlice.reducer;
