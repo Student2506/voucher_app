@@ -1,0 +1,17 @@
+.voucher-time__input {
+	border-bottom: lightgray 1px solid;
+	/*Шрифт*/
+	font-family: Roboto, Arial, sans-serif;
+	font-size: .75rem;
+	padding-bottom: 5px;
+	/*Анимация*/
+	transition: border linear .2s;
+}
+
+.voucher-time__input:focus {
+	border-bottom: #1c9daf 1px solid;
+}
+
+.voucher-time__input::placeholder {
+	color:  #667682;
+}

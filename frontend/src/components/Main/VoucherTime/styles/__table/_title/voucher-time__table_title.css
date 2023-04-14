@@ -2,6 +2,7 @@
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	padding: 15px;
+	border-bottom: lightgray 1px solid  ;
 }
 
 .voucher-time__table_title p {

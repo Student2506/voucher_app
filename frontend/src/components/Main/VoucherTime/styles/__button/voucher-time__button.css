@@ -1,0 +1,10 @@
+.voucher-time__button {
+	margin: 0;
+	align-self: end;
+}
+
+.voucher-time__button:disabled {
+	background-color: lightgray;
+	border: 1px solid lightgray;
+	cursor: default;
+}

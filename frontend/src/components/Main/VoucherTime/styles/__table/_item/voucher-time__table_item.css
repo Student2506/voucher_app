@@ -15,3 +15,7 @@
 	color: #2a2d32;
 	font-size: 13px;
 }
+
+.voucher-time__table_item-checked {
+	background-color: #dff7fd;
+}

@@ -26,7 +26,7 @@ export const getVouchers = createAsyncThunk(
 
 export const pushNewExpiryDate = createAsyncThunk(
   'voucherDate/pushNewExpiryDate',
-  async function (date, {dispatch, getState}) {
+  async function (date, {dispatch, getState, rejectWithValue}) {
     const jwt = getState().user.userData.jwt.auth;
     const checkedVoucher = getState().changeDate.vouchers.find(voucher => voucher.checked === true)
     try {
@@ -45,7 +45,7 @@ export const pushNewExpiryDate = createAsyncThunk(
       const data = await res.json();
       dispatch(updateVouchers({ data: data }))
     } catch (e) {
-      console.log(e);
+      rejectWithValue(e);
     }
   }
 )
@@ -55,6 +55,7 @@ export const changeDateSlice = createSlice({
   initialState: {
     vouchers: [],
     checkedVoucher: {},
+    changeDateStatus: null,
   },
   reducers: {
     addVouchers(state, action) {
@@ -76,6 +77,17 @@ export const changeDateSlice = createSlice({
       const date = action.payload.data[0].expiry_date;
       const editedVoucher = state.vouchers.find((voucher) => voucher.stock_strbarcode === action.payload.data[0].stock_strbarcode);
       editedVoucher.expiry_date = date;
+    }
+  },
+  extraReducers: {
+    [pushNewExpiryDate.pending]: (state) => {
+      state.changeDateStatus = 'loading'
+    },
+    [pushNewExpiryDate.rejected]: (state) => {
+      state.changeDateStatus = 'rejected'
+    },
+    [pushNewExpiryDate.fulfilled]: (state) => {
+      state.changeDateStatus = 'resolved'
     }
   }
 })

@@ -75,6 +75,10 @@
 /* voucher-time */
 @import url('./components/Main/VoucherTime/styles/voucher-time.css');
 @import url('./components/Main/VoucherTime/styles/__form/voucher-time__form.css');
+@import url('./components/Main/VoucherTime/styles/__input/voucher-time__input.css');
+@import url('components/Main/VoucherTime/styles/__button/voucher-time__button.css');
+@import url('components/Main/VoucherTime/styles/__label/voucher-time__label.css');
+@import url('components/Main/VoucherTime/styles/__nf/voucher-time__nf.css');
 @import url('./components/Main/VoucherTime/styles/__title/voucher-time__title.css');
 @import url('./components/Main/VoucherTime/styles/__text/voucher-time__text.css');
 @import url('./components/Main/VoucherTime/styles/__table/voucher-time__table.css');
