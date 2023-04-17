@@ -12,7 +12,7 @@ export default React.memo(function NavBar() {
       <nav className="navBar__navigation">
         <NavLink to="/vouchers" activeClassName={"navBar__link_current"} className="navBar__link" >Заказы</NavLink>
         <NavLink to="/refund" activeClassName={"navBar__link_current"} className="navBar__link">Возвраты</NavLink>
-        <NavLink to="/time-management" activeClassName={"navBar__link_current"} className="navBar__link">Изменение срока действия серфиката</NavLink>
+        <NavLink to="/time-management" activeClassName={"navBar__link_current"} className="navBar__link">Изменение срока действия сертификата</NavLink>
       </nav>
     </aside>
   )
