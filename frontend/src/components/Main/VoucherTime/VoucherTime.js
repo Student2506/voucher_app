@@ -62,7 +62,7 @@ const VoucherTime = () => {
           type={"text"}
           id={"order_input"}
           placeholder={"Введите номер заказа"}
-          max={10}
+          maxLength={10}
         />
         <label className={"voucher-time__label"} htmlFor={"shtrih_input"}>Штрих-код:</label>
         <input
@@ -72,7 +72,7 @@ const VoucherTime = () => {
           type={"text"}
           id={"shtrih_input"}
           placeholder={"Введите штрих-код"}
-          max={16}
+          maxLength={16}
         />
         <button type={"button"} className={"button button_theme_blue voucher-time__button"} onClick={searchVouchers} disabled={orderId === '' && shtrih === ''}>Поиск</button>
         <label className={"voucher-time__label"} htmlFor={"shtrih_input"}>Укажите оконачание срока действия до даты:</label>
