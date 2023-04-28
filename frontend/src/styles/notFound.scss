@@ -1,0 +1,28 @@
+.notFound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100px;
+  gap: 20px;
+
+  &__link {
+    color: #1c9daf;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-weight: 500;
+    line-height: 1.15;
+    margin: 0;
+    text-decoration: none;
+  }
+
+  &__link:hover {
+    opacity: .8;
+  }
+
+  &__caption {
+    color: black;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-weight: 500;
+    line-height: 1.15;
+    margin: 0;
+  }
+}

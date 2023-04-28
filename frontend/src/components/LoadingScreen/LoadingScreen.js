@@ -1,4 +1,5 @@
 import logo from '../../images/logo.png'
+import styles from '../../styles/loadingScreen.scss';
 
 export default function LoadingScreen() {
   return (

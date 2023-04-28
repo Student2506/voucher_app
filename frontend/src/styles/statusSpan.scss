@@ -1,0 +1,18 @@
+.status-span {
+  width: 100%;
+  display: block;
+  padding: 11px;
+  border-radius: 5px;
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: .8125rem;
+  font-weight: 500;
+  line-height: 1.1875rem;
+  color: #544c50;
+  white-space: pre-wrap;
+  &__res {
+    background-color: #C2F9C2;
+  }
+  &__rej {
+    background-color: #f7cac1;
+  }
+}

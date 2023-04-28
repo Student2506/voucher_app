@@ -1,0 +1,17 @@
+.header {
+  grid-column: 2/3;
+  grid-row: 1/2;
+  background: url("../images/header.png") center bottom;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  padding-right: 15px;
+  justify-content: center;
+  &__account {
+    padding-left: 10px;
+    height: 100%;
+    border-left: 1px solid lightgray;
+    margin: 10px 0;
+  }
+}

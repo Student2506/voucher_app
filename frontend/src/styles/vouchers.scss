@@ -1,0 +1,99 @@
+.vouchers {
+  display: grid;
+  grid-template-columns: 317px 1fr 1fr;
+  gap: 20px;
+  height: 100%;
+  margin-right: 20px;
+
+  &__customers {
+    box-shadow: 0 0 5px 5px rgba(0, 0, 0, .06);
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__filter {
+    width: 100%;
+    border-bottom: 1px solid #ccd5db;
+    padding: 19px;
+  }
+
+  &__list {
+    height: calc(100vh - 47px - 74px);
+    overflow-y: scroll;
+  }
+
+  &__container {
+    display: flex;
+    margin: 15px 0;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow: hidden;
+    border: 1px solid #ccd5db;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 5px rgba(0, 0, 0, .06);
+
+    &_list {
+      overflow-y: scroll;
+    }
+  }
+
+  &__subtitle {
+    padding: 15px 10px;
+    border-bottom: 1px solid #ccd5db;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    /*Шрифт*/
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 1.25rem;
+    font-weight: normal;
+    &_partner {
+      color: #5f6366;
+    }
+  }
+
+  &__submit {
+    margin: 20px;
+    display: grid;
+    grid-template-columns: 1fr 191px;
+    row-gap: 20px;
+    &_input-container {
+      grid-column: 1/-1;
+      position: relative;
+      overflow-y: visible;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    &_add {
+      height: 20px;
+      width: 20px;
+      background: url("../images/plus.png") no-repeat center center;
+      background-size: cover;
+      cursor: pointer;
+      transition: opacity .2s linear;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -10px;
+      &:hover {
+        opacity: .8;
+      }
+      &:active {
+        filter: drop-shadow(0 0 1px rgba(0, 0, 0, .5));
+      }
+    }
+    &_button {
+      justify-self: end;
+    }
+  }
+  &__nf {
+    width: 100%;
+    height: 100%;
+    grid-column: 2/-1;
+    background: url("../images/not_found.svg") center center no-repeat;
+  }
+}
+

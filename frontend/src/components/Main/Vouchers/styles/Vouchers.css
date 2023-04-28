@@ -1,6 +1,0 @@
-.vouchers {
-	display: grid;
-	grid-template-columns: 317px 1fr;
-	align-items: start;
-	height: calc(100vh - 47px);
-}

@@ -1,8 +1,0 @@
-.vouchers__nothing {
-	width: 100%;
-	height: 100%;
-	background-image: url("../../../../../images/not_found.svg");
-	background-position: center center;
-	background-repeat: no-repeat;
-	grid-column: 1/-1;
-}

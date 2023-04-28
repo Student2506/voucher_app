@@ -1,0 +1,54 @@
+.search-input {
+  //position: relative;
+  border: none;
+  padding: 0;
+  & div {
+    position: relative;
+    width: 100%;
+  }
+  & input {
+    width: 100%;
+    position: relative;
+    box-sizing: border-box;
+    border: 1px solid #ccd5db;
+    height: 35px;
+    border-radius: 86px;
+    background-color: #fff;
+    padding: 0 30px 0 12px;
+    transition: border .2s;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0,  .06);
+    font-family: Roboto, Arial, sans-serif;
+    font-size: .8125rem;
+    font-weight: normal;
+    line-height: 35px;
+    color: #2a2d32;
+  }
+
+  & input:focus {
+    border: 1px solid #0bc0df;
+  }
+
+  &__reset {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    right: 9px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-image: url("../images/cross-svgrepo-com.svg");
+    background-position: center center;
+    background-size: 20px;
+    background-repeat: no-repeat;
+    /*Анимация*/
+    transition: filter linear .2s, opacity linear .2s;
+  }
+
+  &__reset:hover {
+    cursor: pointer;
+    filter: drop-shadow(0 0 10px #000);
+  }
+
+  &__reset:active {
+    opacity: .8;
+  }
+}

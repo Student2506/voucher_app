@@ -1,9 +1,0 @@
-.sign__container {
-	background: #f8f9fd;
-	height: calc(100vh - 66px);
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 381px;
-	padding: 66px 54px 0;
-}

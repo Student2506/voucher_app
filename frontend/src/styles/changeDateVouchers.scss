@@ -1,0 +1,94 @@
+.change {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  height: 100%;
+  &__sidebar {
+    height: inherit;
+    box-shadow: 0 0 5px 5px rgba(0, 0, 0, .06);
+    padding: 10px;
+  }
+  &__search {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  &__label {
+    width: 100%;
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    grid-column: 1/-1;
+  }
+  &__input {
+    width: 100%;
+    border-bottom: lightgray 1px solid;
+    /*Шрифт*/
+    font-family: Roboto, Arial, sans-serif;
+    font-size: .75rem;
+    padding-bottom: 5px;
+    grid-column: 1/-1;
+    /*Анимация*/
+    transition: border linear .2s;
+    &:focus {
+      border-bottom: #1c9daf 1px solid;
+    }
+    &::placeholder {
+      color: #667682;
+    }
+  }
+  &__button {
+    margin-left: auto;
+  }
+  &__date {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+  }
+  &__table {
+    padding: 50px 50px 0;
+    box-sizing: border-box;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: hidden;
+    &_header {
+      display: grid;
+      grid-template-columns: min-content repeat(3, 1fr);
+      gap: 20px;
+      padding: 15px;
+      border-bottom: lightgray 1px solid;
+    }
+    &_title {
+      font-family: Roboto, Arial, sans-serif;
+      margin: 0;
+      font-size: 12px;
+      letter-spacing: .3px;
+      font-weight: bold;
+      color: #667682;
+    }
+    &_items {
+      overflow-y: scroll;
+      margin-bottom: 20px;
+    }
+    &_item {
+      display: grid;
+      grid-template-columns: min-content repeat(3, 1fr);
+      column-gap: 20px;
+      padding: 15px;
+      &-active {
+        background-color: #dff7fd;
+      }
+    }
+    &_item:hover {
+      cursor: pointer;
+      background-color: #dff7fd;
+    }
+    &_text {
+      font-family: Roboto, Arial, sans-serif;
+      margin: 0;
+      color: #2a2d32;
+      font-size: 13px;
+    }
+  }
+}

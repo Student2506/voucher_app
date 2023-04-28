@@ -1,0 +1,49 @@
+.button_theme_blue {
+  width: 191px;
+  height: 42px;
+  background-color: #0bc0df;
+  position: relative;
+  color: #fff;
+  border: 1px solid #0bc0df;
+  border-radius: 3px;
+  cursor: pointer;
+  outline: 0;
+  padding: 8px 15px;
+  white-space: nowrap;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .06);
+  font-family: Roboto, Arial, sans-serif;
+  font-size: .8125rem;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  transition: background-color linear .2s, border linear .2s;
+  &:hover {
+    border: 1px solid #1c9daf;
+  }
+  &:active {
+    background-color: #1c9daf;
+  }
+  &:disabled {
+    background-color: lightgray;
+    border: 1px solid lightgray;
+    cursor: unset;
+  }
+}
+
+.button_preload {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  left: calc(50% - 15px);
+  top: calc(50% - 15px);
+  animation: linear spin 1s infinite both;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

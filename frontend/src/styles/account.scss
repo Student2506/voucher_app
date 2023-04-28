@@ -1,0 +1,11 @@
+.account {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &__name {
+    font-family: Roboto, Arial, sans-serif;
+    font-size: .75rem;
+    color: #fff;
+    letter-spacing: .2px;
+  }
+}

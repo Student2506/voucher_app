@@ -1,25 +1,14 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
-import {baseUrl} from "../../constants";
+import {BASE_URL} from "../../constants";
 import jwt_decode from "jwt-decode";
 
 const decodeJwt = (token) => jwt_decode(token);
-
-function deleteAllCookies() {
-  const cookies = document.cookie.split(";");
-
-  for (let i = 0; i < cookies.length; i++) {
-    const cookie = cookies[i];
-    const eqPos = cookie.indexOf("=");
-    const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;";
-  }
-}
 
 export const updateJwt = createAsyncThunk(
   'user/updateJwt',
   async function({jwtRefresh}, {rejectWithValue, dispatch}) {
     try {
-      const res = await fetch(`${baseUrl}/api/v1/auth/jwt/refresh/`, {
+      const res = await fetch(`${BASE_URL}/api/v1/auth/jwt/refresh/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -35,22 +24,6 @@ export const updateJwt = createAsyncThunk(
       return rejectWithValue(err.message);
     }
   }
-)
-
-export const clearSession = createAsyncThunk(
-  'user/clearSession',
-  async function(_, {rejectWithValue, dispatch}) {
-    try {
-      const res = await fetch(`${baseUrl}/api/v1/clear-session`, {
-        method: 'GET',
-      })
-      if (!res.ok) throw new Error('Что-то пошло нет');
-      dispatch(exitUser());
-    } catch (err) {
-      return rejectWithValue(`${err.message}`);
-    }
-  }
-
 )
 
 export const userSlice = createSlice({
@@ -72,13 +45,6 @@ export const userSlice = createSlice({
         }
       }
     },
-    exitUser(state, action) {
-      deleteAllCookies();
-      state.userData = {};
-      state.status = null;
-      state.loggedIn = false;
-      state.error = null;
-    }
   },
   extraReducers: {
     [updateJwt.pending]: (state) => {
@@ -98,6 +64,7 @@ export const userSlice = createSlice({
   }
 })
 
-export const {refreshJwt, exitUser} = userSlice.actions;
+export const {refreshJwt} = userSlice.actions;
 
 export default userSlice.reducer;
+
