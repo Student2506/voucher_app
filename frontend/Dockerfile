@@ -1,4 +1,8 @@
-FROM node:19-alpine3.17
+FROM node:20-alpine3.16
+RUN apk update && apk add --update --no-cache \
+	g++ \
+	make \
+	py3-pip
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
