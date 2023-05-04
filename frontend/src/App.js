@@ -41,7 +41,9 @@ function App() {
     } else {
       window.location.replace(`${BASE_URL}/api/v1/oauth2/login`);
     }
-    dispatch(updateJwt({jwtRefresh: userData.jwt.refr}))
+    if (userData.jwt) {
+      dispatch(updateJwt({jwtRefresh: userData.jwt.refr}))
+    }
   }, [])
 
   useEffect(() => {
