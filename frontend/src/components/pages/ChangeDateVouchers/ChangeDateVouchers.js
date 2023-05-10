@@ -64,8 +64,8 @@ const ChangeDateVouchers = () => {
           <label className={"change__label"}>Номер заказа:</label>
           <input disabled={status === 'loading'} placeholder={"Введите номер заказа"} className={"change__input"} type={"text"} maxLength={10} value={orderQuery} onChange={(e) => setOrderQuery(e.target.value)}/>
           <label className={"change__label"}>Штрих-код:</label>
-          <input disabled={status === 'loading'} placeholder={"Введите штрих-код"} className={"change__input"} type={"text"} maxLength={16} minLength={16} value={barcodeQuery} onChange={(e) => setBarcodeQuery(e.target.value)}/>
-          <button className={"button_theme_blue change__button"} onClick={searchVouchers} disabled={orderQuery === '' && barcodeQuery === ''}>Поиск</button>
+          <input disabled={status === 'loading'} placeholder={"Введите штрих-код 16 цифр"} className={"change__input"} type={"text"} maxLength={16} minLength={16} value={barcodeQuery} onChange={(e) => setBarcodeQuery(e.target.value)}/>
+          <button className={"button_theme_blue change__button"} onClick={searchVouchers} disabled={orderQuery === '' && barcodeQuery.length !== 16}>Поиск</button>
         </div>
 
         <div className={"change__date"}>
