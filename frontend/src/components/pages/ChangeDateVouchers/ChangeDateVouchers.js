@@ -28,7 +28,7 @@ const ChangeDateVouchers = () => {
   }, [vouchers])
 
   function searchVouchers() {
-    if (orderQuery || barcodeQuery) {
+    if (orderQuery || barcodeQuery.length === 16) {
       const filtredArr = vouchers.filter((el) => {
         if (el.order_id === null && orderQuery === '') {
           return true;
@@ -64,7 +64,7 @@ const ChangeDateVouchers = () => {
           <label className={"change__label"}>Номер заказа:</label>
           <input disabled={status === 'loading'} placeholder={"Введите номер заказа"} className={"change__input"} type={"text"} maxLength={10} value={orderQuery} onChange={(e) => setOrderQuery(e.target.value)}/>
           <label className={"change__label"}>Штрих-код:</label>
-          <input disabled={status === 'loading'} placeholder={"Введите штрих-код"} className={"change__input"} type={"text"} maxLength={16} value={barcodeQuery} onChange={(e) => setBarcodeQuery(e.target.value)}/>
+          <input disabled={status === 'loading'} placeholder={"Введите штрих-код"} className={"change__input"} type={"text"} maxLength={16} minLength={16} value={barcodeQuery} onChange={(e) => setBarcodeQuery(e.target.value)}/>
           <button className={"button_theme_blue change__button"} onClick={searchVouchers} disabled={orderQuery === '' && barcodeQuery === ''}>Поиск</button>
         </div>
 
@@ -81,7 +81,7 @@ const ChangeDateVouchers = () => {
           <input type={"checkbox"} onChange={selectAll}/>
           <p className={"change__table_title"}>Заказ:</p>
           <p className={"change__table_title"}>Штрих-код:</p>
-          <p className={"change__table_title"}>Текущий срок действия:</p>
+          <p className={"change__table_title"}>Действителен до даты:</p>
         </div>
 
         <TableItems vouchers={filtredVouchers} onChange={selectOne}/>
