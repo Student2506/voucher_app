@@ -1,15 +1,13 @@
 """Main worker to create zip."""
-import logging
 from functools import partial
 
 import pika
 import redis
 
 from queue_handle.receive_email import collect_email_info
-from settings.config import settings
+from settings.config import get_logger, settings
 
-FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 def rabbit_init() -> pika.adapters.blocking_connection.BlockingChannel:
@@ -37,7 +35,6 @@ def redis_init() -> redis.Redis:            # type: ignore[type-arg]
 
 def main() -> None:
     """Process to get data from frontend."""
-    logging.basicConfig(level=logging.DEBUG, format=FORMAT)
     logger.debug('Starting collect data from frontend.')
     channel = rabbit_init()
     redis_instance = redis_init()

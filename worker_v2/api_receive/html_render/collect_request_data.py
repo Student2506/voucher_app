@@ -1,6 +1,5 @@
 """Function to handle html creation."""
 import json
-import logging
 from distutils.dir_util import copy_tree
 from shutil import copy
 from tempfile import mkdtemp
@@ -10,9 +9,10 @@ import redis
 
 from database import database_classes, models
 from html_render.html_generator import html_render
-from settings.config import settings
+from log_filters import filters
+from settings.config import get_logger, settings
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 def get_stocks(stock_id: str) -> list[models.TblStock]:
@@ -85,6 +85,8 @@ def make_html_templates(
             'file_path': f'{html_folder}/{stock.stock_strbarcode}.html',
             'pdf_path': f'{html_folder}/pdf/{stock.stock_strbarcode}.pdf',
             'total': len(stocks),
+            'request_id': filters.request_id.get(),
+            'username': filters.username.get(),
         }
         logger.debug(f'Outgoing message: {message}')
         channel.basic_publish(
@@ -126,12 +128,14 @@ def handle_frontend_callback(
         redis_instance: redis.Redis
     """
     request = json.loads(body.decode())
-    logger.debug(f'Incoming initial request: {request}')
+    filters.request_id.set(request.get('request_id'))
+    filters.username.set(request.get('username'))
+    logger.info(f'Incoming initial request: {request}')
     stocks = get_stocks(request.get('order_item'))
     template = get_template(request.get('template'))
     addresses = request.get('addresses')
     html_folder = mkdtemp()
-    logger.debug(html_folder)
+    logger.info(html_folder)
     copy_tree('templates/static', html_folder)
     if template:
         make_html_templates(

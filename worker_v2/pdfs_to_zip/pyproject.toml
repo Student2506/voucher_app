@@ -1,16 +1,48 @@
 [tool.poetry]
-name = "pdfs-to-zip"
+name = "worker-v2"
 version = "0.1.0"
 description = ""
 authors = ["Захаров Павел <pzakharov83@gmail.com>"]
 readme = "README.md"
-packages = [{include = "pdfs_to_zip"}]
+packages = [{include = "worker_v2"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-pika = "^1.3.1"
-pydantic = "^1.10.4"
 
+
+[tool.poetry.group.dev.dependencies]
+sqlalchemy-stubs = "^0.4"
+types-redis = "^4.5.5.2"
+
+
+[tool.poetry.group.api_receive.dependencies]
+pyicu = {version = "^2.11", platform = "linux"}
+pika = "^1.3.2"
+jinja2 = "^3.1.2"
+python-barcode = "^0.14.0"
+qrcode = "^7.4.2"
+sqlalchemy = "^2.0.15"
+pyodbc = "^4.0.39"
+psycopg2-binary = "^2.9.6"
+pillow = "^9.5.0"
+pydantic = "^1.10.8"
+redis = "^4.5.5"
+python-logstash = "^0.4.8"
+
+
+[tool.poetry.group.html_to_pdf.dependencies]
+pika = "^1.3.2"
+weasyprint = "^59.0"
+pydantic = "^1.10.8"
+hiredis = "^2.2.3"
+redis = "^4.5.5"
+python-logstash = "^0.4.8"
+
+
+[tool.poetry.group.pdfs_to_zip.dependencies]
+pika = "^1.3.2"
+pydantic = "^1.10.8"
+python-logstash = "^0.4.8"
 
 [build-system]
 requires = ["poetry-core"]

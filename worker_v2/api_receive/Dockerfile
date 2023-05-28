@@ -18,9 +18,9 @@ RUN apt update && ACCEPT_EULA=Y apt install -y unixodbc-dev \
 RUN python3 -m pip install -U pip
 RUN pip install "poetry==$POETRY_VERSION"
 WORKDIR /opt/app
-COPY pyproject.toml /opt/app/
+COPY pyproject.toml poetry.lock /opt/app/
 RUN poetry config virtualenvs.create false \
-  && poetry install $(test "$BUILD_TYPE" = "production" && echo "--without dev") --no-interaction --no-ansi --no-root
+  && poetry install $(test "$BUILD_TYPE" = "production" && echo "--without dev") --only=api_receive --no-interaction --no-ansi --no-root
 
 COPY . .
 ENTRYPOINT [ "python3", "receive_worker.py" ]

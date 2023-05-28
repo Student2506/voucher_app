@@ -78,10 +78,14 @@ services:
       - static_backend:/var/www/backend/:ro
       - media:/var/www/media/:ro
       - frontend:/var/www/frontend/:ro
+      - ./tmp/logs/nginx:/var/log/nginx/
     depends_on:
       - admin_site
     ports:
-      - "80:80"
+      - target: 80
+        published: 80
+        protocol: tcp
+        mode: host
   
   postgres:
     image: postgres:14.6-alpine3.17

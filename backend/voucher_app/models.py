@@ -48,6 +48,8 @@ class RequestOrder(UUIDMixin, TimeStampedMixin):
     template = models.ForeignKey('Template', on_delete=models.CASCADE)
     order_item = models.IntegerField()
     addresses = ArrayField(models.EmailField(blank=False, null=False), default=list)
+    request_id = models.CharField(_('request_id'), max_length=TEXT_FIELD_LEN)
+    username = models.CharField(_('username'), max_length=TEXT_FIELD_LEN)
 
     class Meta:
         """Generic Meta class."""

@@ -1,13 +1,11 @@
 """Main worker to create zip."""
-import logging
 
 import pika
 
-from settings.config import settings
+from settings.config import get_logger, settings
 from zip_creation.receive_pdf import handle_pdf
 
-FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 def rabbit_init() -> pika.adapters.blocking_connection.BlockingChannel:
@@ -26,7 +24,6 @@ def rabbit_init() -> pika.adapters.blocking_connection.BlockingChannel:
 
 def main() -> None:
     """Process to get data from frontend."""
-    logging.basicConfig(level=logging.DEBUG, format=FORMAT)
     logger.debug('Starting collect data from frontend.')
     channel = rabbit_init()
     channel.basic_consume(

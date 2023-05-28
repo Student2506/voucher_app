@@ -1,6 +1,11 @@
 """Settings for the project."""
 
+import logging
+from logging import config as logging_config
+
 from pydantic import AmqpDsn, BaseSettings
+
+from settings.logging import LOGGING
 
 
 class Settings(BaseSettings):
@@ -20,4 +25,9 @@ class Settings(BaseSettings):
         env_file = '.env'
 
 
+logging_config.dictConfig(LOGGING)
 settings = Settings()
+
+
+def get_logger(name: str) -> logging.Logger:
+    return logging.getLogger(name)
