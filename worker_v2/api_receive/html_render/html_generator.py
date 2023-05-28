@@ -1,6 +1,5 @@
 """Module responible to assembly htmls."""
 
-import logging
 from datetime import datetime as dt
 from io import BytesIO
 from pathlib import Path
@@ -13,9 +12,9 @@ from jinja2 import Environment, PackageLoader, select_autoescape
 from PIL import Image
 
 from database.models import Template
-from settings.config import settings
+from settings.config import get_logger, settings
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 ROTATE_DEGRE = -90
 NEW_SIZE = 90, 290
 

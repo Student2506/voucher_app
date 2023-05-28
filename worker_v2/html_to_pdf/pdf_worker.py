@@ -1,16 +1,13 @@
 """Worker to process html to pdf."""
-import logging
 
-from settings.config import settings
+from settings.config import get_logger, settings
 from thread_worker.worker import PDFBuilder
 
-FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 def main() -> None:
     """Process to get data from frontend."""
-    logging.basicConfig(level=logging.DEBUG, format=FORMAT)
     logger.debug('Starting collect data from frontend.')
 
     threads = []

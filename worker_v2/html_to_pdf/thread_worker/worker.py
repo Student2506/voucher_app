@@ -1,13 +1,12 @@
 """Worker to handle threading."""
-import logging
 from threading import Thread
 
 import pika
 
 from pdf_render.receive_html import handle_html_to_pdf
-from settings.config import settings
+from settings.config import get_logger, settings
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class PDFBuilder(Thread):

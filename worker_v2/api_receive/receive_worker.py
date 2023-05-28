@@ -1,16 +1,15 @@
 """Worker to process data from front."""
 
-import logging
 from functools import partial
 
 import pika
 import redis
 
 from html_render.collect_request_data import handle_frontend_callback
-from settings.config import settings
+from settings.config import get_logger, settings
 
 FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 def redis_init() -> redis.Redis:
@@ -40,7 +39,6 @@ def rabbit_init() -> pika.adapters.blocking_connection.BlockingChannel:
 
 def main() -> None:
     """Process to get data from frontend."""
-    logging.basicConfig(level=logging.DEBUG, format=FORMAT)
     logger.debug('Starting collect data from frontend.')
     redis_instance = redis_init()
     handle_frontend_part = partial(

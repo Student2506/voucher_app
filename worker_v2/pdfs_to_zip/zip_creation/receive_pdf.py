@@ -1,7 +1,6 @@
 """Get pdfs and create zip."""
 import glob
 import json
-import logging
 import os
 import subprocess  # noqa: S404
 import zipfile
@@ -9,9 +8,10 @@ from pathlib import Path
 
 import pika
 
-from settings.config import settings
+from log_filters import filters
+from settings.config import get_logger, settings
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 def split_zip_file(
@@ -25,6 +25,7 @@ def split_zip_file(
         zip_path: str - file to split
     """
     os.mkdir(zip_folder)
+    logger.info(zip_folder)
     subprocess.run(             # noqa: S607, S603
         [
             'zipsplit',
@@ -39,6 +40,7 @@ def split_zip_file(
         name_for_zip = Path(zip_path).stem
         new_name = f'{zip_folder}/{name_for_zip}_{idx:02d}.zip'
         os.rename(zip_file, new_name)
+        logger.info(new_name)
 
 
 def handle_pdf(
@@ -56,6 +58,8 @@ def handle_pdf(
         body: bytes
     """
     request = json.loads(body.decode())
+    filters.request_id.set(request.get('request_id'))
+    filters.username.set(request.get('username'))
     logger.debug(request)
     pdf_folder = request.get('pdf_folder')
     with zipfile.ZipFile(request.get('zip_path'), mode='w') as zf:
@@ -70,6 +74,8 @@ def handle_pdf(
             {
                 'zip_files': str(zip_folder),
                 'folder': str(Path(pdf_folder).parent),
+                'request_id': filters.request_id.get(),
+                'username': filters.username.get(),
             },
         ),
     )

@@ -12,7 +12,7 @@ RUN pip install "poetry==$POETRY_VERSION"
 WORKDIR /opt/app
 COPY poetry.lock pyproject.toml /opt/app/
 RUN poetry config virtualenvs.create false \
-  && poetry install $(test "$BUILD_TYPE" = "production" && echo "--without dev") --no-interaction --no-ansi --no-root
+  && poetry install $(test "$BUILD_TYPE" = "production" && echo "--without dev") --only=send_zip --no-interaction --no-ansi --no-root
 
 COPY . .
 ENTRYPOINT [ "python3", "email_worker.py" ]
