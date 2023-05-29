@@ -37,7 +37,7 @@ LOGGING = {
             'filters': ['request_id'],
         },
         'logstash': {
-            'level': 'INFO',
+            'level': 'DEBUG',
             'filters': ['request_id'],
             'class': 'logstash.LogstashHandler',
             'host': 'logstash',
