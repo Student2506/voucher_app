@@ -28,26 +28,19 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from vista_module.models import Customer, OrderItem, Stock, VoucherType
 from voucher import settings
-from voucher_api.serializers import (
-    CustomerDetailSerializer,
-    CustomerListSerializer,
-    OrderItemItemSerializer,
-    OrderItemListSerializer,
-    RequestOrderSerializer,
-    StockSerializer,
-    StockWriteSerializer,
-    VoucherTypeOrderingSerializer,
-)
+from voucher_api import serializers as api_serializers
 from voucher_app.logging import request_id, username
 
 RABBITMQ_QUEUE_INCOMING = os.getenv('RABBITMQ_QUEUE_INCOMING', None)
 logger = logging.getLogger(__name__)
 
+VISTA_DATABASE = 'vista'
+
 
 class CustomerViewset(viewsets.ReadOnlyModelViewSet):
     """API Endpoint which allows to view Customers."""
 
-    queryset = Customer.objects.using('vista').order_by('customer_name')
+    queryset = Customer.objects.using(VISTA_DATABASE).order_by('customer_name')
     filter_backends = [filters.SearchFilter]
     search_fields = ['customer_name']
 
@@ -59,65 +52,115 @@ class CustomerViewset(viewsets.ReadOnlyModelViewSet):
         """
         logger.info('Accessing customers view')
         if self.action == 'retrieve':
-            return CustomerDetailSerializer
-        return CustomerListSerializer
+            return api_serializers.CustomerDetailSerializer
+        return api_serializers.CustomerListSerializer
 
     def retrieve(self, request: Request, *args: list[Any], **kwargs: dict[Any, Any]) -> Response:
-        result = super().retrieve(request, *args, **kwargs)
-        logger.info(result.data)
-        return result
+        """Retreive data for logging.
+
+        Args:
+            request: Request - data to process
+            args: list[Any] - arbitary list of positional arguments
+            kwargs: list[Any, Any] - arbitary list of keyword arguments
+
+        Returns:
+            Response - proccessed data
+        """
+        response = super().retrieve(request, *args, **kwargs)
+        logger.info(response.data)
+        return response
 
 
 class VoucherTypeViewset(viewsets.ModelViewSet):
     """API Endpoint which chooses VoucherType."""
 
-    queryset = VoucherType.objects.using('vista')
-    serializer_class = VoucherTypeOrderingSerializer
+    queryset = VoucherType.objects.using(VISTA_DATABASE)
+    serializer_class = api_serializers.VoucherTypeOrderingSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['voucher_description']
 
     def get_queryset(self) -> Any:
+        """Get data from database.
+
+        Returns:
+            Any - result of queryset
+        """
         logger.info('Accessing voucher view')
         return super().get_queryset()
 
 
 class OrderItemViewset(viewsets.ModelViewSet):
-    """API Endpoint to query order_items"""
+    """API Endpoint to query order_items."""
 
-    queryset = OrderItem.objects.using('vista')
+    queryset = OrderItem.objects.using(VISTA_DATABASE)
     filter_backends = [filters.SearchFilter]
 
     def get_serializer_class(self) -> serializers.ModelSerializer:
+        """Get instance of serializer.
+
+        Returns:
+            ModelSerializer - instance of serializer
+        """
         logger.info('Accessing OrderItem view')
         if self.action == 'retrieve':
-            return OrderItemItemSerializer
-        return OrderItemListSerializer
+            return api_serializers.OrderItemItemSerializer
+        return api_serializers.OrderItemListSerializer
 
     def retrieve(self, request: Request, *args: list[Any], **kwargs: dict[Any, Any]) -> Any:
-        result = super().retrieve(request, *args, **kwargs)
-        logger.info(result.data)
-        return result
+        """Get data for logging.
+
+        Args:
+            request: Request - data to process
+            args: list[Any] - arbitary args
+            kwargs: dict[Any, Any] - arbitary kwargs
+
+        Returns:
+            Any - processed data
+        """
+        order_data = super().retrieve(request, *args, **kwargs)
+        logger.info(order_data.data)
+        return order_data
 
 
 class StockViewset(
-    mixins.RetrieveModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet
+    mixins.RetrieveModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet,
 ):
-    """API Endpoint to query order_items"""
+    """API Endpoint to query order_items."""
 
     queryset = Stock.objects.using(
-        'vista'
+        VISTA_DATABASE,
     ).filter(
-        voucher_type_id__vouchertype_strgiftcard='Y'
+        voucher_type_id__vouchertype_strgiftcard='Y',
     ).exclude(
-        issued_date='1900-01-01 00:00:00.000'
+        issued_date='1900-01-01 00:00:00.000',
     )
-    serializer_class = StockSerializer
+    serializer_class = api_serializers.StockSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['stock_strbarcode', 'client_order_item__order_id__order_id']
 
     def get_queryset(self) -> Any:
+        """Get data from database.
+
+        Returns:
+            Any - result of queryset
+        """
         logger.info('Access to order_items View')
         return super().get_queryset()
+
+    def retrieve(self, request: Request, *args: list[Any], **kwargs: dict[Any, Any]) -> Any:
+        """Get data for logging.
+
+        Args:
+            request: Request - data to process
+            args: list[Any] - arbitary args
+            kwargs: dict[Any, Any] - arbitary kwargs
+
+        Returns:
+            Any - processed data
+        """
+        stocks = super().retrieve(request, *args, **kwargs)
+        logger.info(stocks.data)
+        return stocks
 
 
 @csrf_exempt
@@ -141,7 +184,7 @@ def put_order(request: Request, order_item_id: int) -> Response:
     logger.info(order_data)
     if request.query_params.get('codetype', None) == 'qrcode':
         order_data['codetype'] = 'qrcode'
-    order = RequestOrderSerializer(data=order_data)
+    order = api_serializers.RequestOrderSerializer(data=order_data)
     if order.is_valid():
         order.save()
         send_data_to_generation(order_data)
@@ -150,33 +193,69 @@ def put_order(request: Request, order_item_id: int) -> Response:
 
 
 class UpdateExpiry(views.APIView):
+    """View to consume update certs query."""
 
     def get_object(self, obj_id: str) -> Any:
+        """Retreive object for view.
+
+        Args:
+            obj_id: str - id of object
+
+        Returns:
+            Any - object
+
+        Raises:
+            ValidationError: data provided is not valid
+        """
         logger.info('Access to Update Expiry View')
         try:
-            return Stock.objects.using('vista').get(stock_strbarcode=obj_id)
-        except (Stock.DoesNotExist, ValidationError):
+            return Stock.objects.using(VISTA_DATABASE).get(stock_strbarcode=obj_id)
+        except (Stock.DoesNotExist, ValidationError) as exc:
+            logger.error(str(exc))
             raise
 
     def validate_ids(self, obj_list: list[str]) -> bool:
+        """Check for provided ids are valid.
+
+        Args:
+            obj_list: list[str] - list of ids
+
+        Returns:
+            bool - result of validation
+
+        Raises:
+            ValidationError: wrong data provided
+        """
         for code in obj_list:
             try:
-                Stock.objects.using('vista').get(stock_strbarcode=code)
-            except (Stock.DoesNotExist, ValidationError):
+                Stock.objects.using(VISTA_DATABASE).get(stock_strbarcode=code)
+            except (Stock.DoesNotExist, ValidationError) as exc:
+                logger.error(str(exc))
                 raise
         return True
 
     def put(self, request: Request, *args: list[Any], **kwargs: dict[Any, Any]) -> Response:
+        """Update vouchers with new expiry data.
+
+        Args:
+            request: Request - data to process
+            args: list[Any] - arbitary list of args
+            kwargs: dict[Any, Any] - arbitary list of kwargs
+
+        Returns:
+            Response - result of processing request
+        """
         logger.info('Request to Update Expiry with update')
         codes = request.data['codes']
         logger.info(codes)
+        logger.info(request.data.get('extend_date'))
         try:
             self.validate_ids(codes)
         except (Stock.DoesNotExist, ValidationError):
             return Response(status=status.HTTP_404_NOT_FOUND)
-        new_expiry_objs = Stock.objects.using('vista').filter(stock_strbarcode__in=codes)
+        new_expiry_objs = Stock.objects.using(VISTA_DATABASE).filter(stock_strbarcode__in=codes)
         new_expiry_objs.update(expiry_date=request.data['extend_date'])
-        serializer = StockWriteSerializer(new_expiry_objs, many=True)
+        serializer = api_serializers.StockWriteSerializer(new_expiry_objs, many=True)
         return Response(serializer.data)
 
 
@@ -216,8 +295,9 @@ def retrieve_token(request: Request) -> Response:
         'refresh': str(refresh),
         'access': str(refresh.access_token),
     }
+    access_token = userinfo['access']
     access = jwt.decode(
-        userinfo['access'],
+        access_token,
         str(settings.SIMPLE_JWT.get('SIGNING_KEY')),
         algorithms=[str(settings.SIMPLE_JWT.get('ALGORITHM'))],
     )
@@ -229,7 +309,7 @@ def retrieve_token(request: Request) -> Response:
     response = redirect('/vouchers')
     response.set_cookie(
         'auth_access',
-        value=userinfo['access'].strip("'"),
+        value=access_token.strip("'"),
         secure=False,
         expires=datetime.fromtimestamp(access['exp']),
     )
@@ -239,7 +319,7 @@ def retrieve_token(request: Request) -> Response:
         secure=False,
         expires=datetime.fromtimestamp(refresh['exp']),
     )
-    response['Authorization'] = f"JWT {userinfo['access']}"
+    response['Authorization'] = f'JWT {access_token}'
     return response
 
 
