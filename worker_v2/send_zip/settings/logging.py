@@ -43,7 +43,7 @@ LOGGING = {
             'host': 'logstash',
             'port': 5044,
             'fqdn': False,
-            'tags': ['admin_panel'],
+            'tags': ['backend'],
         },
     },
     'loggers': {
