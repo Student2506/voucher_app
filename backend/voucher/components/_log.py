@@ -33,7 +33,7 @@ LOGGING = {
             'host': 'logstash',
             'port': 5044,
             'fqdn': False,
-            'tags': 'backend_front',
+            'tags': 'apifront',
         },
     },
     'loggers': {
