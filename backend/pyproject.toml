@@ -30,6 +30,7 @@ djoser = "^2.1.0"
 djangorestframework-simplejwt = {version = "4.8.0", extras = ["crypto"]}
 psycopg2 = "^2.9.5"
 pydantic = "^1.10.8"
+python-logstash = "^0.4.8"
 
 
 [tool.poetry.group.dev.dependencies]
