@@ -4,8 +4,7 @@ LOG_FORMAT = (
     '%(asctime)s [%(levelname)s] [%(request_id)s - %(username)s] %(name) -30s %(funcName) -35s %(lineno) -5d: '
     '%(message)s'
 )
-# LOG_DEFAULT_HANDLERS = ['console', 'logstash']
-LOG_DEFAULT_HANDLERS = ['console',]
+LOG_DEFAULT_HANDLERS = ['console', 'logstash']
 
 LOGGING = {
     'version': 1,
