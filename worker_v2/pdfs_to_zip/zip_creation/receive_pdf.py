@@ -72,7 +72,7 @@ def handle_pdf(
         routing_key=settings.rabbitmq_queue_send_email,
         body=json.dumps(
             {
-                'zip_files': Path(zip_file_path).parent / 'zips',
+                'zip_files': str(Path(zip_file_path).parent / 'zips'),
                 'folder': str(Path(pdf_folder).parent),
                 'request_id': filters.request_id.get(),
                 'username': filters.username.get(),
