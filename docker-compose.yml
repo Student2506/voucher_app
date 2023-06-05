@@ -13,6 +13,8 @@ services:
     env_file:
       - .env
     command: uwsgi --strict --ini uwsgi.ini
+    networks:
+      - voucher_app
 
   api_receiver:
     build:
@@ -20,54 +22,61 @@ services:
       dockerfile: Dockerfile
     restart: always
     volumes:
-      - ./results:/tmp
+      - files_data:/tmp
       - media:/opt/app/media/:ro
     env_file:
       - .env
     depends_on:
       rabbitmq:
         condition: service_healthy
-    
+    networks:
+      - voucher_app
+
   html_to_pdf:
     build:
       context: worker_v2/html_to_pdf
       dockerfile: Dockerfile
     restart: always
     volumes:
-      - ./results:/tmp
+      - files_data:/tmp
       - media:/opt/app/media/:ro
     env_file:
       - .env
     depends_on:
       rabbitmq:
         condition: service_healthy
-  
+    networks:
+      - voucher_app
+
   pdf_to_zip:
     build:
       context: worker_v2/pdfs_to_zip
       dockerfile: Dockerfile
     restart: always
     volumes:
-      - ./results:/tmp
+      - files_data:/tmp
     env_file:
       - .env
     depends_on:
       rabbitmq:
         condition: service_healthy
-      
+    networks:
+      - voucher_app
+
   send_zip:
     build:
       context: worker_v2/send_zip
       dockerfile: Dockerfile
     restart: always
     volumes:
-      - ./results:/tmp
+      - files_data:/tmp
     env_file:
       - .env
     depends_on:
       rabbitmq:
         condition: service_healthy
-  
+    networks:
+      - voucher_app
 
   nginx:
     image: nginx:latest
@@ -86,7 +95,9 @@ services:
         published: 80
         protocol: tcp
         mode: host
-  
+    networks:
+      - voucher_app
+
   postgres:
     image: postgres:14.6-alpine3.17
     restart: always
@@ -95,6 +106,8 @@ services:
       - ./scripts/:/docker-entrypoint-initdb.d/
     env_file:
       - .env
+    networks:
+      - voucher_app
 
   rabbitmq:
     image: rabbitmq:3.11.7-management-alpine
@@ -106,7 +119,9 @@ services:
         interval: 10s
         timeout: 10s
         retries: 5
-  
+    networks:
+      - voucher_app
+
   frontend:
     build:
       context: ./frontend
@@ -117,11 +132,15 @@ services:
     command: npm run start
     env_file:
       - .env
+    networks:
+      - voucher_app
 
   redis:
     image: redis:7.0.8-alpine
     restart: always
-    
+    networks:
+      - voucher_app
+
 
 volumes:
   media:
@@ -129,8 +148,9 @@ volumes:
   static_frontend:
   static_backend:
   frontend:
+  files_data:
 
-networks: 
-  default:
-    name: voucher_app_net
+networks:
+  voucher_app:
+    external: true
 

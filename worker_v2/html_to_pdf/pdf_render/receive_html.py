@@ -1,7 +1,6 @@
 """Module to recieve html and convert to PDF."""
 
 import json
-import os
 from datetime import datetime as dt
 from pathlib import Path
 
@@ -24,10 +23,7 @@ def create_pdf_file(html_file: str, pdf_file: str) -> None:
         pdf_file: str - pdf-file to create
     """
     font_config = FontConfiguration()
-    html_folder = Path(html_file).parent
-    logger.info(f'PDF Creation html_folder: {html_folder}')
-    logger.info(f'PDF Creation html_file: {html_file}')
-    logger.info(f'PDF Creation pdf_file: {pdf_file}')
+
     HTML(html_file).write_pdf(
         pdf_file,
         font_config=font_config,
@@ -52,7 +48,7 @@ def handle_html_to_pdf(
     filters.request_id.set(request.get('request_id'))
     filters.username.set(request.get('username'))
     pdf_folder = Path(request.get('pdf_path')).parent
-    os.makedirs(pdf_folder, exist_ok=True)
+    logger.debug(request)
     create_pdf_file(
         html_file=request.get('file_path'),
         pdf_file=request.get('pdf_path'),

@@ -15,15 +15,14 @@ logger = get_logger(__name__)
 
 
 def split_zip_file(
-    zip_folder: Path,
     zip_path: str,
 ) -> None:
     """Split zip-file in chunks.
 
     Args:
-        zip_folder: Path - Path to keep chunks
         zip_path: str - file to split
     """
+    zip_folder = Path(zip_path).parent / 'zips'
     os.mkdir(zip_folder)
     logger.info(zip_folder)
     subprocess.run(             # noqa: S607, S603
@@ -61,18 +60,19 @@ def handle_pdf(
     filters.request_id.set(request.get('request_id'))
     filters.username.set(request.get('username'))
     logger.debug(request)
+    zip_file_path = request.get('zip_path')
     pdf_folder = request.get('pdf_folder')
-    with zipfile.ZipFile(request.get('zip_path'), mode='w') as zf:
+    with zipfile.ZipFile(zip_file_path, mode='w') as zf:
         for pdf_file in glob.glob(f'{pdf_folder}/*.pdf'):
             zf.write(pdf_file, Path(pdf_file).name)
-    zip_folder = Path(request.get('zip_path')).parent / 'zips'
-    split_zip_file(zip_folder, request.get('zip_path'))
+    logger.debug(f'Zip file {os.path.exists(zip_file_path)} and size {os.path.getsize(zip_file_path)}')
+    split_zip_file(zip_file_path)
     channel.basic_publish(
         exchange='',
         routing_key=settings.rabbitmq_queue_send_email,
         body=json.dumps(
             {
-                'zip_files': str(zip_folder),
+                'zip_files': Path(zip_file_path).parent / 'zips',
                 'folder': str(Path(pdf_folder).parent),
                 'request_id': filters.request_id.get(),
                 'username': filters.username.get(),

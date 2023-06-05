@@ -4,6 +4,7 @@ services:
   setup:
     image: elasticsearch:8.7.1
     container_name: setup
+    restart: unless-stopped
     volumes:
       - certs:/usr/share/elasticsearch/config/certs
       - ./scripts:/scripts:ro
@@ -18,11 +19,14 @@ services:
       interval: 1s
       timeout: 5s
       retries: 120
+    networks:
+      - voucher_app
 
   logstash:
     image: logstash:8.7.1
     user: "0"
     container_name: logstash
+    restart: unless-stopped
     environment:
       - XPACK_MONITORING_ENABLED=false
       - ES_HOST=elasticsearch:9200
@@ -41,10 +45,13 @@ services:
     depends_on:
       elasticsearch:
         condition: service_healthy
+    networks:
+      - voucher_app
 
   elasticsearch:
     image: elasticsearch:8.7.1
     container_name: elasticsearch
+    restart: unless-stopped
     environment:
       - node.name=elasticsearch
       - discovery.type=single-node
@@ -78,7 +85,9 @@ services:
         retries: 120
     env_file:
       - .env
-  
+    networks:
+      - voucher_app
+
   kibana:
     image: kibana:8.7.1
     container_name: kibana
@@ -106,7 +115,14 @@ services:
       retries: 120
     env_file:
       - .env
+    networks:
+      - voucher_app
 
 volumes:
   esdata:
   certs:
+
+networks:
+  voucher_app:
+    external: true
+

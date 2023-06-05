@@ -57,13 +57,13 @@ LOGGING = {
         },
         'voucher_app': {
             'handlers': LOG_DEFAULT_HANDLERS,
-            'level': 'INFO',
+            'level': 'DEBUG',
             'propagate': False,
             'filters': ['request_id'],
         },
         'voucher_api': {
             'handlers': LOG_DEFAULT_HANDLERS,
-            'level': 'INFO',
+            'level': 'DEBUG',
             'propagate': False,
             'filters': ['request_id'],
         },

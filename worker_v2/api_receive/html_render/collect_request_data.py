@@ -1,8 +1,9 @@
 """Function to handle html creation."""
 import json
-from distutils.dir_util import copy_tree
-from shutil import copy
+from pathlib import Path
+from shutil import copy, copytree
 from tempfile import mkdtemp
+from typing import Any
 
 import pika
 import redis
@@ -72,17 +73,19 @@ def make_html_templates(
             f'{html_folder}/images/voucher.png',
         )
     logger.debug(f'Template is: {template}')
-    for index, stock in enumerate(stocks, 1):
+    for stock_to_render in stocks:
         html_render(
             template=template,
-            code_to_fill=str(stock.stock_strbarcode),
-            folder=html_folder,
+            code_to_fill=str(stock_to_render.stock_strbarcode),
+            folder=f'{html_folder}/{stock_to_render.stock_strbarcode}',
             code_type=code_type,
-            expiry_date=stock.expiry_date.strftime('%Y-%m-%d')
+            expiry_date=stock_to_render.expiry_date.strftime('%Y-%m-%d'),
         )
+
+    for index, stock in enumerate(stocks, 1):
         message = {
             'index': index,
-            'file_path': f'{html_folder}/{stock.stock_strbarcode}.html',
+            'file_path': f'{html_folder}/{stock.stock_strbarcode}/{stock.stock_strbarcode}.html',
             'pdf_path': f'{html_folder}/pdf/{stock.stock_strbarcode}.pdf',
             'total': len(stocks),
             'request_id': filters.request_id.get(),
@@ -131,24 +134,35 @@ def handle_frontend_callback(
     filters.request_id.set(request.get('request_id'))
     filters.username.set(request.get('username'))
     logger.info(f'Incoming initial request: {request}')
-    stocks = get_stocks(request.get('order_item'))
     template = get_template(request.get('template'))
-    addresses = request.get('addresses')
     html_folder = mkdtemp()
-    logger.info(html_folder)
-    copy_tree('templates/static', html_folder)
+    copy_data_to_storage(request, html_folder)
     if template:
         make_html_templates(
             template=template,
             html_folder=html_folder,
-            stocks=stocks,
+            stocks=get_stocks(request.get('order_item')),
             code_type=request.get('codetype', 'barcode'),
             channel=channel,
         )
         prepare_send_email(
-            addresses=addresses,
+            addresses=request.get('addresses'),
             html_folder=html_folder,
             redis_instance=redis_instance,
         )
     else:
         logger.error(f'Template: {template}')
+
+
+def copy_data_to_storage(request: dict[Any, Any], html_folder: str) -> None:
+    """Secondary function to create data storage.
+
+    Args:
+        request: dict[Any, Any] - data to process
+        html_folder: str - Path to create folders
+    """
+    (Path(html_folder) / 'pdf').mkdir()
+    logger.info(html_folder)
+    for stock in get_stocks(request.get('order_item')):
+        path = Path(html_folder) / stock.stock_strbarcode
+        copytree('templates/static/', path)
