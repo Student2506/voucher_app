@@ -51,7 +51,7 @@ LOGGING = {
             'handlers': LOG_DEFAULT_HANDLERS,
             'level': 'DEBUG',
         },
-        'fontTools': {
+        'weasyprint': {
             'handlers': LOG_DEFAULT_HANDLERS,
             'level': 'WARNING',
         },
