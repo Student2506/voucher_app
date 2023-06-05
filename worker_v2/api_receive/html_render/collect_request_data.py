@@ -63,18 +63,19 @@ def make_html_templates(
         channel: pika.channel.Channel - channel to pass data on
     """
     (Path(html_folder) / 'images').mkdir(exist_ok=True)
-    if template.logo_image:
-        copy(
-            f'media/{template.logo_image}',
-            f'{html_folder}/images/logoVoucher.png',
-        )
-    if template.voucher_image:
-        copy(
-            f'media/{template.voucher_image}',
-            f'{html_folder}/images/voucher.png',
-        )
+
     logger.debug(f'Template is: {template}')
     for stock_to_render in stocks:
+        if template.logo_image:
+            copy(
+                f'media/{template.logo_image}',
+                f'{html_folder}/{stock_to_render.stock_strbarcode}/images/logoVoucher.png',
+            )
+        if template.voucher_image:
+            copy(
+                f'media/{template.voucher_image}',
+                f'{html_folder}/{stock_to_render.stock_strbarcode}/images/voucher.png',
+            )
         html_render(
             template=template,
             code_to_fill=str(stock_to_render.stock_strbarcode),
