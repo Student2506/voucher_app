@@ -53,7 +53,7 @@ LOGGING = {
         },
         'fontTools.*': {
             'handlers': LOG_DEFAULT_HANDLERS,
-            'level': 'DEBUG',
+            'level': 'WARNING',
         },
     },
     'root': {
