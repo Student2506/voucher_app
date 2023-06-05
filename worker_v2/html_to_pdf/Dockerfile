@@ -5,10 +5,18 @@ ARG BUILD_TYPE
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONFAULTHANDLER 1
 ENV PYTHONUNBUFFERED 1
-ENV POETRY_VERSION=1.3.2
+ENV POETRY_VERSION=1.4.1
 
-RUN apt update
-RUN apt install -y libpango-1.0-0 libpangoft2-1.0-0 libpango-1.0-0 libjpeg-dev libopenjp2-7-dev libffi-dev python3-cffi python3-brotli
+RUN apt update && apt install -y \
+  libpango-1.0-0 \
+  libpangoft2-1.0-0 \
+  libpango-1.0-0 \
+  libjpeg-dev \
+  libopenjp2-7-dev \
+  libffi-dev \
+  python3-cffi \
+  python3-brotli \
+  && rm -rf /var/lib/apt/lists/*
 RUN python3 -m pip install -U pip
 RUN pip install "poetry==$POETRY_VERSION"
 WORKDIR /opt/app

@@ -14,9 +14,6 @@
         text-transform: uppercase;
 		text-align: justify;
       }
-	  .refactor__barcode {
-		background-image: url("{{barcode}}");
-	  }
 	</style>
 </head>
 <body class="page">
@@ -31,7 +28,7 @@
 						{% block refactor_conditions %}
 						{% endblock refactor_conditions %}
 					</p>
-					
+
 					<p class="refactor__caption">
 						{% block refactor_caption %}
 						{% endblock refactor_caption %}
@@ -41,12 +38,18 @@
 					<div class="refactor__barcode" ></div>
 					<img src="./images/voucher.png" alt="Voucher-image" class="refactor__voucher-image">
 				</div>
-				{% block refactor_bottom %}
+				{% block refactor_bottom_caption %}
 				<div class="refactor__bottom">
 					<h2 class="refactor__subtitle">Правила использования</h2>
 					<label class="refactor__label" for="voucher-text">Категория сертификата:</label>
-					{% block voucher_text %}
-					{% endblock voucher_text %}
+				</div>
+				{% endblock refactor_bottom_caption %}
+				<div class="refactor__bottom">
+				{% block voucher_text %}
+				{% endblock voucher_text %}
+				</div>
+				{% block refactor_bottom %}
+				<div class="refactor__bottom">
 					<p class="refactor__caption">Приглашаем Вас в кинотеатры нового поколения, адреса Вы можете уточнить на сайте www.karofilm.ru</p>
 				</div>
 				{% endblock refactor_bottom %}

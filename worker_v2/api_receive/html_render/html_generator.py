@@ -86,15 +86,13 @@ def html_render(
         code_to_fill: str - code to generate voucher upon
         folder: str - folder to keep templates
         code_type: str - type of code generator
+        expiry_date: str - string with expiry date
     """
-    expiry_date_dt = dt.strptime(expiry_date, '%Y-%m-%d')
-    df = icu.SimpleDateFormat('dd MMMM YYYY', icu.Locale('ru'))
     with open(
         Path('templates') / 'refactorOrder_template.html', 'w',
     ) as user_template:
-        template = template.template.replace('<br />', '')
-        user_template.writelines(template)
-    barcode_filename = Path(folder) / f'{code_to_fill}.png'
+        user_template.writelines(template.template.replace('<br />', ''))
+    barcode_filename = Path(folder) / 'images/shtrih.png'
     if not code_type or code_type == 'barcode':
         barcode_render(barcode_filename, code_to_fill)
     if code_type == 'qrcode':
@@ -106,10 +104,25 @@ def html_render(
         'refactorOrder_template.html',
     ).render(
         barcode=barcode_filename.name,
-        expiry_date=df.format(expiry_date_dt),
+        expiry_date=get_specific_date(expiry_date),
     )
     logger.debug(f'html_content {html_content}')
-    with open(Path(folder) / f'{code_to_fill}.html', 'w') as fh:
-        fh.write(html_content)
+    file_path = Path(folder) / f'{code_to_fill}.html'
+    logger.debug(file_path)
+    with open(file_path, 'wb', buffering=0) as fh:
+        fh.write(html_content.encode('utf-8'))
     with open(Path('templates') / 'refactorOrder_template.html', 'w'):
         logger.debug('Cleanup file')
+
+
+def get_specific_date(expiry_date: str) -> str:
+    """Return data in format.
+
+    Args:
+        expiry_date: str - date from database
+
+    Returns:
+        str - data for application format
+    """
+    df = icu.SimpleDateFormat('dd MMMM YYYY', icu.Locale('ru'))
+    return str(df.format(dt.strptime(expiry_date, '%Y-%m-%d')))

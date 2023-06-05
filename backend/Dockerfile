@@ -8,14 +8,16 @@ ENV PYTHONUNBUFFERED 1
 ENV UWSGI_PROCESSES 1
 ENV UWSGI_THREADS 16
 ENV UWSGI_HARAKIRI 240
-ENV POETRY_VERSION=1.3.2
+ENV POETRY_VERSION=1.4.1
 
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
 RUN curl curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/sources.list.d/mssql-release.list
-RUN apt update
-RUN ACCEPT_EULA=Y apt install -y msodbcsql18
-RUN ACCEPT_EULA=Y apt install -y mssql-tools18
-RUN apt install -y gcc unixodbc-dev
+RUN apt update && ACCEPT_EULA=Y apt install -y \
+  msodbcsql18 \
+  mssql-tools18 \
+  gcc \
+  unixodbc-dev \
+  && rm -rf /var/lib/apt/lists/*
 RUN python3 -m pip install -U pip
 RUN pip install "poetry==$POETRY_VERSION"
 WORKDIR /opt/app
