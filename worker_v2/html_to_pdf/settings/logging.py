@@ -55,6 +55,10 @@ LOGGING = {
             'handlers': LOG_DEFAULT_HANDLERS,
             'level': 'WARNING',
         },
+        'fontTools': {
+            'handlers': LOG_DEFAULT_HANDLERS,
+            'level': 'WARNING',
+        },
     },
     'root': {
         'level': 'DEBUG',
