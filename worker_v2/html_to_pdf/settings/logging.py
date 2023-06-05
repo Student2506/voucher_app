@@ -37,7 +37,7 @@ LOGGING = {
             'filters': ['request_id'],
         },
         'logstash': {
-            'level': 'DEBUG',
+            'level': 'INFO',
             'filters': ['request_id'],
             'class': 'logstash.LogstashHandler',
             'host': 'logstash',
@@ -48,6 +48,10 @@ LOGGING = {
     },
     'loggers': {
         '': {
+            'handlers': LOG_DEFAULT_HANDLERS,
+            'level': 'DEBUG',
+        },
+        'fontTools': {
             'handlers': LOG_DEFAULT_HANDLERS,
             'level': 'DEBUG',
         },
