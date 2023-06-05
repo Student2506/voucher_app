@@ -62,6 +62,7 @@ def make_html_templates(
         code_type: str - code type (barcode or qrcode)
         channel: pika.channel.Channel - channel to pass data on
     """
+    (Path(html_folder) / 'images').mkdir(exist_ok=True)
     if template.logo_image:
         copy(
             f'media/{template.logo_image}',
