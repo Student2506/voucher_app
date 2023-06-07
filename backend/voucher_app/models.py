@@ -110,7 +110,7 @@ class TemplateProperty(models.Model):
         super().save(*args, **kwargs)
 
     @property
-    def propety_value(self) -> str:
+    def property_value(self) -> str:
         logger.debug('++++++++++++++++++++++++++++++++++')
         tag_to_find = re.compile(
             r'(\{\% block (' + self.property_name + r') \%\})(.*)(\{\% endblock \2 \%\})',
