@@ -8,10 +8,11 @@ from rest_framework.schemas import get_schema_view
 from voucher_api import views
 
 router = routers.DefaultRouter()
-router.register('customers', views.CustomerViewset)
-router.register('voucher_type', views.VoucherTypeViewset)
-router.register('order_items', views.OrderItemViewset)
-router.register('stocks', views.StockViewset)
+router.register('customers', views.CustomerViewset, basename='customers')
+router.register('voucher_type', views.VoucherTypeViewset, basename='voucher_type')
+router.register('order_items', views.OrderItemViewset, basename='order_items')
+router.register('stocks', views.StockViewset, basename='stocks')
+router.register('templates', views.TemplateViewset, basename='templates')
 
 
 urlpatterns = [
