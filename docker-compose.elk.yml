@@ -2,9 +2,9 @@ version: '3.9'
 
 services:
   setup:
-    image: elasticsearch:8.7.1
+    image: elasticsearch:8.8.0
     container_name: setup
-    restart: unless-stopped
+    restart: never
     volumes:
       - certs:/usr/share/elasticsearch/config/certs
       - ./scripts:/scripts:ro
@@ -23,7 +23,7 @@ services:
       - voucher_app
 
   logstash:
-    image: logstash:8.7.1
+    image: logstash:8.8.0
     user: "0"
     container_name: logstash
     restart: unless-stopped
@@ -49,13 +49,13 @@ services:
       - voucher_app
 
   elasticsearch:
-    image: elasticsearch:8.7.1
+    image: elasticsearch:8.8.0
     container_name: elasticsearch
     restart: unless-stopped
     environment:
       - node.name=elasticsearch
       - discovery.type=single-node
-      - ES_JAVA_OPTS=-Xms500m -Xmx500m
+      - ES_JAVA_OPTS=-Xms750m -Xmx750m
       - bootstrap.memory_lock=true
       - xpack.security.enabled=true
       - xpack.security.http.ssl.enabled=true
@@ -89,7 +89,7 @@ services:
       - voucher_app
 
   kibana:
-    image: kibana:8.7.1
+    image: kibana:8.8.0
     container_name: kibana
     ports:
       - '5601:5601'

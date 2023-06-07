@@ -3,6 +3,7 @@
 import json
 import logging
 import os
+import re
 import time
 from datetime import datetime
 from typing import Any
@@ -30,6 +31,7 @@ from vista_module.models import Customer, OrderItem, Stock, VoucherType
 from voucher import settings
 from voucher_api import serializers as api_serializers
 from voucher_app.logging import request_id, username
+from voucher_app.models import Template
 
 RABBITMQ_QUEUE_INCOMING = os.getenv('RABBITMQ_QUEUE_INCOMING', None)
 logger = logging.getLogger(__name__)
@@ -347,3 +349,32 @@ def clear_session(request: Request) -> Response:
         expires=datetime.fromtimestamp(time.time()),
     )
     return response
+
+
+class TemplateViewset(
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    viewsets.GenericViewSet,
+):
+    """API Endpoint to adjust Templates."""
+
+    queryset = Template.objects.all()
+    serializer_class = api_serializers.TemplateSerializer
+
+    def perform_update(self, serializer: serializers.ModelSerializer) -> Any:
+        logger.debug(serializer.initial_data)
+        logger.debug(serializer.instance.template_content)
+        for template_property in serializer.initial_data.get('template_property'):
+            logger.debug(template_property.get('name'))
+            logger.debug(template_property.get('content'))
+            tag_to_find = re.compile(
+                r'(\{\% block (' + template_property.get('name') + r') \%\})(.*)(\{\% endblock \2 \%\})',
+                flags=re.DOTALL,
+            )
+            serializer.instance.template_content = re.sub(
+                tag_to_find,
+                r'\1 ' + template_property.get('content') + r' \4',
+                serializer.instance.template_content,
+            )
+        return super().perform_update(serializer=serializer)

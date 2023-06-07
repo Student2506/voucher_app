@@ -103,7 +103,7 @@ services:
     restart: always
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./scripts/:/docker-entrypoint-initdb.d/
+      - ./scripts_postgres_only/:/docker-entrypoint-initdb.d/
     env_file:
       - .env
     networks:

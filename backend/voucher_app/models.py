@@ -64,7 +64,7 @@ class TemplateProperty(models.Model):
 
     template = models.ForeignKey('Template', on_delete=models.CASCADE, related_name='properties')
     property_name = models.CharField(_('Property name'), max_length=REPRESENTATION_LEN)
-    property_value = models.TextField(_('Property value'), blank=True, null=True)
+    # property_value = models.TextField(_('Property value'))
     property_locale = models.CharField(_('Template part'), max_length=REPRESENTATION_LEN)
 
     class Meta:
@@ -97,15 +97,27 @@ class TemplateProperty(models.Model):
             args: list[Any] - Any data
             kwargs: dict[Any, Any] - Any data
         """
-        tag_to_find = r'(\{\% block (' + self.property_name + r') \%\})(.*)(\{\% endblock \2 \%\})'
+        tag_to_find = re.compile(
+            r'(\{\% block (' + self.property_name + r') \%\})(.*)(\{\% endblock \2 \%\})',
+            flags=re.DOTALL,
+        )
         self.template.template_content = re.sub(
             tag_to_find,
             r'\1 ' + self.property_value + r' \4',
             self.template.template_content,
-            flags=re.DOTALL,
         )
         self.template.save()
         super().save(*args, **kwargs)
+
+    @property
+    def propety_value(self) -> str:
+        logger.debug('++++++++++++++++++++++++++++++++++')
+        tag_to_find = re.compile(
+            r'(\{\% block (' + self.property_name + r') \%\})(.*)(\{\% endblock \2 \%\})',
+            flags=re.DOTALL,
+        )
+        result = re.search(tag_to_find, self.template.template_content)
+        return str(result.group(3)) if result else ' '
 
 
 class RequestOrder(UUIDMixin, TimeStampedMixin):

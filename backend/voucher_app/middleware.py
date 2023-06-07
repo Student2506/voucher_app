@@ -1,4 +1,5 @@
 import logging
+from http import HTTPStatus
 from typing import Callable
 
 import jwt
@@ -20,11 +21,14 @@ class RequestIdMiddleware:
             request_id.set(request.headers.get('X-Request-Id'))
         if request.headers.get('Authorization'):
             token = request.headers.get('Authorization').lstrip('JWT ')
-            access = jwt.decode(
-                token,
-                str(settings.SIMPLE_JWT.get('SIGNING_KEY')),
-                algorithms=[str(settings.SIMPLE_JWT.get('ALGORITHM'))],
-            )
+            try:
+                access = jwt.decode(
+                    token,
+                    str(settings.SIMPLE_JWT.get('SIGNING_KEY')),
+                    algorithms=[str(settings.SIMPLE_JWT.get('ALGORITHM'))],
+                )
+            except jwt.exceptions.ExpiredSignatureError:
+                return HttpResponse('Unauthorized', status=HTTPStatus.UNAUTHORIZED)
             username.set(access.get('user_id'))
         response = self.get_response(request)
         return response
