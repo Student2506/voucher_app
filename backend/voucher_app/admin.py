@@ -50,7 +50,7 @@ class PropertiesInline(admin.StackedInline):
     formfield_overrides = {
         models.TextField: {'widget': TinyMCE(mce_attrs=mce_attrs)},
     }
-    fields = ('property_locale', 'propety_value')
+    fields = ('property_locale', 'property_value')
     extra = 1
 
 
