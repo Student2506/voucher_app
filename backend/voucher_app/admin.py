@@ -51,6 +51,7 @@ class PropertiesInline(admin.StackedInline):
         models.TextField: {'widget': TinyMCE(mce_attrs=mce_attrs)},
     }
     fields = ('property_locale', 'property_value')
+    readonly_fields = ('property_value',)
     extra = 1
 
 
