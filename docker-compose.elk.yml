@@ -4,7 +4,7 @@ services:
   setup:
     image: elasticsearch:8.8.0
     container_name: setup
-    restart: never
+    restart: no
     volumes:
       - certs:/usr/share/elasticsearch/config/certs
       - ./scripts:/scripts:ro
