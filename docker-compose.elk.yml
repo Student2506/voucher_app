@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   setup:
-    image: elasticsearch:8.8.0
+    image: elasticsearch:7.17.10
     container_name: setup
     volumes:
       - certs:/usr/share/elasticsearch/config/certs
@@ -22,7 +22,7 @@ services:
       - voucher_app
 
   logstash:
-    image: logstash:8.8.0
+    image: logstash:7.17.10
     user: "0"
     container_name: logstash
     restart: unless-stopped
@@ -48,7 +48,7 @@ services:
       - voucher_app
 
   elasticsearch:
-    image: elasticsearch:8.8.0
+    image: elasticsearch:7.17.10
     container_name: elasticsearch
     restart: unless-stopped
     environment:
@@ -88,7 +88,7 @@ services:
       - voucher_app
 
   kibana:
-    image: kibana:8.8.0
+    image: kibana:7.17.10
     container_name: kibana
     ports:
       - '5601:5601'
