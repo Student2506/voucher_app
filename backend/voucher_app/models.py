@@ -64,7 +64,7 @@ class TemplateProperty(models.Model):
 
     template = models.ForeignKey('Template', on_delete=models.CASCADE, related_name='properties')
     property_name = models.CharField(_('Property name'), max_length=REPRESENTATION_LEN)
-    # property_value = models.TextField(_('Property value'))
+    property_value = models.TextField(_('Property value'))
     property_locale = models.CharField(_('Template part'), max_length=REPRESENTATION_LEN)
 
     class Meta:
@@ -109,8 +109,7 @@ class TemplateProperty(models.Model):
         self.template.save()
         super().save(*args, **kwargs)
 
-    @property
-    def property_value(self) -> str:
+    def get_property_value(self) -> str:
         logger.debug('++++++++++++++++++++++++++++++++++')
         tag_to_find = re.compile(
             r'(\{\% block (' + self.property_name + r') \%\})(.*)(\{\% endblock \2 \%\})',
