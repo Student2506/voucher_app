@@ -55,4 +55,5 @@ class EmailWorker:
         self.connection.sendmail(
             settings.email_user, recipients, message.as_string(),
         )
+        logger.info(f'Sent message {",".join(recipients)}')
         self.connection.close()

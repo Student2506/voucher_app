@@ -65,7 +65,7 @@ def handle_pdf(
     with zipfile.ZipFile(zip_file_path, mode='w') as zf:
         for pdf_file in glob.glob(f'{pdf_folder}/*.pdf'):
             zf.write(pdf_file, Path(pdf_file).name)
-    logger.debug(f'Zip file {os.path.exists(zip_file_path)} and size {os.path.getsize(zip_file_path)}')
+    logger.info(f'Zip file {os.path.exists(zip_file_path)} and size {os.path.getsize(zip_file_path)}')
     split_zip_file(zip_file_path)
     channel.basic_publish(
         exchange='',
