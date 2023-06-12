@@ -47,17 +47,6 @@ class Template(UUIDMixin, TimeStampedMixin):
         """
         return str(self.title)[:REPRESENTATION_LEN]
 
-    def save(self, *args: Any, **kwargs: Any) -> None:
-        """Save data.
-
-        Args:
-            args: list[Any] - Any data
-            kwargs: dict[Any, Any] - Any data
-        """
-        super().save(*args, **kwargs)
-        for property_name in self.properties.all():
-            logger.debug(property_name)
-
 
 class TemplateProperty(models.Model):
     """Class to describe properties of Template."""
