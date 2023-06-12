@@ -55,5 +55,8 @@ class EmailWorker:
         self.connection.sendmail(
             settings.email_user, recipients, message.as_string(),
         )
-        logger.info(f'Sent message {",".join(recipients)}')
+        if isinstance(recipients, str):
+            logger.info(f'Sent message to {recipients}')
+        else:
+            logger.info(f'Sent message to {",".join(recipients)}')
         self.connection.close()
