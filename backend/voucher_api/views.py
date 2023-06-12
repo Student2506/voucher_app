@@ -3,7 +3,6 @@
 import json
 import logging
 import os
-import re
 import time
 from datetime import datetime
 from typing import Any
@@ -363,18 +362,10 @@ class TemplateViewset(
     serializer_class = api_serializers.TemplateSerializer
 
     def perform_update(self, serializer: serializers.ModelSerializer) -> Any:
-        logger.debug(serializer.initial_data)
-        logger.debug(serializer.instance.template_content)
         for template_property in serializer.initial_data.get('template_property'):
-            logger.debug(template_property.get('name'))
-            logger.debug(template_property.get('content'))
-            tag_to_find = re.compile(
-                r'(\{\% block (' + template_property.get('name') + r') \%\})(.*)(\{\% endblock \2 \%\})',
-                flags=re.DOTALL,
+            template_property_db_object = serializer.instance.properties.get(
+                property_name=template_property.get('name'),
             )
-            serializer.instance.template_content = re.sub(
-                tag_to_find,
-                r'\1 ' + template_property.get('content') + r' \4',
-                serializer.instance.template_content,
-            )
+            template_property_db_object.property_value = template_property.get('content')
+            template_property_db_object.save()
         return super().perform_update(serializer=serializer)
