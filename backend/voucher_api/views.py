@@ -362,7 +362,7 @@ class TemplateViewset(
     serializer_class = api_serializers.TemplateSerializer
 
     def perform_update(self, serializer: serializers.ModelSerializer) -> Any:
-        if serializer.initial_data.get('template_property'):
+        if not serializer.initial_data.get('template_property'):
             return super().perform_update(serializer=serializer)
         for template_property in serializer.initial_data.get('template_property'):
             template_property_db_object = serializer.instance.properties.get(
