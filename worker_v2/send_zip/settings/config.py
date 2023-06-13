@@ -21,6 +21,8 @@ class Settings(BaseSettings):
     email_user: str
     redis_url: RedisDsn
     subject_for_email: str | None = 'Voucher are attached.'
+    username_for_email: str | None = ''
+    password_for_email: str | None = ''
 
     class Config:
         """Configuration class."""
