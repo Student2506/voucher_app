@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     debug: bool | None = False
     rabbitmq_queue_pdf_to_zip: str
     rabbitmq_queue_send_email: str
-    volume_size: int | None = 10485760
+    volume_size: int | None = 10
 
     class Config:
         """Configuration class."""
