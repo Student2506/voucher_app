@@ -25,6 +25,7 @@ def split_zip_file(
     zip_folder = Path(zip_path).parent / 'zips'
     os.mkdir(zip_folder)
     logger.info(zip_folder)
+    logger.debug(f'Size {settings.volume_size*1024*1024}')
     subprocess.run(             # noqa: S607, S603
         [
             'zipsplit',
