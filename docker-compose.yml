@@ -70,6 +70,7 @@ services:
     restart: always
     volumes:
       - files_data:/tmp
+      - /etc/timezone:/etc/timezone:ro
     env_file:
       - .env
     depends_on:
