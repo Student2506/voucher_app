@@ -29,7 +29,7 @@ def split_zip_file(
         [
             'zipsplit',
             '-n',
-            str(settings.volume_size),
+            str(settings.volume_size*1024*1024),
             '-b',
             str(zip_folder),
             zip_path,
