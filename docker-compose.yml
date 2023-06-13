@@ -11,6 +11,7 @@ services:
       - static_backend:/opt/app/static/
       - media:/opt/app/media/
       - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
     command: uwsgi --strict --ini uwsgi.ini
@@ -26,6 +27,7 @@ services:
       - files_data:/tmp
       - media:/opt/app/media/:ro
       - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
     depends_on:
@@ -43,6 +45,7 @@ services:
       - files_data:/tmp
       - media:/opt/app/media/:ro
       - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
     depends_on:
@@ -59,6 +62,7 @@ services:
     volumes:
       - files_data:/tmp
       - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
     depends_on:
@@ -75,6 +79,7 @@ services:
     volumes:
       - files_data:/tmp
       - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     env_file:
       - .env
     depends_on:
