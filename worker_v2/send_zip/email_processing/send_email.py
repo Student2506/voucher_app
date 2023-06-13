@@ -19,7 +19,9 @@ class EmailWorker:
         self.server = settings.email_smtp_server
         self.port = settings.email_smtp_port
         self.connection = smtplib.SMTP(self.server, self.port)
+        self.connection.ehlo()
         self.connection.starttls()
+        self.connection.ehlo()
         self.connection.login(settings.username_for_email, settings.password_for_email)
 
     def send_message(
