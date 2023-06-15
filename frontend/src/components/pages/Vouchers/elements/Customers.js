@@ -9,7 +9,7 @@ const Customers = ({ filterQuery }) => {
   const {selectedCustomer, customers} = useSelector(state => state.orders);
 
   /*Мемоизированный ответ функции фильтрации*/
-  const filtredCustomers = useMemo(() => customers.filter(customer =>customer.customer_name.includes(filterQuery)), [filterQuery, customers]);
+  const filtredCustomers = useMemo(() => customers.filter(customer =>customer.customer_name.toUpperCase().includes(filterQuery.toUpperCase())), [filterQuery, customers]);
 
   return (
     <>

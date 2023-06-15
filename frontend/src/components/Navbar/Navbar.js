@@ -12,6 +12,7 @@ const Navbar = () => {
         <NavLink to={"/vouchers"} className={"navbar__link"} activeClassName={"navbar__link_active"}>Заказы</NavLink>
         <NavLink to={"/refund"} className={"navbar__link"} activeClassName={"navbar__link_active"}>Возвраты</NavLink>
         <NavLink to={"/change"} className={"navbar__link"} activeClassName={"navbar__link_active"}>Изменения срока действия сертификата</NavLink>
+        <NavLink to={"/template"} className={"navbar__link"} activeClassName={"navbar__link_active"}>Шаблоны</NavLink>
       </nav>
     </section>
   );
