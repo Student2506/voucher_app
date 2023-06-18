@@ -18,8 +18,7 @@ const CreateTemplate = () => {
           <TemplateEditor />
         </Route>
         <Route path={'/template/create'}>
-          {/*<NotFound text={"Скоро здесь появиться новая функциональность :)"}/>*/}
-          {/*<PagePreloader />*/}
+          <NotFound text={"Скоро здесь появиться новая функциональность :)"}/>
         </Route>
       </Switch>
     </section>
