@@ -8,6 +8,7 @@ import Orders from "./elements/Orders";
 import Templates from "./elements/Templates";
 import SubmitForm from "./elements/SubmitForm";
 import LoadingScreen from "../../LoadingScreen/LoadingScreen";
+import PagePreloader from "../../PagePreloader/PagePreloader";
 
 const Vouchers = () => {
 
@@ -56,7 +57,7 @@ const Vouchers = () => {
         </div>
       </aside>
       {
-        Object.keys(selectedCustomer).length > 0 &&
+        status === 'loading-orders' ? <PagePreloader /> : Object.keys(selectedCustomer).length > 0 &&
           <>
             <div className={"vouchers__orders vouchers__container"}>
               <h2 className={"vouchers__subtitle"}>Заказы: <span className={"vouchers__subtitle_partner"}>{selectedCustomer.customer_name}</span></h2>

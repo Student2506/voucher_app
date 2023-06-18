@@ -1,0 +1,41 @@
+.preloader {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  &:before {
+    content: "";
+    width: 40px;
+    height: 5px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #2a2d32;
+    border-radius: 5px;
+    z-index: 1;
+  }
+  &:after {
+    content: "";
+    //width: 40px;
+    height: 5px;
+    position: absolute;
+    top: 50%;
+    //left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #0bc0df;
+    border-radius: 5px;
+    z-index: 1;
+    animation: preloader linear infinite 2s;
+  }
+}
+
+@keyframes preloader {
+  0% {
+    width: 1px;
+    left: calc(50% - 20px);
+  }
+  100% {
+    width: 40px;
+    left: 50%;
+  }
+}
