@@ -16,7 +16,8 @@ const Vouchers = () => {
 
   const [checkedOrder, setCheckedOrder] = useState(null); // Сохраняет id выбранного заказа
   const [checkedTemplate, setCheckedTemplate] = useState(null); // Сохраняет id выбранного шаблона
-  const [filterQuery, setFilterQuery] = useState(''); // Поле input фильтра К/А
+  const [filterQueryContr, setFilterQueryContr] = useState(''); // Поле input фильтра К/А
+  const [filterQueryOrders, setFilterQueryOrders] = useState('');
   const [inputValues, setInputValues] = useState({}); // Поля для всех input email
 
   const {selectedCustomer, pushError, templates, status, customers} = useSelector(state => state.orders); // Забираем из Redux данные
@@ -48,12 +49,12 @@ const Vouchers = () => {
           type={"text"}
           placeholder={"Фильтр по наименованию..."}
           extraClassesContainer={"vouchers__filter"}
-          value={filterQuery}
-          onChangeInput={(e) => {setFilterQuery(e.target.value)}}
-          onClickButton={() => {setFilterQuery('')}}
+          value={filterQueryContr}
+          onChangeInput={(e) => {setFilterQueryContr(e.target.value)}}
+          onClickButton={() => {setFilterQueryContr('')}}
         />
         <div className={"vouchers__list"}>
-          <Customers filterQuery={filterQuery} />
+          <Customers filterQuery={filterQueryContr} />
         </div>
       </aside>
       {
@@ -61,8 +62,17 @@ const Vouchers = () => {
           <>
             <div className={"vouchers__orders vouchers__container"}>
               <h2 className={"vouchers__subtitle"}>Заказы: <span className={"vouchers__subtitle_partner"}>{selectedCustomer.customer_name}</span></h2>
+              <SearchInput
+                type={"text"}
+                placeholder={"Введите имя заказа..."}
+                extraClassesContainer={"vouchers__filter"}
+                value={filterQueryOrders}
+                onChangeInput={(e) => {setFilterQueryOrders(e.target.value)}}
+                onClickButton={() => {setFilterQueryOrders('')}}
+              />
               <div className={"vouchers__container_list"}>
                 <Orders
+                  filterQuery={filterQueryOrders}
                   onClickItem={(e) => {
                     setCheckedOrder(e.target.value)
                     dispatch(getTemplates(e.target.value))
