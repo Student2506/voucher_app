@@ -4,9 +4,13 @@ import './CreateTemplate.scss';
 import OptionsMenu from "../../OptionsMenu/OptionsMenu";
 import { NavLink, Route, Switch } from "react-router-dom";
 import NotFound from "../../NotFound/NotFound";
-import PagePreloader from "../../PagePreloader/PagePreloader";
+import { useSelector } from "react-redux";
+import LoadingScreen from "../../LoadingScreen/LoadingScreen";
 
 const CreateTemplate = () => {
+
+  const {status} = useSelector(state => state.templates);
+
   return (
     <section className={"create-template"}>
       <OptionsMenu>
@@ -21,6 +25,9 @@ const CreateTemplate = () => {
           <NotFound text={"Скоро здесь появиться новая функциональность :)"}/>
         </Route>
       </Switch>
+      {
+        status === 'loading' && <LoadingScreen />
+      }
     </section>
   );
 };

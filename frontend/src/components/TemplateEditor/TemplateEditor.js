@@ -11,7 +11,9 @@ const TemplateEditor = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getTemplates());
+    if (templates.length === 0) {
+      dispatch(getTemplates());
+    }
   }, [])
 
   const {templates} = useSelector(state => state.templates);

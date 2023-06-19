@@ -26,12 +26,24 @@ export const templatesSlice = createSlice({
   name: 'templates',
   initialState: {
     templates: [],
+    status: null,
   },
   reducers: {
     addTemplates(state, action) {
       state.templates = action.payload;
     }
   },
+  extraReducers: {
+    [getTemplates.pending]: (state) => {
+      state.status = 'loading';
+    },
+    [getTemplates.fulfilled]: (state) => {
+      state.status = null;
+    },
+    [getTemplates.rejected]: (state, action) => {
+      state.status = 'rejected';
+    }
+  }
 })
 
 export const {addTemplates} = templatesSlice.actions;
