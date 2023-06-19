@@ -104,6 +104,7 @@ def make_html_templates(
 def prepare_send_email(
     addresses: list[str],
     html_folder: str,
+    delivery_method: str,
     redis_instance: redis.Redis,
 ) -> None:
     """Collect data for email.
@@ -114,6 +115,7 @@ def prepare_send_email(
         redis_instance: redis.Redis
     """
     redis_instance.hset(html_folder, 'recipients', ','.join(addresses))
+    redis_instance.hset(html_folder, 'delivery_method', delivery_method)
 
 
 def handle_frontend_callback(
@@ -150,6 +152,7 @@ def handle_frontend_callback(
         prepare_send_email(
             addresses=request.get('addresses'),
             html_folder=html_folder,
+            delivery_method=request.get('delivery'),
             redis_instance=redis_instance,
         )
     else:

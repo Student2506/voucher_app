@@ -3,7 +3,7 @@
 import logging
 from logging import config as logging_config
 
-from pydantic import AmqpDsn, BaseSettings, RedisDsn
+from pydantic import AmqpDsn, BaseSettings, HttpUrl, RedisDsn
 
 from settings.logging import LOGGING
 
@@ -15,11 +15,19 @@ class Settings(BaseSettings):
     rabbitmq_default_pass: str
     rabbitmq_url: AmqpDsn
     debug: bool | None = False
-    rabbitmq_queue_pdf_to_zip: str
-    rabbitmq_queue_send_email: str
     rabbitmq_queue_send_sharepoint: str
-    volume_size: int | None = 10
+    email_smtp_server: str
+    email_smtp_port: int
+    email_user: str
     redis_url: RedisDsn
+    subject_for_email: str | None = 'Voucher are attached.'
+    username_for_email: str | None = ''
+    password_for_email: str | None = ''
+    sharepoint_client_id: str
+    sharepoint_secret: str
+    sharepoint_site: HttpUrl
+    sharepoint_site_name: str
+    sharepoint_doc_library: str
 
     class Config:
         """Configuration class."""
