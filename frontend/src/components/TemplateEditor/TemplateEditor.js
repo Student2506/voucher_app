@@ -1,10 +1,7 @@
 import React, { useEffect } from 'react';
 import './TemplateEditor.scss';
-import OptionsMenu from "../OptionsMenu/OptionsMenu";
-import { NavLink, Route, Switch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getTemplates } from "../../utils/store/templatesSlice";
-import NotFound from "../NotFound/NotFound";
 
 const TemplateEditor = () => {
 
