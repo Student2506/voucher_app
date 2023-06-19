@@ -18,6 +18,7 @@ const Vouchers = () => {
   const [checkedTemplate, setCheckedTemplate] = useState(null); // Сохраняет id выбранного шаблона
   const [filterQueryContr, setFilterQueryContr] = useState(''); // Поле input фильтра К/А
   const [filterQueryOrders, setFilterQueryOrders] = useState('');
+  const [filterQueryTemplates, setFilterQueryTemplates] = useState('');
   const [inputValues, setInputValues] = useState({}); // Поля для всех input email
 
   const {selectedCustomer, pushError, templates, status, customers} = useSelector(state => state.orders); // Забираем из Redux данные
@@ -81,11 +82,19 @@ const Vouchers = () => {
               </div>
             </div>
             {
-              templates.length > 0 &&
+              status === 'loading-templates' ? <PagePreloader /> : templates.length > 0 &&
                 <div className={"vouchers__templates vouchers__container"}>
                   <h2 className={"vouchers__subtitle"}>Шаблоны:</h2>
                   <div className={"vouchers__container_list"}>
-                    <Templates onClickItem={(e) => {setCheckedTemplate(e.target.value)}} />
+                    <SearchInput
+                      type={"text"}
+                      placeholder={"Введите наименование шаблона..."}
+                      extraClassesContainer={"vouchers__filter"}
+                      value={filterQueryTemplates}
+                      onChangeInput={(e) => {setFilterQueryTemplates(e.target.value)}}
+                      onClickButton={() => {setFilterQueryTemplates('')}}
+                    />
+                    <Templates onClickItem={(e) => {setCheckedTemplate(e.target.value)}} filterQuery={filterQueryTemplates}/>
                   </div>
                   <SubmitForm
                     disabled={!checkedTemplate}

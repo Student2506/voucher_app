@@ -160,6 +160,15 @@ const ordersSlice = createSlice({
     [getOrders.rejected]: (state) => {
       state.status = 'rejected';
     },
+    [getTemplates.pending]: (state) => {
+      state.status = 'loading-templates';
+    },
+    [getTemplates.fulfilled]: (state) => {
+      state.status = null;
+    },
+    [getTemplates.rejected]: (state) => {
+      state.status = 'rejected';
+    },
   },
 });
 
