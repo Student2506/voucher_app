@@ -13,6 +13,7 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import NotFound from "./components/NotFound/NotFound";
 import Refund from "./components/pages/Refund/Refund";
 import SignIn from "./components/SignIn/SignIn";
+import CreateTemplate from "./components/pages/CreateTemplate/CreateTemplate";
 
 function App() {
 
@@ -21,11 +22,12 @@ function App() {
   const history = useHistory();
 
   // useEffect(() => {
-  //   dispatch(updateJwt({jwtRefresh: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4MzM4NDUyMiwianRpIjoiMjc2ZWQyNThiZjA4NDk2YzkzZGNkNTEzZjA5MjIxZTYiLCJ1c2VyX2lkIjoiYS52b2xvc2hpbiJ9.60WTWoAPbm0zk6GRd7B006BoUeivZld957IoEGjhMD4"}))
+  //   dispatch(updateJwt({jwtRefresh: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4NzUxNTQwOCwianRpIjoiYzMzYWQ0OGY1YTUwNDg2ODliYWRmMzNkMjNhYTc0MDQiLCJ1c2VyX2lkIjoiYS52b2xvc2hpbiJ9.46Q1Rbngwx1mkNGW8ciZoH2q15X1e7tO2C2qp7tsurA"}))
   // }, [])
   //
   // useEffect(() => {
   //   if (loggedIn) {
+  //     console.log(userData.jwt.auth);
   //     setInterval(() => dispatch(updateJwt({jwtRefresh: userData.jwt.refr})), 240000);
   //   }
   // }, [loggedIn])
@@ -73,6 +75,11 @@ function App() {
           <ProtectedRoute
             component={Refund}
             path={"/refund"}
+            loggedIn={loggedIn}
+          />
+          <ProtectedRoute
+            component={CreateTemplate}
+            path={"/template"}
             loggedIn={loggedIn}
           />
           <Route path={"/sign-in"}>

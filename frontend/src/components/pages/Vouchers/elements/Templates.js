@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import ListItems from "../../../ListItems/ListItems";
 import { useSelector } from "react-redux";
 
-const Templates = ({onClickItem}) => {
+const Templates = ({onClickItem, filterQuery}) => {
 
   const {templates} = useSelector(state => state.orders);
+
+  const filtredTemplates = useMemo(() => templates.filter(template => Object.values(template).map((val) => val)[0].toUpperCase().includes(filterQuery.toUpperCase())), [filterQuery, templates]);
 
   return (
     <>
       {
-        templates.map((template, i) =>
+        filtredTemplates.map((template, i) =>
           <ListItems
             listName={"templates"}
             key={i}
