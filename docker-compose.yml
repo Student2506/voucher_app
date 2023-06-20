@@ -88,6 +88,23 @@ services:
     networks:
       - voucher_app
 
+  send_zip_sharepoint:
+    build:
+      context: worker_v2/upload_to_sp
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - files_data:/tmp
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - voucher_app
+
   nginx:
     image: nginx:latest
     restart: always

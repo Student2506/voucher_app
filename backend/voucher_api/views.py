@@ -182,9 +182,9 @@ def put_order(request: Request, order_item_id: int) -> Response:
     order_data['order_item'] = int(order_item_id)
     order_data['request_id'] = request_id.get()
     order_data['username'] = username.get()
+    order_data['delivery'] = request.query_params.get('delivery', 'email')
+    order_data['codetype'] = request.query_params.get('codetype', None)
     logger.info(order_data)
-    if request.query_params.get('codetype', None) == 'qrcode':
-        order_data['codetype'] = 'qrcode'
     order = api_serializers.RequestOrderSerializer(data=order_data)
     if order.is_valid():
         order.save()
