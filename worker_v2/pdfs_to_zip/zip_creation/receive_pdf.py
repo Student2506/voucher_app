@@ -7,6 +7,7 @@ import zipfile
 from pathlib import Path
 
 import pika
+from utils.redis_handle import redis_init
 
 from log_filters import filters
 from settings.config import get_logger, settings
@@ -57,6 +58,7 @@ def handle_pdf(
         properties: pika.spec.BasicProperties
         body: bytes
     """
+    redis_instance = redis_init()
     request = json.loads(body.decode())
     filters.request_id.set(request.get('request_id'))
     filters.username.set(request.get('username'))
@@ -67,16 +69,32 @@ def handle_pdf(
         for pdf_file in glob.glob(f'{pdf_folder}/*.pdf'):
             zf.write(pdf_file, Path(pdf_file).name)
     logger.info(f'Zip file {os.path.exists(zip_file_path)} and size {os.path.getsize(zip_file_path)}')
-    split_zip_file(zip_file_path)
-    channel.basic_publish(
-        exchange='',
-        routing_key=settings.rabbitmq_queue_send_email,
-        body=json.dumps(
-            {
-                'zip_files': str(Path(zip_file_path).parent / 'zips'),
-                'folder': str(Path(pdf_folder).parent),
-                'request_id': filters.request_id.get(),
-                'username': filters.username.get(),
-            },
-        ),
-    )
+    delivery_method = redis_instance.hget(str(Path(pdf_folder).parent), 'delivery_method')
+    logger.debug(delivery_method)
+    if delivery_method == 'email':
+        split_zip_file(zip_file_path)
+        channel.basic_publish(
+            exchange='',
+            routing_key=settings.rabbitmq_queue_send_email,
+            body=json.dumps(
+                {
+                    'zip_files': str(Path(zip_file_path).parent / 'zips'),
+                    'folder': str(Path(pdf_folder).parent),
+                    'request_id': filters.request_id.get(),
+                    'username': filters.username.get(),
+                },
+            ),
+        )
+    if delivery_method == 'sharepoint':
+        channel.basic_publish(
+            exchange='',
+            routing_key=settings.rabbitmq_queue_send_sharepoint,
+            body=json.dumps(
+                {
+                    'zip_file': zip_file_path,
+                    'folder': str(Path(pdf_folder).parent),
+                    'request_id': filters.request_id.get(),
+                    'username': filters.username.get(),
+                },
+            ),
+        )

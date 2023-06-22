@@ -95,5 +95,24 @@
     grid-column: 2/-1;
     background: url("../images/not_found.svg") center center no-repeat;
   }
+
+  &__remove-input-btn {
+    background: url("../images/removeicon.png") no-repeat center center;
+    width: 20px;
+    height: 20px;
+    background-size: cover;
+    cursor: pointer;
+    transition: opacity .2s linear;
+    position: absolute;
+    left: calc(50% - 40px);
+    transform: translateX(-50%);
+    bottom: -10px;
+    &:hover {
+      opacity: .8;
+    }
+    &:active {
+      filter: drop-shadow(0 0 1px rgba(0, 0, 0, .5));
+    }
+  }
 }
 

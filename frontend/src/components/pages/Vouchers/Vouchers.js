@@ -8,6 +8,7 @@ import Orders from "./elements/Orders";
 import Templates from "./elements/Templates";
 import SubmitForm from "./elements/SubmitForm";
 import LoadingScreen from "../../LoadingScreen/LoadingScreen";
+import PagePreloader from "../../PagePreloader/PagePreloader";
 
 const Vouchers = () => {
 
@@ -15,7 +16,9 @@ const Vouchers = () => {
 
   const [checkedOrder, setCheckedOrder] = useState(null); // Сохраняет id выбранного заказа
   const [checkedTemplate, setCheckedTemplate] = useState(null); // Сохраняет id выбранного шаблона
-  const [filterQuery, setFilterQuery] = useState(''); // Поле input фильтра К/А
+  const [filterQueryContr, setFilterQueryContr] = useState(''); // Поле input фильтра К/А
+  const [filterQueryOrders, setFilterQueryOrders] = useState('');
+  const [filterQueryTemplates, setFilterQueryTemplates] = useState('');
   const [inputValues, setInputValues] = useState({}); // Поля для всех input email
 
   const {selectedCustomer, pushError, templates, status, customers} = useSelector(state => state.orders); // Забираем из Redux данные
@@ -47,21 +50,30 @@ const Vouchers = () => {
           type={"text"}
           placeholder={"Фильтр по наименованию..."}
           extraClassesContainer={"vouchers__filter"}
-          value={filterQuery}
-          onChangeInput={(e) => {setFilterQuery(e.target.value)}}
-          onClickButton={() => {setFilterQuery('')}}
+          value={filterQueryContr}
+          onChangeInput={(e) => {setFilterQueryContr(e.target.value)}}
+          onClickButton={() => {setFilterQueryContr('')}}
         />
         <div className={"vouchers__list"}>
-          <Customers filterQuery={filterQuery} />
+          <Customers filterQuery={filterQueryContr} />
         </div>
       </aside>
       {
-        Object.keys(selectedCustomer).length > 0 &&
+        status === 'loading-orders' ? <PagePreloader /> : Object.keys(selectedCustomer).length > 0 &&
           <>
             <div className={"vouchers__orders vouchers__container"}>
               <h2 className={"vouchers__subtitle"}>Заказы: <span className={"vouchers__subtitle_partner"}>{selectedCustomer.customer_name}</span></h2>
+              <SearchInput
+                type={"text"}
+                placeholder={"Введите имя заказа..."}
+                extraClassesContainer={"vouchers__filter"}
+                value={filterQueryOrders}
+                onChangeInput={(e) => {setFilterQueryOrders(e.target.value)}}
+                onClickButton={() => {setFilterQueryOrders('')}}
+              />
               <div className={"vouchers__container_list"}>
                 <Orders
+                  filterQuery={filterQueryOrders}
                   onClickItem={(e) => {
                     setCheckedOrder(e.target.value)
                     dispatch(getTemplates(e.target.value))
@@ -70,11 +82,19 @@ const Vouchers = () => {
               </div>
             </div>
             {
-              templates.length > 0 &&
+              status === 'loading-templates' ? <PagePreloader /> : templates.length > 0 &&
                 <div className={"vouchers__templates vouchers__container"}>
                   <h2 className={"vouchers__subtitle"}>Шаблоны:</h2>
                   <div className={"vouchers__container_list"}>
-                    <Templates onClickItem={(e) => {setCheckedTemplate(e.target.value)}} />
+                    <SearchInput
+                      type={"text"}
+                      placeholder={"Введите наименование шаблона..."}
+                      extraClassesContainer={"vouchers__filter"}
+                      value={filterQueryTemplates}
+                      onChangeInput={(e) => {setFilterQueryTemplates(e.target.value)}}
+                      onClickButton={() => {setFilterQueryTemplates('')}}
+                    />
+                    <Templates onClickItem={(e) => {setCheckedTemplate(e.target.value)}} filterQuery={filterQueryTemplates}/>
                   </div>
                   <SubmitForm
                     disabled={!checkedTemplate}

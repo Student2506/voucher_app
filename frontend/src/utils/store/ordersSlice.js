@@ -26,7 +26,6 @@ export const getOrders = createAsyncThunk(
   'orders/getOrders',
   async function(id, {rejectWithValue, dispatch, getState}) {
     const jwt = getState().user.userData.jwt.auth;
-    dispatch(clearStatus());
     try{
       const res = await fetch(`${BASE_URL}/api/v1/customers/${id}/`, {
         method: 'GET',
@@ -150,6 +149,24 @@ const ordersSlice = createSlice({
       state.status = null;
     },
     [getCustomers.rejected]: (state) => {
+      state.status = 'rejected';
+    },
+    [getOrders.pending]: (state) => {
+      state.status = 'loading-orders';
+    },
+    [getOrders.fulfilled]: (state) => {
+      state.status = null;
+    },
+    [getOrders.rejected]: (state) => {
+      state.status = 'rejected';
+    },
+    [getTemplates.pending]: (state) => {
+      state.status = 'loading-templates';
+    },
+    [getTemplates.fulfilled]: (state) => {
+      state.status = null;
+    },
+    [getTemplates.rejected]: (state) => {
       state.status = 'rejected';
     },
   },
