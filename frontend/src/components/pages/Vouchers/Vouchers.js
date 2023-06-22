@@ -85,15 +85,15 @@ const Vouchers = () => {
               status === 'loading-templates' ? <PagePreloader /> : templates.length > 0 &&
                 <div className={"vouchers__templates vouchers__container"}>
                   <h2 className={"vouchers__subtitle"}>Шаблоны:</h2>
+                  <SearchInput
+                    type={"text"}
+                    placeholder={"Введите наименование шаблона..."}
+                    extraClassesContainer={"vouchers__filter"}
+                    value={filterQueryTemplates}
+                    onChangeInput={(e) => {setFilterQueryTemplates(e.target.value)}}
+                    onClickButton={() => {setFilterQueryTemplates('')}}
+                  />
                   <div className={"vouchers__container_list"}>
-                    <SearchInput
-                      type={"text"}
-                      placeholder={"Введите наименование шаблона..."}
-                      extraClassesContainer={"vouchers__filter"}
-                      value={filterQueryTemplates}
-                      onChangeInput={(e) => {setFilterQueryTemplates(e.target.value)}}
-                      onClickButton={() => {setFilterQueryTemplates('')}}
-                    />
                     <Templates onClickItem={(e) => {setCheckedTemplate(e.target.value)}} filterQuery={filterQueryTemplates}/>
                   </div>
                   <SubmitForm

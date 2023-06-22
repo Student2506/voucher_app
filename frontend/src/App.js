@@ -21,32 +21,32 @@ function App() {
   const { userData, loggedIn } = useSelector(state => state.user);
   const history = useHistory();
 
-  // useEffect(() => {
-  //   dispatch(updateJwt({jwtRefresh: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4NzUxNTQwOCwianRpIjoiYzMzYWQ0OGY1YTUwNDg2ODliYWRmMzNkMjNhYTc0MDQiLCJ1c2VyX2lkIjoiYS52b2xvc2hpbiJ9.46Q1Rbngwx1mkNGW8ciZoH2q15X1e7tO2C2qp7tsurA"}))
-  // }, [])
-  //
-  // useEffect(() => {
-  //   if (loggedIn) {
-  //     console.log(userData.jwt.auth);
-  //     setInterval(() => dispatch(updateJwt({jwtRefresh: userData.jwt.refr})), 240000);
-  //   }
-  // }, [loggedIn])
+  useEffect(() => {
+    dispatch(updateJwt({jwtRefresh: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4NzUxNTQwOCwianRpIjoiYzMzYWQ0OGY1YTUwNDg2ODliYWRmMzNkMjNhYTc0MDQiLCJ1c2VyX2lkIjoiYS52b2xvc2hpbiJ9.46Q1Rbngwx1mkNGW8ciZoH2q15X1e7tO2C2qp7tsurA"}))
+  }, [])
 
   useEffect(() => {
-    if (document.cookie) {
-      const jwt = document.cookie.split('; ').reduce(function(result, v, i, a) { var k = v.split('='); result[k[0]] = k[1]; return result; }, {})
-      if (!jwt.auth_refresh) {
-        window.location.replace(`${BASE_URL}/api/v1/oauth2/login`);
-      } else {
-        dispatch(updateJwt({jwtRefresh: jwt.auth_refresh}))
-      }
-    } else {
-      window.location.replace(`${BASE_URL}/api/v1/oauth2/login`);
+    if (loggedIn) {
+      console.log(userData.jwt.auth);
+      setInterval(() => dispatch(updateJwt({jwtRefresh: userData.jwt.refr})), 240000);
     }
-    if (userData.jwt) {
-      dispatch(updateJwt({jwtRefresh: userData.jwt.refr}))
-    }
-  }, [])
+  }, [loggedIn])
+
+  // useEffect(() => {
+  //   if (document.cookie) {
+  //     const jwt = document.cookie.split('; ').reduce(function(result, v, i, a) { var k = v.split('='); result[k[0]] = k[1]; return result; }, {})
+  //     if (!jwt.auth_refresh) {
+  //       window.location.replace(`${BASE_URL}/api/v1/oauth2/login`);
+  //     } else {
+  //       dispatch(updateJwt({jwtRefresh: jwt.auth_refresh}))
+  //     }
+  //   } else {
+  //     window.location.replace(`${BASE_URL}/api/v1/oauth2/login`);
+  //   }
+  //   if (userData.jwt) {
+  //     dispatch(updateJwt({jwtRefresh: userData.jwt.refr}))
+  //   }
+  // }, [])
 
   useEffect(() => {
     if (loggedIn) {
