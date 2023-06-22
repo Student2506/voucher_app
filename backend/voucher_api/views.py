@@ -11,6 +11,7 @@ import jwt
 import pika
 from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import (
     decorators,
     filters,
@@ -136,8 +137,9 @@ class StockViewset(
         issued_date='1900-01-01 00:00:00.000',
     )
     serializer_class = api_serializers.StockSerializer
-    filter_backends = [filters.SearchFilter]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     search_fields = ['stock_strbarcode', 'client_order_item__order_id__order_id']
+    filterset_fields = ['stock_strbarcode', 'client_order_item__order_id__order_id']
 
     def get_queryset(self) -> Any:
         """Get data from database.
