@@ -34,6 +34,7 @@ function App() {
 
   useEffect(() => {
     if (document.cookie) {
+      //
       const jwt = document.cookie.split('; ').reduce(function(result, v, i, a) { var k = v.split('='); result[k[0]] = k[1]; return result; }, {})
       if (!jwt.auth_refresh) {
         window.location.replace(`${BASE_URL}/api/v1/oauth2/login`);
