@@ -67,18 +67,6 @@ export const changeDateSlice = createSlice({
       selectedVoucher.checked = !selectedVoucher.checked;
     },
     selectVouchers(state, action) {
-      // const selectedVouchers = state.vouchers.filter((voucher) => {
-      //   let selected = false;
-      //   for(let i = 0; i<action.payload.barcodes.length; i++) {
-      //     if (voucher.stock_strbarcode === action.payload.barcodes[i]) {
-      //       selected = true;
-      //     }
-      //   }
-      //   return selected;
-      // })
-      // selectedVouchers.forEach((el) => {
-      //   el.checked = action.payload.checked
-      // })
       state.vouchers.forEach((item) => {
         item.checked = action.payload.checked;
       })
@@ -107,7 +95,7 @@ export const changeDateSlice = createSlice({
       state.status = 'rejected'
     },
     [getVouchers.fulfilled]: (state) => {
-      state.status = null;
+      state.status = 'res';
     },
   }
 })

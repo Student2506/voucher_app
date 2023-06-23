@@ -1,5 +1,5 @@
 import './styles/app.scss';
-import stockStyle from './styles/button.scss';
+import './styles/button.scss';
 import Header from "./components/Header/Header";
 import Navbar from "./components/Navbar/Navbar";
 import { Route, Switch, useHistory } from "react-router-dom";
@@ -22,7 +22,7 @@ function App() {
   const history = useHistory();
 
   // useEffect(() => {
-  //   dispatch(updateJwt({jwtRefresh: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4NzUxNTQwOCwianRpIjoiYzMzYWQ0OGY1YTUwNDg2ODliYWRmMzNkMjNhYTc0MDQiLCJ1c2VyX2lkIjoiYS52b2xvc2hpbiJ9.46Q1Rbngwx1mkNGW8ciZoH2q15X1e7tO2C2qp7tsurA"}))
+  //   dispatch(updateJwt({jwtRefresh: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4ODM4NTU3MywianRpIjoiZjY2ZmYwMGFmMGU2NDA2NWI4NmY3NjNlMzE5OGU4ZDQiLCJ1c2VyX2lkIjoiYS52b2xvc2hpbiJ9.L9CO59TehSEhl5NIWz7FFUhKADvA5qgzkPW_VRkbH3c"}))
   // }, [])
   //
   // useEffect(() => {
@@ -34,7 +34,6 @@ function App() {
 
   useEffect(() => {
     if (document.cookie) {
-      //
       const jwt = document.cookie.split('; ').reduce(function(result, v, i, a) { var k = v.split('='); result[k[0]] = k[1]; return result; }, {})
       if (!jwt.auth_refresh) {
         window.location.replace(`${BASE_URL}/api/v1/oauth2/login`);

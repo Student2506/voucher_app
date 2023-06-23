@@ -68,11 +68,11 @@ export const getTemplates = createAsyncThunk(
 
 export const sendVoucher = createAsyncThunk(
   'orders/sendVoucher',
-  async function({ orderId, emails, template }, {rejectWithValue, dispatch, getState}) {
+  async function({ orderId, emails, template, sharepoint, qrcode }, {rejectWithValue, dispatch, getState}) {
     const jwt = getState().user.userData.jwt.auth;
     dispatch(clearStatus());
     try {
-      const res = await fetch(`${BASE_URL}/api/v1/order_item/${orderId}/`, {
+      const res = await fetch(`${BASE_URL}/api/v1/order_item/${orderId}/${sharepoint ? "?delivery=sharepoint" : ""}`, {
         method: 'POST',
         headers: {
           "Content-Type": "application/json",
@@ -81,6 +81,7 @@ export const sendVoucher = createAsyncThunk(
         body: JSON.stringify({
           "template": template,
           "addresses": emails,
+          "codetype": qrcode ? "qrcode" : "barcode",
         })
       })
       if (!res.ok) throw new Error(`Что-то пошло не так`)

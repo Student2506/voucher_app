@@ -5,41 +5,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { getVouchers, selectVoucher, selectVouchers, updateExpiryDate } from "../../../utils/store/changeDateSlice";
 import TableItems from "./elements/TableItems";
 import LoadingScreen from "../../LoadingScreen/LoadingScreen";
+import NotFound from "../../NotFound/NotFound";
 
 const ChangeDateVouchers = () => {
 
   const dispatch = useDispatch();
-  const {loggedIn} = useSelector(state => state.user);
   const { vouchers, status } = useSelector(state => state.changeDate);
 
   const [orderQuery, setOrderQuery] = useState('');
   const [barcodeQuery, setBarcodeQuery] = useState('');
   const [date, setDate] = useState('');
-  // const [filtredVouchers, setFiltredvouchers] = useState([]);
-
-  // useEffect(() => {
-  //   if (loggedIn && vouchers.length === 0) {
-  //     dispatch(getVouchers());
-  //   }
-  // }, [loggedIn])
-  //
-  // useEffect(() => {
-  //   searchVouchers();
-  // }, [vouchers])
 
   function searchVouchers() {
-    // if (orderQuery || barcodeQuery.length === 16) {
-    //   const filtredArr = vouchers.filter((el) => {
-    //     if (el.order_id === null && orderQuery === '') {
-    //       return true;
-    //     } else {
-    //       return String(el.order_id).includes(orderQuery);
-    //     }
-    //   }).filter((el) => {
-    //     return el.stock_strbarcode.includes(barcodeQuery)
-    //   })
-    //   setFiltredvouchers(filtredArr);
-    // }
     dispatch(getVouchers({"barcode": barcodeQuery, "order": orderQuery}));
   }
 
@@ -83,9 +60,10 @@ const ChangeDateVouchers = () => {
           <p className={"change__table_title"}>Штрих-код:</p>
           <p className={"change__table_title"}>Действителен до даты:</p>
         </div>
-
-        <TableItems vouchers={vouchers} onChange={selectOne}/>
-
+        {
+          status === 'res' && vouchers.length === 0 ? <NotFound text={"Ничего не найдено..."} back={true}/>
+            : <TableItems vouchers={vouchers} onChange={selectOne}/>
+        }
       </div>
       {
         status === 'loading' && <LoadingScreen />
