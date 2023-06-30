@@ -12,6 +12,7 @@ const CreateTemplate = () => {
 
   const {status} = useSelector(state => state.templates);
 
+
   return (
     <section className={"create-template"}>
       <OptionsMenu>
