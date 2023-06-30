@@ -1,11 +1,12 @@
 import React from 'react';
-import TemplateEditor from "../../TemplateEditor/TemplateEditor";
+import TemplateGrid from "../../TemplateGrid/TemplateGrid";
 import './CreateTemplate.scss';
 import OptionsMenu from "../../OptionsMenu/OptionsMenu";
 import { NavLink, Route, Switch } from "react-router-dom";
 import NotFound from "../../NotFound/NotFound";
 import { useSelector } from "react-redux";
 import LoadingScreen from "../../LoadingScreen/LoadingScreen";
+import TemplateEditor from "../../TemplateEditor/TemplateEditor";
 
 const CreateTemplate = () => {
 
@@ -19,10 +20,11 @@ const CreateTemplate = () => {
       </OptionsMenu>
       <Switch>
         <Route exact path={"/template"}>
-          <TemplateEditor />
+          <TemplateGrid />
         </Route>
         <Route path={'/template/create'}>
           <NotFound text={"Скоро здесь появиться новая функциональность :)"}/>
+          {/*<TemplateEditor />*/}
         </Route>
       </Switch>
       {
