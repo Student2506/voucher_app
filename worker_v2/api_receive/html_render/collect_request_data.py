@@ -141,6 +141,7 @@ def handle_frontend_callback(
     template = get_template(request.get('template'))
     html_folder = mkdtemp()
     copy_data_to_storage(request, html_folder)
+    delivery = request.get('delivery')
     if template:
         make_html_templates(
             template=template,
@@ -152,7 +153,7 @@ def handle_frontend_callback(
         prepare_send_email(
             addresses=request.get('addresses'),
             html_folder=html_folder,
-            delivery_method=request.get('delivery'),
+            delivery_method=delivery if delivery else 'email',
             redis_instance=redis_instance,
         )
     else:
