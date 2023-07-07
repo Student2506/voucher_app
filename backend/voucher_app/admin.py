@@ -97,8 +97,8 @@ class TemplateAdmin(admin.ModelAdmin):
     #     super().save_model(request, obj, form, change)
 
 
-@admin.register(TemplateProperty)
-class TemplatePropertyAdmin(admin.ModelAdmin):
-    """General class."""
+# @admin.register(TemplateProperty)
+# class TemplatePropertyAdmin(admin.ModelAdmin):
+#     """General class."""
 
-    pass
+#     pass
