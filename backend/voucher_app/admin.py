@@ -43,11 +43,6 @@ class TemplateAdminForm(forms.ModelForm):
         return template_content.replace('%}', '%}<br />')
 
 
-# class PropertiesAdminForm(forms.ModelForm):
-
-#     def clean_property_name(self):
-
-
 class PropertiesInline(admin.StackedInline):
     """General class to manage properties."""
 
@@ -88,17 +83,3 @@ class TemplateAdmin(admin.ModelAdmin):
     ]
     list_display = ['title', 'logo_image', 'voucher_image']
     inlines = [PropertiesInline]
-
-    # def save_model(self, request, obj, form, change):
-    #     logger.info(request)
-    #     logger.info(obj)
-    #     logger.info(form)
-    #     logger.info(change)
-    #     super().save_model(request, obj, form, change)
-
-
-# @admin.register(TemplateProperty)
-# class TemplatePropertyAdmin(admin.ModelAdmin):
-#     """General class."""
-
-#     pass
