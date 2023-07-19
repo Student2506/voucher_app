@@ -22,7 +22,9 @@ function App() {
   const history = useHistory();
 
   // useEffect(() => {
-  //   dispatch(updateJwt({jwtRefresh: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4ODM4NTU3MywianRpIjoiZjY2ZmYwMGFmMGU2NDA2NWI4NmY3NjNlMzE5OGU4ZDQiLCJ1c2VyX2lkIjoiYS52b2xvc2hpbiJ9.L9CO59TehSEhl5NIWz7FFUhKADvA5qgzkPW_VRkbH3c"}))
+  //   dispatch(updateJwt({jwtRefresh:
+  //       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY5MDM1NTk2NiwianRpIjoiYWI3OTI1NWNhZWIyNGM2M2IxYjFlOWVlMjAzNjFkMmEiLCJ1c2VyX2lkIjoiYS52b2xvc2hpbiJ9.NVRi6gsjc5k4lc_-nkBThyKRgE99j8rbOjq7axtTomc"
+  //   }))
   // }, [])
   //
   // useEffect(() => {
