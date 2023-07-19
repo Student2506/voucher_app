@@ -1,4 +1,5 @@
 """General model for admin."""
+import logging
 
 from django import forms
 from django.contrib import admin
@@ -6,7 +7,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from tinymce.widgets import TinyMCE
 
-from voucher_app.models import Template, TemplateProperty
+from voucher_app.models import NameFieldRO, Template, TemplateProperty
 
 admin.site.site_title = _('My site name')
 admin.site.site_header = _('My site header')
@@ -20,6 +21,7 @@ mce_attrs = {
     ],
     'forced_root_block': '',
 }
+logger = logging.getLogger(__name__)
 
 
 class TemplateAdminForm(forms.ModelForm):
@@ -49,9 +51,9 @@ class PropertiesInline(admin.StackedInline):
     verbose_name_plural = _('Attributes')
     formfield_overrides = {
         models.TextField: {'widget': TinyMCE(mce_attrs=mce_attrs)},
+        NameFieldRO: {'widget': forms.TextInput(attrs={'readonly': 'readonly'})}
     }
-    fields = ('property_locale', 'property_value')
-    # readonly_fields = ('property_value',)
+    fields = ('property_locale', 'property_value', 'property_name')
     extra = 1
 
 
@@ -81,10 +83,3 @@ class TemplateAdmin(admin.ModelAdmin):
     ]
     list_display = ['title', 'logo_image', 'voucher_image']
     inlines = [PropertiesInline]
-
-
-@admin.register(TemplateProperty)
-class TemplatePropertyAdmin(admin.ModelAdmin):
-    """General class."""
-
-    pass

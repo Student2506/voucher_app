@@ -45,14 +45,19 @@ class Template(UUIDMixin, TimeStampedMixin):
         Returns:
             str - title of model
         """
-        return str(self.title)[:REPRESENTATION_LEN]
+        return f'{self.title[:REPRESENTATION_LEN]} ({self.pk})'
+
+
+class NameFieldRO(models.CharField):
+
+    pass
 
 
 class TemplateProperty(models.Model):
     """Class to describe properties of Template."""
 
     template = models.ForeignKey('Template', on_delete=models.CASCADE, related_name='properties')
-    property_name = models.CharField(_('Property name'), max_length=REPRESENTATION_LEN)
+    property_name = NameFieldRO(_('Property name'), max_length=REPRESENTATION_LEN)
     property_value = models.TextField(_('Property value'))
     property_locale = models.CharField(_('Template part'), max_length=REPRESENTATION_LEN)
 
@@ -99,7 +104,6 @@ class TemplateProperty(models.Model):
         super().save(*args, **kwargs)
 
     def get_property_value(self) -> str:
-        logger.debug('++++++++++++++++++++++++++++++++++')
         tag_to_find = re.compile(
             r'(\{\% block (' + self.property_name + r') \%\})(.*)(\{\% endblock \2 \%\})',
             flags=re.DOTALL,

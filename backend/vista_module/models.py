@@ -181,4 +181,5 @@ class Stock(models.Model):
         constraints = [models.UniqueConstraint(
             fields=['voucher_number', 'voucher_type_id', 'duplicate_no'],
             name='unique_barcode',
-        ),]
+        ),
+        ]
