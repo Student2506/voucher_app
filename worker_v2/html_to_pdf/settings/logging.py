@@ -59,6 +59,10 @@ LOGGING = {
             'handlers': LOG_DEFAULT_HANDLERS,
             'level': 'WARNING',
         },
+        'PIL': {
+            'handlers': LOG_DEFAULT_HANDLERS,
+            'level': 'WARNING',
+        },
     },
     'root': {
         'level': 'DEBUG',
