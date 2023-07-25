@@ -1,6 +1,7 @@
 """Module to process messages to send."""
 import glob
 import json
+import shutil
 
 import pika
 from pydantic import BaseModel
@@ -49,3 +50,7 @@ def collect_email_info(
         logger.debug(message)
         message_formated = CompleteMessage.parse_obj(message)
         EmailWorker().send_message(**message_formated.dict())
+    shutil.rmtree(request.get('folder'))
+    folders = glob.glob('/tmp/weasyprint-*')
+    for folder in folders:
+        shutil.rmtree(folder)

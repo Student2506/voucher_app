@@ -60,4 +60,4 @@ def collect_email_info(
     shutil.rmtree(request.get('folder'))
     folders = glob.glob('/tmp/weasyprint-*')
     for folder in folders:
-        logger.debug(f'Removing {folder}')
+        shutil.rmtree(folder)
