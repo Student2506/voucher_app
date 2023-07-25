@@ -1,4 +1,5 @@
 """Module to process messages to send."""
+import glob
 import json
 import shutil
 from datetime import datetime as dt
@@ -57,3 +58,6 @@ def collect_email_info(
     message_formated = CompleteMessage.parse_obj(message)
     EmailWorker().send_message_with_link(**message_formated.dict())
     shutil.rmtree(request.get('folder'))
+    folders = glob.glob('/tmp/weasyprint-*')
+    for folder in folders:
+        logger.debug(f'Removing {folder}')
