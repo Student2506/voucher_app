@@ -1,5 +1,6 @@
 """Module to process messages to send."""
 import json
+import shutil
 from datetime import datetime as dt
 from pathlib import Path
 
@@ -55,3 +56,4 @@ def collect_email_info(
     logger.debug(message)
     message_formated = CompleteMessage.parse_obj(message)
     EmailWorker().send_message_with_link(**message_formated.dict())
+    shutil.rmtree(request.get('folder'))
