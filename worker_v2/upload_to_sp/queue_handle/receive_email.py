@@ -48,11 +48,11 @@ def collect_email_info(
     redis.hdel(request.get('folder'), 'recipients')
     logger.info(message)
     new_folder = f'vouchers_{dt.now().strftime("%Y.%m.%d_%H.%M.%S")}'
-    with open(request.get('zip_file'), 'rb') as fh:
-        zip_file = fh.read()
     share = SharePoint()
     share.create_folder(new_folder)
-    new_archive = share.upload_file(Path(request.get('zip_file')).name, new_folder, zip_file)
+    with open(request.get('zip_file'), 'rb') as fh:
+        # zip_file = fh.read()
+        new_archive = share.upload_file(Path(request.get('zip_file')).name, new_folder, fh)
     message['file_to_attach'] = new_archive
     logger.debug(message)
     message_formated = CompleteMessage.parse_obj(message)

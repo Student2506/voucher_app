@@ -27,13 +27,14 @@ class SharePoint:
         logger.debug(f'Created {target_folder}')
         return target_folder
 
-    def upload_file(self, file_name: str, folder_name: str, content: bytes) -> str:
+    def upload_file(self, file_name: str, folder_name: str, content: Any) -> str:
         """Upload file to specific folder."""
         target_folder_url_path = (
             Path('/sites') / settings.sharepoint_site_name / settings.sharepoint_doc_library / folder_name
         )
         target_folder = self.conn.web.get_folder_by_server_relative_path(target_folder_url_path.as_posix())
-        target_folder.upload_file(file_name, content).execute_query()
+        # target_folder.upload_file(file_name, content).execute_query()
+        target_folder.files.create_upload_session(content, chunk_size=100_000_000).execute_query()
         return f'{settings.sharepoint_site}/{settings.sharepoint_doc_library}/{folder_name}/{file_name}'
 
     def get_share_link(self, file_path: str) -> Any:
