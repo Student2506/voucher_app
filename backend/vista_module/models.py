@@ -163,7 +163,7 @@ class Stock(models.Model):
     )
     duplicate_no = models.IntegerField(db_column='nDuplicateNo')
     stock_strbarcode = models.CharField(db_column='Stock_strBarcode', max_length=NAME_LENGTH)
-    expiry_date = models.DateField(db_column='dExpiryDate')
+    expiry_date = models.DateTimeField(db_column='dExpiryDate')
     issued_date = models.CharField(db_column='dIssuedDate', max_length=NAME_LENGTH)
     client_order_item = models.ForeignKey(
         'OrderItem',
