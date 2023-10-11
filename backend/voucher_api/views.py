@@ -257,7 +257,8 @@ class UpdateExpiry(views.APIView):
         except (Stock.DoesNotExist, ValidationError):
             return Response(status=status.HTTP_404_NOT_FOUND)
         new_expiry_objs = Stock.objects.using(VISTA_DATABASE).filter(stock_strbarcode__in=codes)
-        new_expiry_objs.update(expiry_date=request.data['extend_date'])
+        for voucher in new_expiry_objs:
+            logger.info('Expiry voucher date %s, %s', voucher.expiry_date, type(voucher.expiry_date))
         serializer = api_serializers.StockWriteSerializer(new_expiry_objs, many=True)
         return Response(serializer.data)
 
@@ -364,6 +365,14 @@ class TemplateViewset(
     serializer_class = api_serializers.TemplateSerializer
 
     def perform_update(self, serializer: serializers.ModelSerializer) -> Any:
+        """Update Template with according serilizer.
+
+        Args:
+            serializer: serializers.ModelSerializer - Serializer to use with methods
+
+        Returns:
+            Any - may be anything...
+        """
         if not serializer.initial_data.get('template_property'):
             return super().perform_update(serializer=serializer)
         for template_property in serializer.initial_data.get('template_property'):

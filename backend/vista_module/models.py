@@ -24,7 +24,7 @@ class Customer(models.Model):
     )
 
     class Meta:
-        """Generic Meta class."""
+        """Generic Meta class of Customer."""
 
         managed = False
         db_table = 'tblClient'
@@ -118,7 +118,7 @@ class OrderItem(models.Model):
     """Order item model."""
 
     order_item_id = models.IntegerField(
-        db_column=ID_COLUMN_NAME, primary_key=True
+        db_column=ID_COLUMN_NAME, primary_key=True,
     )
     order_id = models.ForeignKey(
         'Order',
@@ -163,13 +163,13 @@ class Stock(models.Model):
     )
     duplicate_no = models.IntegerField(db_column='nDuplicateNo')
     stock_strbarcode = models.CharField(db_column='Stock_strBarcode', max_length=NAME_LENGTH)
-    expiry_date = models.CharField(db_column='dExpiryDate', max_length=NAME_LENGTH)
+    expiry_date = models.DateField(db_column='dExpiryDate')
     issued_date = models.CharField(db_column='dIssuedDate', max_length=NAME_LENGTH)
     client_order_item = models.ForeignKey(
         'OrderItem',
         on_delete=models.DO_NOTHING,
         db_column='lClientOrderItemID',
-        related_name='order_item_id_set'
+        related_name='order_item_id_set',
     )
 
     class Meta:
