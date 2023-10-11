@@ -259,6 +259,10 @@ class UpdateExpiry(views.APIView):
         new_expiry_objs = Stock.objects.using(VISTA_DATABASE).filter(stock_strbarcode__in=codes)
         for voucher in new_expiry_objs:
             logger.info('Expiry voucher date %s, %s', voucher.expiry_date, type(voucher.expiry_date))
+            if (voucher.expiry_date < datetime.now()):
+                logger.info('expired card')
+            else:
+                logger.info('normal card')
         serializer = api_serializers.StockWriteSerializer(new_expiry_objs, many=True)
         return Response(serializer.data)
 
