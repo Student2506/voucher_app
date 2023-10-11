@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import SearchInput from "../../SearchInput/SearchInput";
-import styles from "../../../styles/vouchers.scss";
+import "../../../styles/vouchers.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getCustomers, getTemplates, sendVoucher } from "../../../utils/store/ordersSlice";
 import Customers from "./elements/Customers";
@@ -20,6 +20,9 @@ const Vouchers = () => {
   const [filterQueryOrders, setFilterQueryOrders] = useState('');
   const [filterQueryTemplates, setFilterQueryTemplates] = useState('');
   const [inputValues, setInputValues] = useState({}); // Поля для всех input email
+  const [settingOpen, setSettingOpen] = useState(false);
+  const [shareOpt, setShareOpt] = useState(false);
+  const [useQR, setUseQR] = useState(false);
 
   const {selectedCustomer, pushError, templates, status, customers} = useSelector(state => state.orders); // Забираем из Redux данные
   const {loggedIn} = useSelector(state => state.user); // Забираем статус пользователя из Redux
@@ -34,7 +37,7 @@ const Vouchers = () => {
   function handleSendVoucher(e) {
     e.preventDefault();
     const emails = Object.values(inputValues).join('; '); // Переводим значения всех key объекта в строку
-    dispatch(sendVoucher({orderId: checkedOrder, template: checkedTemplate, emails}))
+    dispatch(sendVoucher({orderId: checkedOrder, template: checkedTemplate, emails, sharepoint: shareOpt, qrcode: useQR}))
   }
 
   /*Функция очистки инпута email*/
@@ -85,18 +88,37 @@ const Vouchers = () => {
               status === 'loading-templates' ? <PagePreloader /> : templates.length > 0 &&
                 <div className={"vouchers__templates vouchers__container"}>
                   <h2 className={"vouchers__subtitle"}>Шаблоны:</h2>
+                  <button className={"button vouchers__settings-btn"} onClick={() => {setSettingOpen(!settingOpen)}}/>
+
+                  <div className={`vouchers__settings ${settingOpen && "vouchers__settings_open"}`}>
+                    <div className={"vouchers__settings_option"}>
+                      <input className={"vouchers__settings_checkbox"} type={"checkbox"} id={"share-copy"} checked={shareOpt} onChange={() => {setShareOpt(!shareOpt)}}/>
+                      <label className={"vouchers__settings_label"} htmlFor={"share-copy"} />
+                      <p className={"vouchers__settings_option-title"}>Сохранить на SharePoint</p>
+                    </div>
+
+                    <div className={"vouchers__settings_option"}>
+                      <input className={"vouchers__settings_checkbox"} type={"checkbox"} id={"qr-check"} checked={useQR} onChange={() => {setUseQR(!useQR)}}/>
+                      <label className={"vouchers__settings_label"} htmlFor={"qr-check"} />
+                      <p className={"vouchers__settings_option-title"}>Использовать QR-Code</p>
+                    </div>
+                  </div>
+
+                  <SearchInput
+                    type={"text"}
+                    placeholder={"Введите наименование шаблона..."}
+                    extraClassesContainer={"vouchers__filter"}
+                    value={filterQueryTemplates}
+                    onChangeInput={(e) => {setFilterQueryTemplates(e.target.value)}}
+                    onClickButton={() => {setFilterQueryTemplates('')}}
+                  />
+
                   <div className={"vouchers__container_list"}>
-                    <SearchInput
-                      type={"text"}
-                      placeholder={"Введите наименование шаблона..."}
-                      extraClassesContainer={"vouchers__filter"}
-                      value={filterQueryTemplates}
-                      onChangeInput={(e) => {setFilterQueryTemplates(e.target.value)}}
-                      onClickButton={() => {setFilterQueryTemplates('')}}
-                    />
                     <Templates onClickItem={(e) => {setCheckedTemplate(e.target.value)}} filterQuery={filterQueryTemplates}/>
                   </div>
+
                   <SubmitForm
+                    share={shareOpt}
                     disabled={!checkedTemplate}
                     onSubmit={handleSendVoucher}
                     changeInputValue={(e) => {

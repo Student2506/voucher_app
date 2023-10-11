@@ -3,10 +3,10 @@ import { BASE_URL } from "../../constants";
 
 export const getVouchers = createAsyncThunk(
   'voucherDate/getVouchers',
-  async function(_, {dispatch, getState, rejectWithValue}) {
+  async function({ barcode, order }, {dispatch, getState, rejectWithValue}) {
     const jwt = getState().user.userData.jwt.auth;
     try {
-      const res = await fetch(`${BASE_URL}/api/v1/stocks/`, {
+      const res = await fetch(`${BASE_URL}/api/v1/stocks/?stock_strbarcode=${barcode}&client_order_item__order_id__order_id=${order}`, {
         method: 'GET',
         headers: {
           "Authorization": `JWT ${jwt}`
@@ -67,17 +67,8 @@ export const changeDateSlice = createSlice({
       selectedVoucher.checked = !selectedVoucher.checked;
     },
     selectVouchers(state, action) {
-      const selectedVouchers = state.vouchers.filter((voucher) => {
-        let selected = false;
-        for(let i = 0; i<action.payload.barcodes.length; i++) {
-          if (voucher.stock_strbarcode === action.payload.barcodes[i]) {
-            selected = true;
-          }
-        }
-        return selected;
-      })
-      selectedVouchers.forEach((el) => {
-        el.checked = action.payload.checked
+      state.vouchers.forEach((item) => {
+        item.checked = action.payload.checked;
       })
     },
     updateVouchers(state, action) {
@@ -104,7 +95,7 @@ export const changeDateSlice = createSlice({
       state.status = 'rejected'
     },
     [getVouchers.fulfilled]: (state) => {
-      state.status = null;
+      state.status = 'res';
     },
   }
 })

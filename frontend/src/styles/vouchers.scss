@@ -24,6 +24,7 @@
   }
 
   &__container {
+    position: relative;
     display: flex;
     margin: 15px 0;
     flex-direction: column;
@@ -114,5 +115,105 @@
       filter: drop-shadow(0 0 1px rgba(0, 0, 0, .5));
     }
   }
+  &__settings-btn {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 10px;
+    right: 10px;
+    background: url("../images/free-icon-gear-40031.png") center center no-repeat;
+    background-size: cover;
+    &:hover {
+      animation: rotateSetting 5s linear infinite;
+      cursor: pointer;
+    }
+  }
+  &__settings {
+    position: absolute;
+    visibility: hidden;
+    padding: 15px;
+    //width: 200px;
+    //height: 200px;
+    background-color: white;
+    box-shadow: 0 0 10px 0 grey;
+    top: 35px;
+    right: 20px;
+    z-index: 9;
+    border-radius: 5px;
+    opacity: 0;
+
+    transition: opacity .3s linear, visibility .3s linear;
+
+    &_open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    &_option {
+      display: flex;
+      gap: 10px;
+      padding-bottom: 9px;
+      padding-top: 10px;
+      border-bottom: 1px solid lightgrey;
+
+      &:last-of-type {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+
+      &:first-of-type {
+        padding-top: 0;
+      }
+    }
+
+    &_option-title {
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-size: 1rem;
+    }
+
+    &_label {
+      display: block;
+      width: 40px;
+      height: 20px;
+      background-color: lightgray;
+      border-radius: 30px;
+      position: relative;
+      cursor: pointer;
+
+      &:before {
+        position: absolute;
+        content: "";
+        width: 16px;
+        height: 16px;
+        background: #575656;
+        border-radius: 50%;
+        top: 2px;
+        left: 2px;
+        transition: left .3s linear;
+      }
+    }
+
+    &_checkbox {
+      display: none;
+      visibility: hidden;
+
+      &:checked + .vouchers__settings_label {
+        background: #5dee5d;
+      }
+
+      &:checked + .vouchers__settings_label:before {
+        left: 22px;
+      }
+    }
+
+  }
 }
 
+@keyframes rotateSetting {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

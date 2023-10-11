@@ -4,7 +4,7 @@ import StatusSpan from "../../../StatusSpan/StatusSpan";
 import {FIRST_EMAIL_FIELD_INDEX, MAX_EMAIL_FIELDS_COUNT} from "../../../../constants";
 import { useSelector } from "react-redux";
 
-const SubmitForm = ({onSubmit, changeInputValue, clearInputValue, disabled}) => {
+const SubmitForm = ({onSubmit, changeInputValue, clearInputValue, disabled, share}) => {
 
   const [emailFieldsCount, setEmailFieldsCount] = useState([FIRST_EMAIL_FIELD_INDEX]);
 

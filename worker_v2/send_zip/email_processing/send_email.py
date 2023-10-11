@@ -56,9 +56,14 @@ class EmailWorker:
                 subtype='zip',
                 filename=pathlib.Path(file_to_attach).name,
             )
-        self.connection.sendmail(
-            settings.email_user, recipients, message.as_string(),
-        )
+        try:
+            result = self.connection.sendmail(
+                settings.email_user, recipients, message.as_string(),
+            )
+        except Exception as e:
+            logger.error(str(e))
+        if result:
+            logger.debug(result)
         if isinstance(recipients, str):
             logger.info(f'Sent message to {recipients}')
         else:

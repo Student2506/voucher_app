@@ -68,11 +68,11 @@ export const getTemplates = createAsyncThunk(
 
 export const sendVoucher = createAsyncThunk(
   'orders/sendVoucher',
-  async function({ orderId, emails, template }, {rejectWithValue, dispatch, getState}) {
+  async function({ orderId, emails, template, sharepoint, qrcode }, {rejectWithValue, dispatch, getState}) {
     const jwt = getState().user.userData.jwt.auth;
     dispatch(clearStatus());
     try {
-      const res = await fetch(`${BASE_URL}/api/v1/order_item/${orderId}/`, {
+      const res = await fetch(`${BASE_URL}/api/v1/order_item/${orderId}/?delivery=${sharepoint ? "sharepoint" : ""}&codetype=${qrcode ? "qrcode" : "barcode"}`, {
         method: 'POST',
         headers: {
           "Content-Type": "application/json",

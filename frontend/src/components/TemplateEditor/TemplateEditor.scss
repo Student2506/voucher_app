@@ -1,49 +1,109 @@
-.editor {
-  height: 100%;
-  background-color: white;
-  overflow-y: auto;
+.templateEditor {
+  height: calc(100% - 47px);
+  display: flex;
+  gap: 50px;
+}
 
-  &__grid {
-    padding: 20px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    justify-content: center;
+.template {
+  font-family: 'Verdana', 'Arial', sans-serif;
+  padding: 10px 20px 10px;
+  width: min-content;
+  max-width: 50%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x:auto;
+  &__border {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 2px dashed #93908F;
+  }
+
+  &__header {
+    & .template__subtitle {
+      margin-top: 10px;
+    }
+  }
+
+  &__logo {
+    background: no-repeat url("../../images/logoVoucher.png") 50% 50%;
+    background-size: contain;
+    width: calc(340px / 3 * 2);
+    height: calc(100px / 3 * 2);
+  }
+
+  &__main {
+    display: flex;
+    width: 100%;
+    position: relative;
     align-items: center;
   }
 
-  &__tile {
-    margin: 0 auto;
-    position: relative;
-    background: url("../../images/behind.png") no-repeat left 34px bottom 34px, url("../../images/bg.png") no-repeat left center;
-    background-size: 100px, cover;
-    padding: 20px 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 0 10px 1px lightgray;
-    width: 200px;
-    height: 200px;
-    border-radius: 10px;
-    transition: box-shadow .3s linear;
+  &__title {
+    color: #443E3B;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: calc(30px / 3 * 2);
 
-
-    &_title {
-      font-family: Roboto, Arial, sans-serif;
-      font-size: 1rem;
-      font-weight: normal;
-      color: white;
-      text-align: center;
+    &:first-of-type {
+      margin-top: 10px;
     }
+  }
 
+  &__subtitle {
+    color: #666;
+    font-size: calc(15px / 3 * 2);
+    font-weight: 500;
+    &_black {
+      color: #443E3B;
+    }
+  }
+
+  &__shtrih {
+    width: calc(96px /3*2);
+  }
+
+  &__text {
+    color: #666;
+    font-size: calc(12px /3 * 2);
+    max-height: 400px;
+  }
+
+  &__voucher-image {
+    width: calc(600px/3*2);
+    object-fit: contain;
+  }
+
+  &__clickable {
+    cursor: pointer;
+    border: 1px solid lightgray;
     &:hover {
-      cursor: pointer;
-      box-shadow: 0 0 5px 1px black;
+      border: 1px solid #0bc0df;
     }
+  }
 
-    &:active {
-      cursor: pointer;
-      box-shadow: none;
+  &__sidebar {
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__textarea {
+    width: 500px;
+    height: 300px;
+    border: 2px solid lightgray;
+    border-radius: 5px;
+    resize: none;
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 1rem;
+    outline: none;
+
+    &:focus {
+      border: 2px solid #0bc0df;
     }
+  }
+
+  &__button-section {
+    display: flex;
   }
 }

@@ -53,6 +53,9 @@ services:
         condition: service_healthy
     networks:
       - voucher_app
+    deploy:
+      mode: replicated
+      replicas: 5
 
   pdf_to_zip:
     build:
