@@ -258,18 +258,20 @@ class UpdateExpiry(views.APIView):
         except (Stock.DoesNotExist, ValidationError):
             return Response(status=status.HTTP_404_NOT_FOUND)
         new_expiry_objs = Stock.objects.using(VISTA_DATABASE).filter(stock_strbarcode__in=codes)
-        for voucher in new_expiry_objs:
-            logger.info('Expiry voucher date %s, %s', voucher.expiry_date, type(voucher.expiry_date))
-            if (voucher.expiry_date < datetime.now(pytz.timezone('Europe/Moscow'))):
-                logger.info('expired card')
-            else:
-                logger.info('normal card')
-                voucher.update(expiry_date=datetime.strptime(
-                    request.data.get('extend_date'),
-                    '%Y-%m-%d',
-                ))
+        new_expiry_objs.update(expiry_date=request.data.get('extend_date'))
         serializer = api_serializers.StockWriteSerializer(new_expiry_objs, many=True)
         return Response(serializer.data)
+
+    def perform_update(self, serializer: Request) -> None:
+        """Update vouchers with new expiry data.
+
+        Args:
+            serializer: Request - data to process
+        """
+        logger.info(pytz.timezone('Europe/Moscow'))
+        logger.info(serializer)
+        instance = serializer.save()
+        logger.info(instance)
 
 
 def send_data_to_generation(body: dict[str, Any]) -> None:
