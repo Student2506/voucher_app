@@ -274,7 +274,7 @@ class UpdateExpiry(views.APIView):
         expired_cards = new_expiry_objs.filter(expiry_date__lt=datetime.now(pytz.timezone('Europe/Moscow')))
 
         logger.info('============')
-        redeems = RedeemedCard.objects.using('VISTA').all()
+        redeems = RedeemedCard.objects.using(VISTA_DATABASE).all()
         logger.info(f'some loooooooong text {redeems}')
         for expired_card in expired_cards:  # noqa: B007
             logger.debug(expired_card)
