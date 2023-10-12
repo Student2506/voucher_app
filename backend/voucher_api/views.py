@@ -258,7 +258,7 @@ class UpdateExpiry(views.APIView):
         except (Stock.DoesNotExist, ValidationError):
             return Response(status=status.HTTP_404_NOT_FOUND)
         new_expiry_objs = Stock.objects.using(VISTA_DATABASE).filter(stock_strbarcode__in=codes)
-        non_expired_cards = new_expiry_objs.filter(expiry_date__lt=datetime.now(pytz.timezone('Europe/Moscow')))
+        non_expired_cards = new_expiry_objs.filter(expiry_date__gte=datetime.now(pytz.timezone('Europe/Moscow')))
         new_date = datetime.strptime(
             request.data.get('extend_date'),
             '%Y-%m-%d',
