@@ -258,8 +258,14 @@ class UpdateExpiry(views.APIView):
         except (Stock.DoesNotExist, ValidationError):
             return Response(status=status.HTTP_404_NOT_FOUND)
         new_expiry_objs = Stock.objects.using(VISTA_DATABASE).filter(stock_strbarcode__in=codes)
-        new_expiry_objs.update(expiry_date=request.data.get('extend_date'))
-        serializer = api_serializers.StockWriteSerializer(new_expiry_objs, many=True)
+        non_expired_cards = new_expiry_objs.filter(expiry_date__lt=datetime.now(pytz.timezone('Europe/Moscow')))
+        non_expired_cards.update(
+            expiry_date=datetime.strptime(
+                request.data.get('extend_date'),
+                '%Y-%m-%d',
+            ),
+        )
+        serializer = api_serializers.StockWriteSerializer(non_expired_cards, many=True)
         return Response(serializer.data)
 
     def perform_update(self, serializer: Request) -> None:
