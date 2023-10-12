@@ -264,11 +264,10 @@ class UpdateExpiry(views.APIView):
                 logger.info('expired card')
             else:
                 logger.info('normal card')
-                voucher.expiry_date = datetime.strptime(
+                voucher.update(expiry_date=datetime.strptime(
                     request.data.get('extend_date'),
                     '%Y-%m-%d',
-                )
-                voucher.save(force_update=True)
+                ))
         serializer = api_serializers.StockWriteSerializer(new_expiry_objs, many=True)
         return Response(serializer.data)
 
