@@ -28,7 +28,13 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from vista_module.models import Customer, OrderItem, Stock, VoucherType
+from vista_module.models import (
+    Customer,
+    OrderItem,
+    RedeemedCard,
+    Stock,
+    VoucherType,
+)
 from voucher import settings
 from voucher_api import serializers as api_serializers
 from voucher_app.logging import request_id, username
@@ -258,14 +264,21 @@ class UpdateExpiry(views.APIView):
         except (Stock.DoesNotExist, ValidationError):
             return Response(status=status.HTTP_404_NOT_FOUND)
         new_expiry_objs = Stock.objects.using(VISTA_DATABASE).filter(stock_strbarcode__in=codes)
-        non_expired_cards = new_expiry_objs.filter(expiry_date__gte=datetime.now(pytz.timezone('Europe/Moscow')))
         new_date = datetime.strptime(
             request.data.get('extend_date'),
             '%Y-%m-%d',
         )
-
+        non_expired_cards = new_expiry_objs.filter(expiry_date__gte=datetime.now(pytz.timezone('Europe/Moscow')))
         non_expired_cards.update(expiry_date=new_date.replace(tzinfo=pytz.UTC))
+        expired_cards = new_expiry_objs.filter(expiry_date__le=datetime.now(pytz.timezone('Europe/Moscow')))
+        expired_cards.update(expiry_date=new_date.replace(tzinfo=pytz.UTC))
+        for expired_card in expired_cards:
+            logger.debug(expired_card)
+            logger.debug(isinstance(expired_card, RedeemedCard))
+
         serializer = api_serializers.StockWriteSerializer(non_expired_cards, many=True)
+        serializer2 = api_serializers.StockWriteSerializer(expired_cards, many=True)
+        logger.info(serializer2.data)
         return Response(serializer.data)
 
     def perform_update(self, serializer: Request) -> None:

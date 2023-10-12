@@ -5,7 +5,14 @@ from typing import Any
 
 from rest_framework import serializers
 
-from vista_module.models import Customer, Order, OrderItem, Stock, VoucherType
+from vista_module.models import (
+    Customer,
+    Order,
+    OrderItem,
+    RedeemedCard,
+    Stock,
+    VoucherType,
+)
 from voucher_app.models import RequestOrder, Template
 
 logger = logging.getLogger(__name__)
@@ -98,7 +105,6 @@ class RequestOrderSerializer(serializers.ModelSerializer):
 class OrderItemListSerializer(serializers.ModelSerializer):
     """Order item serializer."""
 
-    # voucher_attached = VoucherTypeSerializer(read_only=True)
     voucher_type_id = serializers.IntegerField(source='voucher_attached.voucher_type_id')
     voucher_code = serializers.CharField(source='voucher_attached.voucher_code')
     voucher_description = serializers.CharField(source='voucher_attached.voucher_description')
@@ -192,35 +198,57 @@ class StockSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class RedeemedSerializer(serializers.ModelSerializer):
+    """Redeemed model serializer."""
+
+    class Meta:
+        """Regular Meta class."""
+
+        model = RedeemedCard
+        fieids = '__all__'
+
+
 class StockWriteSerializer(serializers.ModelSerializer):
     """Write data to DB."""
 
     class Meta:
+        """Regular Meta class."""
+
         model = Stock
         fields = ('stock_strbarcode', 'expiry_date')
 
 
 class TemplateSerializer(serializers.ModelSerializer):
-    """Template Serializer"""
+    """Template Serializer."""
 
     template_property = serializers.SerializerMethodField()
 
     class Meta:
+        """Regular Meta class."""
+
         model = Template
         fields = ('id', 'title', 'logo_image', 'voucher_image', 'template_property')
 
-    def get_template_property(self, obj: Template) -> list[dict[str, Any]]:
-        result = []
-        for prop in obj.properties.all():
+    def get_template_property(self, template: Template) -> list[dict[str, Any]]:
+        """Retrieve template property.
+
+        Args:
+            template: Template - template to parse
+
+        Returns:
+            list[dict[str, Any]] - list of properties
+        """
+        properties = []
+        for prop in template.properties.all():
             tag_to_find = re.compile(
                 r'(\{\% block (' + prop.property_name + r') \%\})(.*)(\{\% endblock \2 \%\})',
                 flags=re.DOTALL,
             )
-            content = re.search(tag_to_find, obj.template_content)
+            template_tag = re.search(tag_to_find, template.template_content)
             part = {
                 'name': prop.property_name,
                 'locale': prop.property_locale,
-                'content': content.group(3) if content else None,
+                'content': template_tag.group(3) if template_tag else None,
             }
-            result.append(part)
-        return result
+            properties.append(part)
+        return properties

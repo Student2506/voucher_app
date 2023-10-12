@@ -183,3 +183,25 @@ class Stock(models.Model):
             name='unique_barcode',
         ),
         ]
+
+
+class RedeemedCard(models.Model):
+    """Card redeemed model."""
+
+    voucher_type_id = models.IntegerField(db_column='lVoucherTypeID', primary_key=True)
+    voucher_number = models.IntegerField(db_column='lVoucherNumber', primary_key=True)
+    duplicate_no = models.IntegerField(db_column='nDuplicateNo', primary_key=True)
+    price = models.DecimalField(db_column='mAlternatePrice')
+
+    class Meta:
+        """Generic Meta Class of Redeemed."""
+
+        managed = False
+        db_table = 'tblRedeemed'
+        oredering = ['voucher_type_id', 'voucher_number', 'duplicatte_no']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['voucher_type_id', 'voucher_number', 'duplicate_no'],
+                name='unique_card',
+            ),
+        ]
