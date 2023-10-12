@@ -9,6 +9,7 @@ from typing import Any
 
 import jwt
 import pika
+import pytz
 from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
 from django_filters.rest_framework import DjangoFilterBackend
@@ -259,7 +260,7 @@ class UpdateExpiry(views.APIView):
         new_expiry_objs = Stock.objects.using(VISTA_DATABASE).filter(stock_strbarcode__in=codes)
         for voucher in new_expiry_objs:
             logger.info('Expiry voucher date %s, %s', voucher.expiry_date, type(voucher.expiry_date))
-            if (voucher.expiry_date < datetime.now()):
+            if (voucher.expiry_date < datetime.now(pytz.timezone('Europe/Moscow'))):
                 logger.info('expired card')
             else:
                 logger.info('normal card')
