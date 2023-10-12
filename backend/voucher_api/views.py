@@ -275,7 +275,7 @@ class UpdateExpiry(views.APIView):
 
         logger.info('============')
         redeems = RedeemedCard.objects.using('VISTA').all()
-        logger.info(redeems)
+        logger.info(f'some loooooooong text {redeems}')
         for expired_card in expired_cards:  # noqa: B007
             logger.debug(expired_card)
         logger.info('============')
