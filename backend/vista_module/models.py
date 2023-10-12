@@ -188,17 +188,17 @@ class Stock(models.Model):
 class RedeemedCard(models.Model):
     """Card redeemed model."""
 
-    voucher_type_id = models.IntegerField(db_column='lVoucherTypeID', primary_key=True)
-    voucher_number = models.IntegerField(db_column='lVoucherNumber', primary_key=True)
-    duplicate_no = models.IntegerField(db_column='nDuplicateNo', primary_key=True)
-    price = models.DecimalField(db_column='mAlternatePrice')
+    voucher_type_id = models.IntegerField(db_column='lVoucherTypeID')
+    voucher_number = models.IntegerField(db_column='lVoucherNumber')
+    duplicate_no = models.IntegerField(db_column='nDuplicateNo')
+    price = models.DecimalField(db_column='mAlternatePrice', decimal_places=2, max_digits=8)
 
     class Meta:
         """Generic Meta Class of Redeemed."""
 
         managed = False
         db_table = 'tblRedeemed'
-        ordering = ['voucher_type_id', 'voucher_number', 'duplicatte_no']
+        ordering = ['voucher_type_id', 'voucher_number', 'duplicate_no']
         constraints = [
             models.UniqueConstraint(
                 fields=['voucher_type_id', 'voucher_number', 'duplicate_no'],
