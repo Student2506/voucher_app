@@ -188,7 +188,7 @@ class Stock(models.Model):
 class RedeemedCard(models.Model):
     """Card redeemed model."""
 
-    voucher_type_id = models.IntegerField(db_column='lVoucherTypeID')
+    voucher_type_id = models.IntegerField(db_column='lVoucherTypeID', primary_key=True)
     voucher_number = models.IntegerField(db_column='lVoucherNumber')
     duplicate_no = models.IntegerField(db_column='nDuplicateNo')
     price = models.DecimalField(db_column='mAlternatePrice', decimal_places=2, max_digits=8)
