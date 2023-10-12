@@ -263,8 +263,8 @@ class UpdateExpiry(views.APIView):
             request.data.get('extend_date'),
             '%Y-%m-%d',
         )
-        new_date.replace(tzinfo=pytz.UTC)
-        non_expired_cards.update(expiry_date=new_date)
+
+        non_expired_cards.update(expiry_date=new_date.replace(tzinfo=pytz.UTC))
         serializer = api_serializers.StockWriteSerializer(non_expired_cards, many=True)
         return Response(serializer.data)
 
