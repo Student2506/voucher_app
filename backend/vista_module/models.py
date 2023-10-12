@@ -198,7 +198,7 @@ class RedeemedCard(models.Model):
 
         managed = False
         db_table = 'tblRedeemed'
-        oredering = ['voucher_type_id', 'voucher_number', 'duplicatte_no']
+        ordering = ['voucher_type_id', 'voucher_number', 'duplicatte_no']
         constraints = [
             models.UniqueConstraint(
                 fields=['voucher_type_id', 'voucher_number', 'duplicate_no'],
