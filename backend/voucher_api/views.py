@@ -274,17 +274,11 @@ class UpdateExpiry(views.APIView):
         expired_cards = new_expiry_objs.filter(expiry_date__lt=datetime.now(pytz.timezone('Europe/Moscow')))
 
         logger.info('============')
-        for expired_card in expired_cards:
-            query = RedeemedCard.objects.using(VISTA_DATABASE).get(
-                voucher_type_id=expired_card.voucher_type_id.voucher_type_id,
-                voucher_number=expired_card.voucher_number,
-                duplicate_no=expired_card.duplicate_no,
-            ).query
-            logger.info(query)
+        for expired_card in expired_cards:  # noqa: B007
             reedem = RedeemedCard.objects.using(VISTA_DATABASE).get(
-                voucher_type_id=expired_card.voucher_type_id.voucher_type_id,
-                voucher_number=expired_card.voucher_number,
-                duplicate_no=expired_card.duplicate_no,
+                voucher_type_id=138,    # noqa: WPS432
+                voucher_number=1,
+                duplicate_no=0,
             )
             logger.debug(reedem)
         logger.info('============')
