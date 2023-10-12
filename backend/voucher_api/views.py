@@ -275,12 +275,12 @@ class UpdateExpiry(views.APIView):
 
         logger.info('============')
         for expired_card in expired_cards:
-            logger.info(expired_card)
-            logger.info(expired_card.expiry_date)
-            logger.info(expired_card.voucher_number)
-            logger.info(expired_card.voucher_type_id)
-            logger.info(expired_card.duplicate_no)
-            logger.info(isinstance(expired_card, RedeemedCard))
+            reedem = RedeemedCard.objects.get(
+                voucher_type_id=expired_card.voucher_type_id.pk,
+                voucher_number=expired_card.voucher_number,
+                duplicate_no=expired_card.duplicate_no,
+            )
+            logger.debug(reedem)
         logger.info('============')
         expired_cards = new_expiry_objs.filter(expiry_date__lt=datetime.now(pytz.timezone('Europe/Moscow')))
 
