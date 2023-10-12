@@ -272,6 +272,7 @@ class UpdateExpiry(views.APIView):
         non_expired_cards = new_expiry_objs.filter(expiry_date__gte=datetime.now(pytz.timezone('Europe/Moscow')))
         non_expired_cards.update(expiry_date=new_date.replace(tzinfo=pytz.UTC))
         expired_cards = new_expiry_objs.filter(expiry_date__lt=datetime.now(pytz.timezone('Europe/Moscow')))
+
         logger.info('============')
         for expired_card in expired_cards:
             logger.info(expired_card)
@@ -281,7 +282,10 @@ class UpdateExpiry(views.APIView):
             logger.info(expired_card.duplicate_no)
             logger.info(isinstance(expired_card, RedeemedCard))
         logger.info('============')
+        expired_cards = new_expiry_objs.filter(expiry_date__lt=datetime.now(pytz.timezone('Europe/Moscow')))
+
         expired_cards.update(expiry_date=new_date.replace(tzinfo=pytz.UTC))
+
         serializer = api_serializers.StockWriteSerializer(non_expired_cards, many=True)
         serializer2 = api_serializers.StockWriteSerializer(expired_cards, many=True)
         logger.info(serializer2.data)
