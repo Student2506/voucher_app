@@ -28,13 +28,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from vista_module.models import (
-    Customer,
-    OrderItem,
-    RedeemedCard,
-    Stock,
-    VoucherType,
-)
+from vista_module.models import Customer, OrderItem, Stock, VoucherType
 from voucher import settings
 from voucher_api import serializers as api_serializers
 from voucher_app.logging import request_id, username
@@ -275,12 +269,7 @@ class UpdateExpiry(views.APIView):
 
         logger.info('============')
         for expired_card in expired_cards:  # noqa: B007
-            reedem = RedeemedCard.objects.using(VISTA_DATABASE).get(
-                voucher_type_id=138,    # noqa: WPS432
-                voucher_number=1,
-                duplicate_no=0,
-            )
-            logger.debug(reedem)
+            logger.debug(expired_card)
         logger.info('============')
         expired_cards = new_expiry_objs.filter(expiry_date__lt=datetime.now(pytz.timezone('Europe/Moscow')))
 
