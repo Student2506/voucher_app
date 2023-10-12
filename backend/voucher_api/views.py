@@ -276,7 +276,7 @@ class UpdateExpiry(views.APIView):
                 duplicate_no=expired_card.duplicate_no,
             )
             redeem.price = abs(redeem.price)
-            redeem.save()
+            redeem.save(force_update=True, using=VISTA_DATABASE)
         logger.info('============')
         expired_cards = new_expiry_objs.filter(expiry_date__lt=datetime.now(pytz.timezone('Europe/Moscow')))
 
