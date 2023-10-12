@@ -264,31 +264,19 @@ class UpdateExpiry(views.APIView):
         except (Stock.DoesNotExist, ValidationError):
             return Response(status=status.HTTP_404_NOT_FOUND)
         new_expiry_objs = Stock.objects.using(VISTA_DATABASE).filter(stock_strbarcode__in=codes)
-        new_date = datetime.strptime(
-            request.data.get('extend_date'),
-            '%Y-%m-%d',
-        )
-
+        new_date = datetime.strptime(request.data.get('extend_date'), '%Y-%m-%d')
         non_expired_cards = new_expiry_objs.filter(expiry_date__gte=datetime.now(pytz.timezone('Europe/Moscow')))
         non_expired_cards.update(expiry_date=new_date.replace(tzinfo=pytz.UTC))
         expired_cards = new_expiry_objs.filter(expiry_date__lt=datetime.now(pytz.timezone('Europe/Moscow')))
-
-        logger.info('============')
-        redeems = RedeemedCard.objects.using(VISTA_DATABASE).all()
-        logger.info(f'some loooooooong text {redeems}')
+        logger.info('==============')
         for expired_card in expired_cards:  # noqa: B007
-            logger.debug(
-                '%s %s %s',
-                expired_card.voucher_type_id.voucher_type_id,
-                expired_card.voucher_number,
-                expired_card.duplicate_no,
-            )
             redeem = RedeemedCard.objects.using(VISTA_DATABASE).get(
                 voucher_type_id=expired_card.voucher_type_id.voucher_type_id,
                 voucher_number=expired_card.voucher_number,
                 duplicate_no=expired_card.duplicate_no,
             )
-            logger.debug(redeem)
+            redeem.price = abs(redeem.price)
+            redeem.save()
         logger.info('============')
         expired_cards = new_expiry_objs.filter(expiry_date__lt=datetime.now(pytz.timezone('Europe/Moscow')))
 
