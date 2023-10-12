@@ -279,7 +279,7 @@ class UpdateExpiry(views.APIView):
         for expired_card in expired_cards:  # noqa: B007
             logger.debug(
                 '%s %s %s',
-                expired_card.voucher_type_id,
+                expired_card.voucher_type_id.voucher_type_id,
                 expired_card.voucher_number,
                 expired_card.duplicate_no,
             )
