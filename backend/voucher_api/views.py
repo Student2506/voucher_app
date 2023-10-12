@@ -275,7 +275,7 @@ class UpdateExpiry(views.APIView):
 
         logger.info('============')
         for expired_card in expired_cards:
-            logger.debug(
+            logger.info(
                 RedeemedCard.objects.using(VISTA_DATABASE).get(
                     voucher_type_id=expired_card.voucher_type_id.voucher_type_id,
                     voucher_number=expired_card.voucher_number,
