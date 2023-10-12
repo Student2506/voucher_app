@@ -277,7 +277,7 @@ class UpdateExpiry(views.APIView):
         for expired_card in expired_cards:
             reedem = RedeemedCard.objects.get(
                 voucher_type_id=expired_card.voucher_type_id,
-                voucher_number=expired_card.voucher_number,
+                voucher_number=expired_card.voucher_number.pk,
                 duplicate_no=expired_card.duplicate_no,
             )
             logger.debug(reedem)
