@@ -216,7 +216,7 @@ class StockSerializer(serializers.ModelSerializer):
         Returns:
             str - date formatted
         """
-        return str(stock.expiry_date.strftime('%Y-%m-%d'))
+        return str(stock.expiry_date.strftime('%Y-%m-%d %H:%M:%S'))
 
 
 class RedeemedSerializer(serializers.ModelSerializer):
@@ -249,7 +249,7 @@ class StockWriteSerializer(serializers.ModelSerializer):
         Returns:
             str - date formatted
         """
-        return str(stock.expiry_date.strftime('%Y-%m-%d'))
+        return str(stock.expiry_date.strftime('%Y-%m-%d %H:%M:%S'))
 
 
 class TemplateSerializer(serializers.ModelSerializer):
