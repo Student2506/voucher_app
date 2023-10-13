@@ -216,7 +216,7 @@ class StockSerializer(serializers.ModelSerializer):
         Returns:
             str - date formatted
         """
-        return str(stock.expiry_date.strftime('%d.%m.%Y'))
+        return str(stock.expiry_date.strftime('%Y-%m-%d'))
 
 
 class RedeemedSerializer(serializers.ModelSerializer):
@@ -232,15 +232,15 @@ class RedeemedSerializer(serializers.ModelSerializer):
 class StockWriteSerializer(serializers.ModelSerializer):
     """Write data to DB."""
 
-    expiry_date_string = serializers.SerializerMethodField()
+    expiry_date = serializers.SerializerMethodField()
 
     class Meta:
         """Regular Meta class."""
 
         model = Stock
-        fields = ('stock_strbarcode', 'expiry_date_string')
+        fields = ('stock_strbarcode', 'expiry_date')
 
-    def get_expiry_date_string(self, stock: Stock) -> str:
+    def get_expiry_date(self, stock: Stock) -> str:
         """Return date as string.
 
         Args:
@@ -249,7 +249,7 @@ class StockWriteSerializer(serializers.ModelSerializer):
         Returns:
             str - date formatted
         """
-        return str(stock.expiry_date.strftime('%d.%m.%Y'))
+        return str(stock.expiry_date.strftime('%Y-%m-%d'))
 
 
 class TemplateSerializer(serializers.ModelSerializer):
