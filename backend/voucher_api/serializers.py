@@ -190,12 +190,24 @@ class StockSerializer(serializers.ModelSerializer):
     """Stock Serializer."""
 
     order_id = serializers.IntegerField(source='client_order_item.order_id.order_id')
+    expiry_date_string = serializers.SerializerMethodField()
 
     class Meta:
         """Regular django Meta."""
 
         model = Stock
         fields = '__all__'
+
+    def get_expiry_date_string(self, stock: Stock) -> str:
+        """Return date as string.
+
+        Args:
+            stock: Stock - whole object of type Stock
+
+        Returns:
+            str - date formatted
+        """
+        return str(stock.expiry_date.strftime('%d.%m.%Y'))
 
 
 class RedeemedSerializer(serializers.ModelSerializer):
