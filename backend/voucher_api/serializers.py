@@ -211,11 +211,24 @@ class RedeemedSerializer(serializers.ModelSerializer):
 class StockWriteSerializer(serializers.ModelSerializer):
     """Write data to DB."""
 
+    expiry_date_string = serializers.SerializerMethodField()
+
     class Meta:
         """Regular Meta class."""
 
         model = Stock
-        fields = ('stock_strbarcode', 'expiry_date')
+        fields = ('stock_strbarcode', 'expiry_date_string')
+
+    def get_expiry_date_string(self, stock: Stock) -> str:
+        """Return date as string.
+
+        Args:
+            stock: Stock - whole object of type Stock
+
+        Returns:
+            str - date formatted
+        """
+        return str(stock.expiry_date.strftime('%d.%m.%Y'))
 
 
 class TemplateSerializer(serializers.ModelSerializer):
