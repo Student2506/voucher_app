@@ -10,6 +10,7 @@ from typing import Any
 import jwt
 import pika
 import pytz
+from django.db import connections
 from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
 from django_filters.rest_framework import DjangoFilterBackend
@@ -28,13 +29,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from vista_module.models import (
-    Customer,
-    OrderItem,
-    RedeemedCard,
-    Stock,
-    VoucherType,
-)
+from vista_module.models import Customer, OrderItem, Stock, VoucherType
 from voucher import settings
 from voucher_api import serializers as api_serializers
 from voucher_app.logging import request_id, username
@@ -270,13 +265,18 @@ class UpdateExpiry(views.APIView):
         expired_cards = new_expiry_objs.filter(expiry_date__lt=datetime.now(pytz.timezone('Europe/Moscow')))
         logger.info('==============')
         for expired_card in expired_cards:  # noqa: B007
-            redeem = RedeemedCard.objects.using(VISTA_DATABASE).get(
-                voucher_type_id=expired_card.voucher_type_id.voucher_type_id,
-                voucher_number=expired_card.voucher_number,
-                duplicate_no=expired_card.duplicate_no,
-            )
-            redeem.price = abs(redeem.price)
-            redeem.save(force_update=True, using=VISTA_DATABASE)
+            with connections[VISTA_DATABASE].cursor() as cursor:
+                command_to_update = """
+                    UPDATE tblRedeemed
+                    SET mAlternatePrice = (mAlternatePrice*-1)
+                    WHERE mAlternatePrice < 0
+                    AND lVoucherTypeID = %s
+                    AND lVoucherNumber = %s
+                    """
+                cursor.execute(
+                    command_to_update,
+                    [expired_card.voucher_type_id.voucher_type_id, expired_card.voucher_number],
+                )
         logger.info('============')
         expired_cards = new_expiry_objs.filter(expiry_date__lt=datetime.now(pytz.timezone('Europe/Moscow')))
 
