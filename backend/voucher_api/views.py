@@ -263,8 +263,7 @@ class UpdateExpiry(views.APIView):
         non_expired_cards = new_expiry_objs.filter(expiry_date__gte=datetime.now(pytz.timezone('Europe/Moscow')))
         non_expired_cards.update(expiry_date=new_date.replace(tzinfo=pytz.UTC))
         expired_cards = new_expiry_objs.filter(expiry_date__lt=datetime.now(pytz.timezone('Europe/Moscow')))
-        logger.info('==============')
-        for expired_card in expired_cards:  # noqa: B007
+        for expired_card in expired_cards:
             with connections[VISTA_DATABASE].cursor() as cursor:
                 command_to_update = """
                     UPDATE tblRedeemed
@@ -277,11 +276,8 @@ class UpdateExpiry(views.APIView):
                     command_to_update,
                     [expired_card.voucher_type_id.voucher_type_id, expired_card.voucher_number],
                 )
-        logger.info('============')
         expired_cards = new_expiry_objs.filter(expiry_date__lt=datetime.now(pytz.timezone('Europe/Moscow')))
-
         expired_cards.update(expiry_date=new_date.replace(tzinfo=pytz.UTC))
-
         serializer = api_serializers.StockWriteSerializer(non_expired_cards, many=True)
         serializer2 = api_serializers.StockWriteSerializer(expired_cards, many=True)
         logger.info(serializer2.data)
