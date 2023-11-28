@@ -100,6 +100,7 @@ services:
       - files_data:/tmp
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
+      - /nfs/vouchers_storage:/opt/app/storage
     env_file:
       - .env
     depends_on:
