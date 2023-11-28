@@ -62,6 +62,13 @@ class Order(models.Model):
         blank=False,
         null=False,
     )
+    order_naming = models.CharField(
+        verbose_name='Имя файла для генерации',
+        db_column='nOrderRef',
+        max_length=VOUCHER_TYPE_LENGTH,
+        blank=True,
+        null=True,
+    )
 
     class Meta:
         """Generic Meta class."""
@@ -95,7 +102,8 @@ class VoucherType(models.Model):
         max_length=NAME_LENGTH,
     )
     vouchertype_strgiftcard = models.CharField(
-        db_column='VoucherType_strGiftCard', max_length=1,
+        db_column='VoucherType_strGiftCard',
+        max_length=1,
     )
 
     class Meta:
@@ -118,7 +126,8 @@ class OrderItem(models.Model):
     """Order item model."""
 
     order_item_id = models.IntegerField(
-        db_column=ID_COLUMN_NAME, primary_key=True,
+        db_column=ID_COLUMN_NAME,
+        primary_key=True,
     )
     order_id = models.ForeignKey(
         'Order',
@@ -162,7 +171,10 @@ class Stock(models.Model):
         related_name='order_items',
     )
     duplicate_no = models.IntegerField(db_column='nDuplicateNo')
-    stock_strbarcode = models.CharField(db_column='Stock_strBarcode', max_length=NAME_LENGTH)
+    stock_strbarcode = models.CharField(
+        db_column='Stock_strBarcode',
+        max_length=NAME_LENGTH,
+    )
     expiry_date = models.DateTimeField(db_column='dExpiryDate')
     issued_date = models.CharField(db_column='dIssuedDate', max_length=NAME_LENGTH)
     client_order_item = models.ForeignKey(
@@ -178,10 +190,11 @@ class Stock(models.Model):
         managed = False
         db_table = 'tblStock'
         ordering = ['voucher_number']
-        constraints = [models.UniqueConstraint(
-            fields=['voucher_number', 'voucher_type_id', 'duplicate_no'],
-            name='unique_barcode',
-        ),
+        constraints = [
+            models.UniqueConstraint(
+                fields=['voucher_number', 'voucher_type_id', 'duplicate_no'],
+                name='unique_barcode',
+            ),
         ]
 
 
@@ -191,7 +204,11 @@ class RedeemedCard(models.Model):
     voucher_type_id = models.IntegerField(db_column='lVoucherTypeID', primary_key=True)
     voucher_number = models.IntegerField(db_column='lVoucherNumber')
     duplicate_no = models.IntegerField(db_column='nDuplicateNo')
-    price = models.DecimalField(db_column='mAlternatePrice', decimal_places=2, max_digits=8)
+    price = models.DecimalField(
+        db_column='mAlternatePrice',
+        decimal_places=2,
+        max_digits=8,
+    )
 
     class Meta:
         """Generic Meta Class of Redeemed."""
