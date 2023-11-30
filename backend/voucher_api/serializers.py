@@ -140,7 +140,7 @@ class OrderItemItemSerializer(OrderItemListSerializer):
     """Order item serializer."""
 
     templates = serializers.SerializerMethodField()
-    order_naming = serializers.SerializerMethodField()
+    order_naming = serializers.CharField(source='order_id.order_naming')
 
     class Meta:
         """Regular django Meta."""
@@ -158,17 +158,6 @@ class OrderItemItemSerializer(OrderItemListSerializer):
             dict - dict with Templates
         """
         return {str(template.id): template.title for template in Template.objects.all()}
-
-    def get_order_naming(self, source: OrderItem) -> dict[str, str]:
-        """Return archive name.
-
-        Args:
-            source: OrderItem - additional inheritance
-
-        Returns:
-            dict - dict of archive name
-        """
-        return {'order_name': source.order_id.order_naming}
 
 
 class CustomerListSerializer(serializers.ModelSerializer):
