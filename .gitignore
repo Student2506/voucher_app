@@ -144,3 +144,4 @@ media/
 frontend_old/
 node_modules/
 workers/
+.env.example

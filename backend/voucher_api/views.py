@@ -59,7 +59,12 @@ class CustomerViewset(viewsets.ReadOnlyModelViewSet):
             return api_serializers.CustomerDetailSerializer
         return api_serializers.CustomerListSerializer
 
-    def retrieve(self, request: Request, *args: list[Any], **kwargs: dict[Any, Any]) -> Response:
+    def retrieve(
+        self,
+        request: Request,
+        *args: list[Any],
+        **kwargs: dict[Any, Any],
+    ) -> Response:
         """Retreive data for logging.
 
         Args:
@@ -110,7 +115,12 @@ class OrderItemViewset(viewsets.ModelViewSet):
             return api_serializers.OrderItemItemSerializer
         return api_serializers.OrderItemListSerializer
 
-    def retrieve(self, request: Request, *args: list[Any], **kwargs: dict[Any, Any]) -> Any:
+    def retrieve(
+        self,
+        request: Request,
+        *args: list[Any],
+        **kwargs: dict[Any, Any],
+    ) -> Any:
         """Get data for logging.
 
         Args:
@@ -127,16 +137,22 @@ class OrderItemViewset(viewsets.ModelViewSet):
 
 
 class StockViewset(
-    mixins.RetrieveModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet,
+    mixins.RetrieveModelMixin,
+    mixins.ListModelMixin,
+    viewsets.GenericViewSet,
 ):
     """API Endpoint to query order_items."""
 
-    queryset = Stock.objects.using(
-        VISTA_DATABASE,
-    ).filter(
-        voucher_type_id__vouchertype_strgiftcard='Y',
-    ).exclude(
-        issued_date='1900-01-01 00:00:00.000',
+    queryset = (
+        Stock.objects.using(
+            VISTA_DATABASE,
+        )
+        .filter(
+            voucher_type_id__vouchertype_strgiftcard='Y',
+        )
+        .exclude(
+            issued_date='1900-01-01 00:00:00.000',
+        )
     )
     serializer_class = api_serializers.StockSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
@@ -152,7 +168,12 @@ class StockViewset(
         logger.info('Access to order_items View')
         return super().get_queryset()
 
-    def retrieve(self, request: Request, *args: list[Any], **kwargs: dict[Any, Any]) -> Any:
+    def retrieve(
+        self,
+        request: Request,
+        *args: list[Any],
+        **kwargs: dict[Any, Any],
+    ) -> Any:
         """Get data for logging.
 
         Args:
@@ -239,7 +260,12 @@ class UpdateExpiry(views.APIView):
                 raise
         return True
 
-    def put(self, request: Request, *args: list[Any], **kwargs: dict[Any, Any]) -> Response:
+    def put(
+        self,
+        request: Request,
+        *args: list[Any],
+        **kwargs: dict[Any, Any],
+    ) -> Response:
         """Update vouchers with new expiry data.
 
         Args:
@@ -258,11 +284,17 @@ class UpdateExpiry(views.APIView):
             self.validate_ids(codes)
         except (Stock.DoesNotExist, ValidationError):
             return Response(status=status.HTTP_404_NOT_FOUND)
-        new_expiry_objs = Stock.objects.using(VISTA_DATABASE).filter(stock_strbarcode__in=codes)
+        new_expiry_objs = Stock.objects.using(VISTA_DATABASE).filter(
+            stock_strbarcode__in=codes,
+        )
         new_date = datetime.strptime(request.data.get('extend_date'), '%Y-%m-%d')
-        non_expired_cards = new_expiry_objs.filter(expiry_date__gte=datetime.now(pytz.timezone('Europe/Moscow')))
+        non_expired_cards = new_expiry_objs.filter(
+            expiry_date__gte=datetime.now(pytz.timezone('Europe/Moscow')),
+        )
         non_expired_cards.update(expiry_date=new_date.replace(tzinfo=pytz.UTC))
-        expired_cards = new_expiry_objs.filter(expiry_date__lt=datetime.now(pytz.timezone('Europe/Moscow')))
+        expired_cards = new_expiry_objs.filter(
+            expiry_date__lt=datetime.now(pytz.timezone('Europe/Moscow')),
+        )
         for expired_card in expired_cards:
             with connections[VISTA_DATABASE].cursor() as cursor:
                 command_to_update = """
@@ -274,9 +306,14 @@ class UpdateExpiry(views.APIView):
                     """
                 cursor.execute(
                     command_to_update,
-                    [expired_card.voucher_type_id.voucher_type_id, expired_card.voucher_number],
+                    [
+                        expired_card.voucher_type_id.voucher_type_id,
+                        expired_card.voucher_number,
+                    ],
                 )
-        expired_cards = new_expiry_objs.filter(expiry_date__lt=datetime.now(pytz.timezone('Europe/Moscow')))
+        expired_cards = new_expiry_objs.filter(
+            expiry_date__lt=datetime.now(pytz.timezone('Europe/Moscow')),
+        )
         expired_cards.update(expiry_date=new_date.replace(tzinfo=pytz.UTC))
         serializer = api_serializers.StockWriteSerializer(non_expired_cards, many=True)
         serializer2 = api_serializers.StockWriteSerializer(expired_cards, many=True)
@@ -411,6 +448,8 @@ class TemplateViewset(
             template_property_db_object = serializer.instance.properties.get(
                 property_name=template_property.get('name'),
             )
-            template_property_db_object.property_value = template_property.get('content')
+            template_property_db_object.property_value = template_property.get(
+                'content',
+            )
             template_property_db_object.save()
         return super().perform_update(serializer=serializer)
