@@ -67,7 +67,7 @@ def qr_code_render(barcode_filename: Path, code_to_fill: str) -> None:
     )
     img = img.crop((10, 10, 78, 78))
     img = img.rotate(ROTATE_DEGRE)
-    size = NEW_SIZE[1]/2 - img.size[1]/2
+    size = NEW_SIZE[1] / 2 - img.size[1] / 2
     base_img.paste(img, (10, round(size)))
     base_img.save(barcode_filename)
 
@@ -89,7 +89,8 @@ def html_render(
         expiry_date: str - string with expiry date
     """
     with open(
-        Path('templates') / 'refactorOrder_template.html', 'w',
+        Path('templates') / 'refactorOrder_template.html',
+        'w',
     ) as user_template:
         user_template.writelines(template.template.replace('<br />', ''))
     barcode_filename = Path(folder) / 'images/shtrih.png'
@@ -97,16 +98,19 @@ def html_render(
         barcode_render(barcode_filename, code_to_fill)
     if code_type == 'qrcode':
         qr_code_render(barcode_filename, code_to_fill)
-    html_content = Environment(
-        loader=PackageLoader('receive_worker'),
-        autoescape=select_autoescape(),
-    ).get_template(
-        'refactorOrder_template.html',
-    ).render(
-        barcode=barcode_filename.name,
-        expiry_date=get_specific_date(expiry_date),
+    html_content = (
+        Environment(
+            loader=PackageLoader('receive_worker'),
+            autoescape=select_autoescape(),
+        )
+        .get_template(
+            'refactorOrder_template.html',
+        )
+        .render(
+            barcode=barcode_filename.name,
+            expiry_date=get_specific_date(expiry_date),
+        )
     )
-    logger.debug(f'html_content {html_content}')
     file_path = Path(folder) / f'{code_to_fill}.html'
     logger.debug(file_path)
     with open(file_path, 'wb', buffering=0) as fh:
