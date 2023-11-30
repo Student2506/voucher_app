@@ -201,7 +201,7 @@ def put_order(request: Request, order_item_id: int) -> Response:
     Returns:
         Response - status of creation or failure
     """
-    logger.info('Access Put order view')
+    logger.info(f'Access Put order view {request}')
     order_data = JSONParser().parse(request)
     order_data['addresses'] = order_data.get('addresses').split(';')
     order_data['order_item'] = int(order_item_id)
