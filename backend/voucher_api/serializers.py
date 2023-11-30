@@ -61,10 +61,7 @@ class VoucherTypeOrderingSerializer(VoucherTypeSerializer):
         Returns:
             dict - dict with Templates
         """
-        return {
-            str(template.id): template.title
-            for template in Template.objects.all()
-        }
+        return {str(template.id): template.title for template in Template.objects.all()}
 
     def to_representation(
         self,
@@ -105,9 +102,13 @@ class RequestOrderSerializer(serializers.ModelSerializer):
 class OrderItemListSerializer(serializers.ModelSerializer):
     """Order item serializer."""
 
-    voucher_type_id = serializers.IntegerField(source='voucher_attached.voucher_type_id')
+    voucher_type_id = serializers.IntegerField(
+        source='voucher_attached.voucher_type_id',
+    )
     voucher_code = serializers.CharField(source='voucher_attached.voucher_code')
-    voucher_description = serializers.CharField(source='voucher_attached.voucher_description')
+    voucher_description = serializers.CharField(
+        source='voucher_attached.voucher_description',
+    )
 
     class Meta:
         """Regular django Meta."""
@@ -139,6 +140,7 @@ class OrderItemItemSerializer(OrderItemListSerializer):
     """Order item serializer."""
 
     templates = serializers.SerializerMethodField()
+    order_naming = serializers.SerializerMethodField()
 
     class Meta:
         """Regular django Meta."""
@@ -156,6 +158,17 @@ class OrderItemItemSerializer(OrderItemListSerializer):
             dict - dict with Templates
         """
         return {str(template.id): template.title for template in Template.objects.all()}
+
+    def get_order_naming(self, source: OrderItem) -> dict[str, str]:
+        """Return archive name.
+
+        Args:
+            source: OrderItem - additional inheritance
+
+        Returns:
+            dict - dict of archive name
+        """
+        return {'order_name': source.order_id.order_naming}
 
 
 class CustomerListSerializer(serializers.ModelSerializer):
@@ -275,7 +288,9 @@ class TemplateSerializer(serializers.ModelSerializer):
         properties = []
         for prop in template.properties.all():
             tag_to_find = re.compile(
-                r'(\{\% block (' + prop.property_name + r') \%\})(.*)(\{\% endblock \2 \%\})',
+                r'(\{\% block ('
+                + prop.property_name
+                + r') \%\})(.*)(\{\% endblock \2 \%\})',
                 flags=re.DOTALL,
             )
             template_tag = re.search(tag_to_find, template.template_content)
