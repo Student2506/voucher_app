@@ -205,6 +205,7 @@ def put_order(request: Request, order_item_id: int) -> Response:
     order_data = JSONParser().parse(request)
     order_data['addresses'] = order_data.get('addresses').split(';')
     order_data['order_item'] = int(order_item_id)
+    order_data['file_name'] = OrderItem.objects.get(order_item_id).order_id.order_naming
     order_data['request_id'] = request_id.get()
     order_data['username'] = username.get()
     order_data['delivery'] = request.query_params.get('delivery', 'email')
