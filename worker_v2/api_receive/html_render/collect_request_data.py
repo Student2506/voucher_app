@@ -26,7 +26,8 @@ def get_stocks(stock_id: str) -> list[models.TblStock]:
         list[TblStock] - stocks
     """
     mssql_instance = database_classes.MSSQLDB(
-        settings.mssql_url, settings.mssql_password,
+        settings.mssql_url,
+        settings.mssql_password,
     )
     return list(mssql_instance.get_table_stock(stock_id))
 
@@ -41,16 +42,18 @@ def get_template(template_id: str) -> models.Template | None:
         Template - template object
     """
     postgres_instance = database_classes.PostgresDB(
-        settings.postgres_url, settings.postgres_password,
+        settings.postgres_url,
+        settings.postgres_password,
     )
     return postgres_instance.get_template(template_id)
 
 
-def make_html_templates(
+def make_html_templates(  # noqa: WPS211
     template: models.Template,
     html_folder: str,
     stocks: models.TblStock,
     code_type: str,
+    file_name: str,
     channel: pika.channel.Channel,
 ) -> None:
     """Create html files.
@@ -60,6 +63,7 @@ def make_html_templates(
         html_folder: str - folder to keep local html-files
         stocks: models.TblStock - data about barcodes to generate
         code_type: str - code type (barcode or qrcode)
+        file_name: str - name to use for zip
         channel: pika.channel.Channel - channel to pass data on
     """
     (Path(html_folder) / 'images').mkdir(exist_ok=True)
@@ -92,6 +96,7 @@ def make_html_templates(
             'total': len(stocks),
             'request_id': filters.request_id.get(),
             'username': filters.username.get(),
+            'file_name': file_name,
         }
         logger.debug(f'Outgoing message: {message}')
         channel.basic_publish(
@@ -106,16 +111,20 @@ def prepare_send_email(
     html_folder: str,
     delivery_method: str,
     redis_instance: redis.Redis,
+    file_name: str,
 ) -> None:
     """Collect data for email.
 
     Args:
         addresses: list[str] - addresses to use for email
         html_folder: str - folder to collect
+        file_name: str - name for zip
+        delivery_method: str - method to deliver message
         redis_instance: redis.Redis
     """
     redis_instance.hset(html_folder, 'recipients', ','.join(addresses))
     redis_instance.hset(html_folder, 'delivery_method', delivery_method)
+    redis_instance.hset(html_folder, 'file_name', file_name)
 
 
 def handle_frontend_callback(
@@ -148,6 +157,7 @@ def handle_frontend_callback(
             html_folder=html_folder,
             stocks=get_stocks(request.get('order_item')),
             code_type=request.get('codetype', 'barcode'),
+            file_name=request.get('file_name'),
             channel=channel,
         )
         prepare_send_email(
@@ -155,6 +165,7 @@ def handle_frontend_callback(
             html_folder=html_folder,
             delivery_method=delivery if delivery else 'email',
             redis_instance=redis_instance,
+            file_name=request.get('file_name'),
         )
     else:
         logger.error(f'Template: {template}')

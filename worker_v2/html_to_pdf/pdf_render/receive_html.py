@@ -30,7 +30,7 @@ def create_pdf_file(html_file: str, pdf_file: str) -> None:
     )
 
 
-def handle_html_to_pdf(
+def handle_html_to_pdf(  # noqa: WPS210
     channel: pika.channel.Channel,
     method: pika.spec.Basic.Deliver,
     properties: pika.spec.BasicProperties,
@@ -55,16 +55,21 @@ def handle_html_to_pdf(
     )
     redis_instance = redis.from_url(settings.redis_url, decode_responses=True)
     redis_instance.hincrby(str(pdf_folder.parent), 'count')
-    if (                                                        # noqa: WPS337
-        str(redis_instance.hget(str(pdf_folder.parent), 'count')) ==
-        str(request.get('total'))
+    if str(redis_instance.hget(str(pdf_folder.parent), 'count')) == str(  # noqa: WPS337
+        request.get('total'),
     ):
         current_time = dt.now().strftime('%d.%m.%Y_%H%M')
+        file_name = (
+            request.get('file_name')
+            if request.get('file_name', False)
+            else f'vouchers_{current_time}'
+        )
         message = {
             'pdf_folder': str(pdf_folder),
-            'zip_path': f'{pdf_folder.parent}/vouchers_{current_time}.zip',
+            'zip_path': f'{pdf_folder.parent}/{file_name}.zip',
             'request_id': filters.request_id.get(),
             'username': filters.username.get(),
+            'file_name': request.get('file_name'),
         }
         logger.debug(f'Outgoing message: {message}')
         channel.basic_publish(
