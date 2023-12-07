@@ -199,7 +199,6 @@ class StockSerializer(serializers.ModelSerializer):
         model = Stock
         fields = [
             'voucher_number',
-            'order_id',
             'expiry_date',
             'duplicate_no',
             'stock_strbarcode',
