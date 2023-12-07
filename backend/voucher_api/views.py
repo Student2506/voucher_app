@@ -156,8 +156,8 @@ class StockViewset(
     )
     serializer_class = api_serializers.StockSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    search_fields = ['stock_strbarcode', 'client_order_item__order_item_id']
-    filterset_fields = ['stock_strbarcode', 'client_order_item__order_item_id']
+    search_fields = ['stock_strbarcode', 'client_order_item__order_id__order_id']
+    filterset_fields = ['stock_strbarcode', 'client_order_item__order_id__order_id']
 
     def get_queryset(self) -> Any:
         """Get data from database.
