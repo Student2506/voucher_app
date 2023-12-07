@@ -3,7 +3,8 @@
 import logging
 from logging import config as logging_config
 
-from pydantic import AmqpDsn, BaseSettings, HttpUrl, RedisDsn
+from pydantic import AmqpDsn, HttpUrl, RedisDsn
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from settings.logging import LOGGING
 
@@ -28,11 +29,7 @@ class Settings(BaseSettings):
     sharepoint_site: HttpUrl
     sharepoint_site_name: str
     sharepoint_doc_library: str
-
-    class Config:
-        """Configuration class."""
-
-        env_file = '.env'
+    model_config = SettingsConfigDict(env_file='.env')
 
 
 logging_config.dictConfig(LOGGING)

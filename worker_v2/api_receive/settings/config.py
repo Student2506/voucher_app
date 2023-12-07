@@ -4,7 +4,8 @@ import logging
 from ipaddress import IPv4Address
 from logging import config as logging_config
 
-from pydantic import AmqpDsn, BaseSettings, PostgresDsn, RedisDsn
+from pydantic import AmqpDsn, PostgresDsn, RedisDsn
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from settings.logging import LOGGING
 
@@ -33,11 +34,7 @@ class Settings(BaseSettings):
     background_color: str | None = 'white'
     foreground_color: str | None = 'black'
     redis_url: RedisDsn
-
-    class Config:
-        """Configuration class."""
-
-        env_file = '.env'
+    model_config = SettingsConfigDict(env_file='.env')
 
 
 logging_config.dictConfig(LOGGING)

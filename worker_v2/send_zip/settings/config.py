@@ -3,7 +3,8 @@
 import logging
 from logging import config as logging_config
 
-from pydantic import AmqpDsn, BaseSettings, RedisDsn
+from pydantic import AmqpDsn, RedisDsn
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from settings.logging import LOGGING
 
@@ -23,11 +24,7 @@ class Settings(BaseSettings):
     subject_for_email: str | None = 'Voucher are attached.'
     username_for_email: str | None = ''
     password_for_email: str | None = ''
-
-    class Config:
-        """Configuration class."""
-
-        env_file = '.env'
+    model_config = SettingsConfigDict(env_file='.env')
 
 
 logging_config.dictConfig(LOGGING)

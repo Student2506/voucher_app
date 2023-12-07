@@ -156,8 +156,8 @@ class StockViewset(
     )
     serializer_class = api_serializers.StockSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    search_fields = ['stock_strbarcode', 'client_order_item__order_id__order_id']
-    filterset_fields = ['stock_strbarcode', 'client_order_item__order_id__order_id']
+    search_fields = ['stock_strbarcode', 'client_order_item__order_id']
+    filterset_fields = ['stock_strbarcode', 'client_order_item__order_id']
 
     def get_queryset(self) -> Any:
         """Get data from database.
@@ -205,9 +205,13 @@ def put_order(request: Request, order_item_id: int) -> Response:
     order_data = JSONParser().parse(request)
     order_data['addresses'] = order_data.get('addresses').split(';')
     order_data['order_item'] = int(order_item_id)
-    order_data['file_name'] = OrderItem.objects.using(VISTA_DATABASE).get(
-        pk=int(order_item_id),
-    ).order_id.order_naming
+    order_data['file_name'] = (
+        OrderItem.objects.using(VISTA_DATABASE)
+        .get(
+            pk=int(order_item_id),
+        )
+        .order_id.order_naming
+    )
     order_data['request_id'] = request_id.get()
     order_data['username'] = username.get()
     order_data['delivery'] = request.query_params.get('delivery', 'email')
