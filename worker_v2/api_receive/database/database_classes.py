@@ -19,9 +19,7 @@ class Database:
             url: str - url to connect to
             password: str - password for database
         """
-        logger.info(url)
         self.engine = create_engine(url)
-
         self.session = Session(self.engine)
 
 
