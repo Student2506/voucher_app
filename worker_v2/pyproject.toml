@@ -37,6 +37,7 @@ weasyprint = "^59.0"
 python-logstash = "^0.4.8"
 pydantic = "^2.5.2"
 redis = {extras = ["hiredis"], version = "^5.0.1", platform = "linux"}
+pydantic-settings = "^2.1.0"
 
 
 [tool.poetry.group.pdfs_to_zip.dependencies]

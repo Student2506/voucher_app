@@ -14,7 +14,7 @@ class PDFBuilder(Thread):
 
     def __init__(self) -> None:
         """Create instance of converter."""
-        url_parameters = pika.URLParameters(settings.rabbitmq_url)
+        url_parameters = pika.URLParameters(str(settings.rabbitmq_url))
         self.connection = pika.BlockingConnection(url_parameters)
 
         logger.debug(f'Thread {get_ident()} Got channel and queue')
