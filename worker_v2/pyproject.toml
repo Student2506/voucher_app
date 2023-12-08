@@ -55,6 +55,7 @@ python-logstash = "^0.4.8"
 office365-rest-python-client = "^2.4.1"
 pydantic = "^2.5.2"
 redis = {extras = ["hiredis"], version = "^5.0.1", platform = "linux"}
+pydantic-settings = "^2.1.0"
 
 [tool.poetry.group.upload_to_sp.dependencies]
 pika = "^1.3.2"
@@ -63,6 +64,7 @@ python-logstash = "^0.4.8"
 office365-rest-python-client = "^2.4.1"
 pydantic = "^2.5.2"
 redis = {extras = ["hiredis"], version = "^5.0.1", platform = "linux"}
+pydantic-settings = "^2.1.0"
 
 
 [tool.poetry.group.upload_local.dependencies]

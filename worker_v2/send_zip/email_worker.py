@@ -16,7 +16,7 @@ def rabbit_init() -> pika.adapters.blocking_connection.BlockingChannel:
     Returns:
         pika.adapters.blocking_connection.BlockingChannel
     """
-    url_parameters = pika.URLParameters(settings.rabbitmq_url)
+    url_parameters = pika.URLParameters(str(settings.rabbitmq_url))
     connection = pika.BlockingConnection(url_parameters)
     channel = connection.channel()
     channel.queue_declare(settings.rabbitmq_queue_send_email)
@@ -24,13 +24,13 @@ def rabbit_init() -> pika.adapters.blocking_connection.BlockingChannel:
     return channel
 
 
-def redis_init() -> redis.Redis:            # type: ignore[type-arg]
+def redis_init() -> redis.Redis:  # type: ignore[type-arg]
     """Connect to redis.
 
     Returns:
         redis.Redis- instance
     """
-    return redis.from_url(settings.redis_url, decode_responses=True)
+    return redis.from_url(str(settings.redis_url), decode_responses=True)
 
 
 def main() -> None:
