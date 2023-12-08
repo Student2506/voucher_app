@@ -53,7 +53,7 @@ def handle_html_to_pdf(  # noqa: WPS210
         html_file=request.get('file_path'),
         pdf_file=request.get('pdf_path'),
     )
-    redis_instance = redis.from_url(settings.redis_url, decode_responses=True)
+    redis_instance = redis.from_url(str(settings.redis_url), decode_responses=True)
     redis_instance.hincrby(str(pdf_folder.parent), 'count')
     if str(redis_instance.hget(str(pdf_folder.parent), 'count')) == str(  # noqa: WPS337
         request.get('total'),
