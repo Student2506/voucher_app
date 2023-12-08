@@ -23,20 +23,54 @@ python-barcode = "^0.14.0"
 qrcode = "^7.4.2"
 sqlalchemy = "^2.0.15"
 pyodbc = "^4.0.39"
-psycopg2-binary = "^2.9.6"
+psycopg2-binary = {version = "^2.9.6", platform = "linux"}
 pillow = "^9.5.0"
-pydantic = "^1.10.8"
-redis = "^4.5.5"
 python-logstash = "^0.4.8"
+pydantic = "^2.5.2"
+redis = {extras = ["hiredis"], version = "^5.0.1", platform = "linux"}
 
 
 [tool.poetry.group.html_to_pdf.dependencies]
 pika = "^1.3.2"
 weasyprint = "^59.0"
-pydantic = "^1.10.8"
-hiredis = "^2.2.3"
-redis = "^4.5.5"
 python-logstash = "^0.4.8"
+pydantic = "^2.5.2"
+redis = {extras = ["hiredis"], version = "^5.0.1", platform = "linux"}
+
+
+[tool.poetry.group.pdfs_to_zip.dependencies]
+pika = "^1.3.2"
+python-logstash = "^0.4.8"
+pydantic = "^2.5.2"
+redis = {extras = ["hiredis"], version = "^5.0.1", platform = "linux"}
+
+
+[tool.poetry.group.send_zip.dependencies]
+pika = "^1.3.2"
+jinja2 = "^3.1.2"
+python-logstash = "^0.4.8"
+office365-rest-python-client = "^2.4.1"
+pydantic = "^2.5.2"
+redis = {extras = ["hiredis"], version = "^5.0.1", platform = "linux"}
+
+[tool.poetry.group.upload_to_sp.dependencies]
+pika = "^1.3.2"
+jinja2 = "^3.1.2"
+python-logstash = "^0.4.8"
+office365-rest-python-client = "^2.4.1"
+pydantic = "^2.5.2"
+redis = {extras = ["hiredis"], version = "^5.0.1", platform = "linux"}
+
+
+[tool.poetry.group.upload_local.dependencies]
+pydantic = "^2.5.2"
+pika = "^1.3.2"
+jinja2 = "^3.1.2"
+python-logstash = "^0.4.8"
+aiofiles = "^23.2.1"
+redis = {extras = ["hiredis"], version = "^5.0.1", platform = "linux"}
+aiohttp = {extras = ["speedups"], version = "^3.9.1"}
+
 
 [build-system]
 requires = ["poetry-core"]
