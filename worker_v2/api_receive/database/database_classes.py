@@ -4,6 +4,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
 from database.models import TblStock, Template
+from settings.config import get_logger
+
+logger = get_logger(__name__)
 
 
 class Database:
@@ -16,7 +19,9 @@ class Database:
             url: str - url to connect to
             password: str - password for database
         """
+        logger.info(url)
         self.engine = create_engine(url)
+
         self.session = Session(self.engine)
 
 
@@ -32,11 +37,8 @@ class MSSQLDB(Database):
         Returns:
             list[TblStock] - order items
         """
-        return (
-            self.session.
-            query(TblStock).
-            filter_by(lclientorderitemid=order_item).
-            all()
+        return (  # type: ignore
+            self.session.query(TblStock).filter_by(lclientorderitemid=order_item).all()
         )
 
 
