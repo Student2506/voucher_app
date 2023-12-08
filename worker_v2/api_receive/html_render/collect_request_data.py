@@ -42,7 +42,7 @@ def get_template(template_id: str) -> models.Template | None:
         Template - template object
     """
     postgres_instance = database_classes.PostgresDB(
-        settings.postgres_url,
+        str(settings.postgres_url),
         settings.postgres_password,
     )
     return postgres_instance.get_template(template_id)
