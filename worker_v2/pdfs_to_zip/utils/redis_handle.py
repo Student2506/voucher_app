@@ -11,4 +11,4 @@ def redis_init() -> redis.Redis:
     Returns:
         redis.Redis - instance
     """
-    return redis.from_url(settings.redis_url, decode_responses=True)
+    return redis.from_url(str(settings.redis_url), decode_responses=True)

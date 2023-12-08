@@ -14,7 +14,7 @@ def rabbit_init() -> pika.adapters.blocking_connection.BlockingChannel:
     Returns:
         pika.adapters.blocking_connection.BlockingChannel
     """
-    url_parameters = pika.URLParameters(settings.rabbitmq_url)
+    url_parameters = pika.URLParameters(str(settings.rabbitmq_url))
     connection = pika.BlockingConnection(url_parameters)
     channel = connection.channel()
     channel.queue_declare(settings.rabbitmq_queue_pdf_to_zip)
