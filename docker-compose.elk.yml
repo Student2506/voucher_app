@@ -103,7 +103,6 @@ services:
       ELASTICSEARCH_USERNAME: kibana_system
       ELASTICSEARCH_PASSWORD: ${KIBANA_PASSWORD}
       ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES: config/certs/ca/ca.crt
-      SERVER_PUBLICBASEURL: http://http://vouchers.karofilm.ru:5601
     healthcheck:
       test:
         [
