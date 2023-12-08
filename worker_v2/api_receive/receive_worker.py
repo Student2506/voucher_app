@@ -18,7 +18,7 @@ def redis_init() -> redis.Redis:
     Returns:
         redis.Redis - instance
     """
-    return redis.from_url(settings.redis_url, decode_responses=True)
+    return redis.from_url(str(settings.redis_url), decode_responses=True)
 
 
 def rabbit_init() -> pika.adapters.blocking_connection.BlockingChannel:
@@ -42,7 +42,8 @@ def main() -> None:
     logger.debug('Starting collect data from frontend.')
     redis_instance = redis_init()
     handle_frontend_part = partial(
-        handle_frontend_callback, redis_instance=redis_instance,
+        handle_frontend_callback,
+        redis_instance=redis_instance,
     )
     channel = rabbit_init()
     channel.basic_consume(
