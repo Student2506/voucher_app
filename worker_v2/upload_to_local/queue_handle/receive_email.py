@@ -54,10 +54,12 @@ def collect_email_info(
     new_archive_path = share.upload_file(
         Path(request.get('zip_file')), full_path_new_folder
     )
+    logger.debug(new_archive_path)
 
     message['file_to_attach'] = str(
         Path(new_archive_path) / Path(full_path_new_folder).name
     )
+    logger.debug(message['file_to_attach'])
     logger.debug(message)
     message_formated = CompleteMessage.parse_obj(message)
     EmailWorker().send_message_with_link(**message_formated.dict())
