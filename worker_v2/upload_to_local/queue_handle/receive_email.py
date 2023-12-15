@@ -49,10 +49,10 @@ def collect_email_info(
     logger.info(message)
     new_folder = f'vouchers_{dt.now().strftime("%Y.%m.%d_%H.%M.%S")}'
     share = LocalStorage()
-    share.create_folder(new_folder)
+    full_path_new_folder = share.create_folder(new_folder)
     # with open(request.get('zip_file'), 'rb') as fh:
     #     # zip_file = fh.read()
-    new_archive = share.upload_file(Path(request.get('zip_file')), new_folder)
+    new_archive = share.upload_file(Path(request.get('zip_file')), full_path_new_folder)
     message['file_to_attach'] = new_archive
     logger.debug(message)
     message_formated = CompleteMessage.parse_obj(message)
