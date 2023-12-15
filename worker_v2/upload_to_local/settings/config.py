@@ -24,7 +24,9 @@ class Settings(BaseSettings):
     subject_for_email: str | None = 'Voucher are attached.'
     username_for_email: str | None = ''
     password_for_email: str | None = ''
-    forlder_to_store: str | None = r'/opt/app/storage'
+    folder_to_store: str | None = r'/opt/app/storage'
+    folder_for_client: str | None = r'/nfs/vouchers_storage'
+
     model_config = SettingsConfigDict(env_file='.env')
 
 

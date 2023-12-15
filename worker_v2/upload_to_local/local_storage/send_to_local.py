@@ -12,7 +12,7 @@ logger = get_logger(__name__)
 class LocalStorage:
     def create_folder(self, folder_name: str) -> Path:
         """Create Folder at Exchange Folder."""
-        full_path = Path(settings.forlder_to_store) / folder_name
+        full_path = Path(settings.folder_to_store) / folder_name
         if not full_path.exists():
             full_path.mkdir()
             logger.debug('Created new folder %s', str(full_path))
@@ -30,4 +30,5 @@ class LocalStorage:
         logger.debug(file_name)
         logger.debug(folder_name)
         copyfile(file_name, Path(folder_name) / Path(file_name).name)
-        return f'{Path(folder_name) / Path(file_name).name}'
+
+        return f'{Path(settings.folder_for_client) / Path(folder_name).name / Path(file_name).name}'
