@@ -76,7 +76,6 @@ class CustomerViewset(viewsets.ReadOnlyModelViewSet):
             Response - proccessed data
         """
         response = super().retrieve(request, *args, **kwargs)
-        logger.info(response.data)
         return response
 
 
