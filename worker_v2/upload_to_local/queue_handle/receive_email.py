@@ -10,7 +10,7 @@ from pydantic import BaseModel
 from redis import Redis
 
 from email_processing.send_email import EmailWorker
-from local_storage import LocalStorage
+from local_storage.send_to_local import LocalStorage
 from log_filters import filters
 from settings.config import get_logger
 
