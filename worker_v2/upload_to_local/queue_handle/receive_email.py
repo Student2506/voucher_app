@@ -47,7 +47,7 @@ def collect_email_info(
     message = redis.hgetall(request.get('folder'))
     redis.hdel(request.get('folder'), 'recipients')
     logger.info(message)
-    new_folder = f'vouchers_{dt.now().strftime("%Y.%m.%d_%H.%M.%S")}'
+    new_folder = f'vouchers_{int(dt.now().timestamp())}'
     share = LocalStorage()
     full_path_new_folder = share.create_folder(new_folder)
     # with open(request.get('zip_file'), 'rb') as fh:
