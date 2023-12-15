@@ -27,5 +27,7 @@ class LocalStorage:
 
     def upload_file(self, file_name: str, folder_name: str) -> str:
         """Upload file to specific folder."""
+        logger.debug(file_name)
+        logger.debug(folder_name)
         copyfile(file_name, folder_name)
         return f'{folder_name}/{file_name}'
