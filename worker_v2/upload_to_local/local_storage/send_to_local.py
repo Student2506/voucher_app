@@ -27,14 +27,5 @@ class LocalStorage:
 
     def upload_file(self, file_name: str, folder_name: str) -> str:
         """Upload file to specific folder."""
-        logger.debug(file_name)
-        logger.debug(folder_name)
         copyfile(file_name, Path(folder_name) / Path(file_name).name)
-        return self.get_file_path(
-            settings.react_app_myip, settings.folder_for_client, folder_name, file_name
-        )
-
-    def get_file_path(
-        self, server_name: str, files_folder: str, archive_folder: str, filename: str
-    ) -> str:
-        return f'scp://{server_name}{Path(files_folder) / Path(archive_folder).name / Path(filename).name}'
+        return f'{Path(settings.folder_for_client) / Path(file_name).name}'

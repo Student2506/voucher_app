@@ -50,10 +50,12 @@ def collect_email_info(
     new_folder = f'vouchers_{int(dt.now().timestamp())}'
     share = LocalStorage()
     full_path_new_folder = share.create_folder(new_folder)
-    # with open(request.get('zip_file'), 'rb') as fh:
-    #     # zip_file = fh.read()
-    new_archive = share.upload_file(Path(request.get('zip_file')), full_path_new_folder)
-    message['file_to_attach'] = new_archive
+
+    new_archive_path = share.upload_file(
+        Path(request.get('zip_file')), full_path_new_folder
+    )
+
+    message['file_to_attach'] = Path(new_archive_path) / Path(full_path_new_folder).name
     logger.debug(message)
     message_formated = CompleteMessage.parse_obj(message)
     EmailWorker().send_message_with_link(**message_formated.dict())
