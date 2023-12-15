@@ -56,15 +56,47 @@ class EmailWorker:
                 subtype='zip',
                 filename=pathlib.Path(file_to_attach).name,
             )
+        self.connection.sendmail(
+            settings.email_user, recipients, message.as_string(),
+        )
+        if isinstance(recipients, str):
+            logger.info(f'Sent message to {recipients}')
+        else:
+            logger.info(f'Sent message to {",".join(recipients)}')
+        self.connection.close()
+
+    def send_message_with_link(
+        self,
+        recipients: list[str],
+        file_to_attach: str,
+    ) -> None:
+        """Send emails.
+
+        Args:
+            recipients: list - List of email reciepents
+            file_to_attach: str - Path to zip-archive
+        """
+        message = EmailMessage()
+        message['From'] = settings.email_user
+        message['To'] = recipients
+        message['Subject'] = settings.subject_for_email
+
+        env = Environment(
+            loader=PackageLoader('email_processing'),
+            autoescape=select_autoescape(),
+        )
+        template_rendered = env.get_template('email_template_link.html').render(
+            title=settings.subject_for_email,
+            link_archive=file_to_attach,
+        )
+        logger.debug(template_rendered)
+        message.add_alternative(template_rendered, subtype='html')
         try:
             result = self.connection.sendmail(
-                settings.email_user,
-                recipients,
-                message.as_string(),
+                settings.email_user, recipients, message.as_string(),
             )
         except Exception as e:
             logger.error(str(e))
-            return
         if result:
             logger.debug(result)
         if isinstance(recipients, str):

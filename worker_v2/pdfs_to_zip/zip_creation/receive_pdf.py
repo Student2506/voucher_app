@@ -27,11 +27,11 @@ def split_zip_file(
     os.mkdir(zip_folder)
     logger.info(zip_folder)
     logger.debug(f'Size {settings.volume_size*1024*1024}')
-    subprocess.run(             # noqa: S607, S603
+    subprocess.run(  # noqa: S607, S603
         [
             'zipsplit',
             '-n',
-            str(settings.volume_size*1024*1024),
+            str(settings.volume_size * 1024 * 1024),
             '-b',
             str(zip_folder),
             zip_path,
@@ -68,8 +68,12 @@ def handle_pdf(
     with zipfile.ZipFile(zip_file_path, mode='w') as zf:
         for pdf_file in glob.glob(f'{pdf_folder}/*.pdf'):
             zf.write(pdf_file, Path(pdf_file).name)
-    logger.info(f'Zip file {os.path.exists(zip_file_path)} and size {os.path.getsize(zip_file_path)}')
-    delivery_method = redis_instance.hget(str(Path(pdf_folder).parent), 'delivery_method')
+    logger.info(
+        f'Zip file {os.path.exists(zip_file_path)} and size {os.path.getsize(zip_file_path)}'
+    )
+    delivery_method = redis_instance.hget(
+        str(Path(pdf_folder).parent), 'delivery_method'
+    )
     logger.debug(delivery_method)
     if delivery_method == 'email':
         split_zip_file(zip_file_path)
@@ -88,7 +92,7 @@ def handle_pdf(
     if delivery_method == 'sharepoint':
         channel.basic_publish(
             exchange='',
-            routing_key=settings.rabbitmq_queue_send_sharepoint,
+            routing_key=settings.rabbitmq_queue_send_localstorage,
             body=json.dumps(
                 {
                     'zip_file': zip_file_path,

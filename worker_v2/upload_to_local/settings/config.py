@@ -16,11 +16,15 @@ class Settings(BaseSettings):
     rabbitmq_default_pass: str
     rabbitmq_url: AmqpDsn
     debug: bool | None = False
-    rabbitmq_queue_pdf_to_zip: str
-    rabbitmq_queue_send_email: str
     rabbitmq_queue_send_localstorage: str
-    volume_size: int | None = 10
+    email_smtp_server: str
+    email_smtp_port: int
+    email_user: str
     redis_url: RedisDsn
+    subject_for_email: str | None = 'Voucher are attached.'
+    username_for_email: str | None = ''
+    password_for_email: str | None = ''
+    forlder_to_store: str | None = r'/opt/app/storage'
     model_config = SettingsConfigDict(env_file='.env')
 
 
