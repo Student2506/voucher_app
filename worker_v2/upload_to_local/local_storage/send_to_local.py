@@ -31,4 +31,7 @@ class LocalStorage:
         logger.debug(folder_name)
         copyfile(file_name, Path(folder_name) / Path(file_name).name)
 
-        return f'{Path(settings.folder_for_client) / Path(folder_name).name / Path(file_name).name}'
+        return (
+            f'scp://{settings.react_app_myip}'
+            f'{Path(settings.folder_for_client) / Path(folder_name).name / Path(file_name).name}'
+        )

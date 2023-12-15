@@ -25,7 +25,8 @@ class Settings(BaseSettings):
     username_for_email: str | None = ''
     password_for_email: str | None = ''
     folder_to_store: str | None = r'/opt/app/storage'
-    folder_for_client: str | None = r'/nfs/vouchers_storage'
+    folder_for_client: str | None = r'/nfs/vouchers_storage/'
+    react_app_myip: str
 
     model_config = SettingsConfigDict(env_file='.env')
 
