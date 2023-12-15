@@ -52,7 +52,7 @@ def collect_email_info(
     share.create_folder(new_folder)
     # with open(request.get('zip_file'), 'rb') as fh:
     #     # zip_file = fh.read()
-    new_archive = share.upload_file(Path(request.get('zip_file')).name, new_folder)
+    new_archive = share.upload_file(Path(request.get('zip_file')), new_folder)
     message['file_to_attach'] = new_archive
     logger.debug(message)
     message_formated = CompleteMessage.parse_obj(message)
