@@ -29,5 +29,5 @@ class LocalStorage:
         """Upload file to specific folder."""
         logger.debug(file_name)
         logger.debug(folder_name)
-        copyfile(file_name, folder_name)
-        return f'{folder_name}/{file_name}'
+        copyfile(file_name, Path(folder_name) / Path(file_name).name)
+        return f'{Path(folder_name) / Path(file_name).name}'
