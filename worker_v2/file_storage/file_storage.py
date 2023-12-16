@@ -37,7 +37,7 @@ async def get_file(request: web.Request) -> web.Response:
     await response.write_eof()
 
     logger.debug(result)
-    return web.Response(text='Hi Anya!')
+    # return web.Response(text='Hi Anya!')
 
 
 @routes.get('/')
