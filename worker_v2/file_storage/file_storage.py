@@ -14,6 +14,6 @@ async def hello(request: web.Request) -> web.Response:
 
 
 app = web.Application()
-app.add_routes(routes=routes)
-web.run_app
+app.add_routes(routes)
+web.run_app()
 print(settings.port_to_listen)
