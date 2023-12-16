@@ -17,7 +17,7 @@ async def get_file(request: web.Request) -> web.Response:
     logger.debug(f'Getting file: {file_hash}\n{file_name}')
     result = await request.app['redis'].exists(file_hash)
     if result == 1:
-        filename = request.app['redis'].get(file_hash)
+        filename = await request.app['redis'].get(file_hash)
         filename = Path('storage') / filename
         logger.debug(filename)
         # async with aiofiles.open()
