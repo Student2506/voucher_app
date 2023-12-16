@@ -23,7 +23,9 @@ async def get_file(request: web.Request) -> web.Response:
     filename = await request.app['redis'].get(file_hash)
     logger.debug(filename)
     filename = Path('storage') / filename
-    logger.debug(f'File {filename} exists: {filename.exists()}')
+    logger.debug(
+        f'File {filename} exists: {filename.exists()}\nand has stats {filename.stat()}'
+    )
     response = web.StreamResponse()
 
     response.content_length(filename.stat().st_size)
