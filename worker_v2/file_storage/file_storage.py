@@ -23,9 +23,9 @@ async def get_file(request: web.Request) -> web.Response:
     filename = await request.app['redis'].get(file_hash)
     logger.debug(filename)
     filename = Path('storage') / filename
-    logger.debug(filename)
+    logger.debug(f'File {filename} exists: {filename.exists()}')
     response = web.StreamResponse()
-    logger.debug(Path.cwd())
+
     response.content_length(filename.stat().st_size)
     response.headers['Content-Disposition'] = 'attachment; filename=bububbu.zip'
     # response.headers[
