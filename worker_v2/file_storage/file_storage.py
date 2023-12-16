@@ -1,4 +1,5 @@
 from pathlib import Path
+from urllib.parse import quote_plus
 
 import aiofiles
 from aiohttp import web
@@ -24,7 +25,7 @@ async def get_file(request: web.Request) -> web.Response:
     response = web.StreamResponse()
     response.headers[
         'Content-Disposition'
-    ] = f'attachment; filename=\"{file_name.encode("utf-8")}.zip\"'
+    ] = f'attachment; filename=\"{quote_plus(file_name.encode("utf-8"))}.zip\"'
     response.headers['Content-Length'] = filename.stat().st_size
     response.headers['Transfer-Encoding'] = 'deflate; chunked'
     response.headers['Connection'] = 'keep-alive'
