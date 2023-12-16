@@ -57,10 +57,8 @@ def collect_email_info(
     )
     logger.debug(new_archive_path)
     logger.debug(md5(new_archive_path.encode('utf-8')).hexdigest())
-
-    message['file_to_attach'] = str(
-        Path(new_archive_path) / Path(full_path_new_folder).name
-    )
+    path_hash = md5(new_archive_path.encode('utf-8')).hexdigest()
+    message['file_to_attach'] = path_hash + '/' + Path(new_archive_path).name
     logger.debug(message['file_to_attach'])
     logger.debug(message)
     message_formated = CompleteMessage.parse_obj(message)
