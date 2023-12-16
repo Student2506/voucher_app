@@ -13,7 +13,7 @@ RUN python3 -m pip install -U pip
 RUN pip install "poetry==${POETRY_VERSION}"
 WORKDIR /opt/app
 COPY pyproject.toml poetry.lock /opt/app/
-RUN poetry config virtualenvs.lock false \
+RUN poetry config virtualenvs.create false \
     && poetry install $(test "${BUILD_TYPE}" = "production" && echo "--without dev") --only=file_storage --no-interaction --no-ansi --no-root
 
 COPY . .
