@@ -31,4 +31,7 @@ class LocalStorage:
         logger.debug(folder_name)
         logger.debug(file_name)
         logger.debug(f'File resides: {Path(folder_name) / Path(file_name).name}')
+        logger.debug(
+            f'File folder plus filename {Path(folder_name).name}{Path(file_name).name}'
+        )
         return f'{Path(settings.folder_for_client) / Path(file_name).parent}'
