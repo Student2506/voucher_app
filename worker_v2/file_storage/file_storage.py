@@ -29,10 +29,11 @@ async def get_file(request: web.Request) -> web.Response:
         f'File {filename} exists: {filename.exists()}\nand has stats {file_size}'
     )
     response = web.StreamResponse()
-    filename = quote_plus(file_name.encode("utf-8"))
-    # response.headers['Content-Disposition'] = 'attachment; filename=bububbu.zip'
-    logger.debug(filename)
-    response.headers['Content-Disposition'] = f'attachment; filename={filename}.zip'
+    filename_encoded = quote_plus(file_name.encode("utf-8"))
+    logger.debug(filename_encoded)
+    response.headers[
+        'Content-Disposition'
+    ] = f'attachment; filename={filename_encoded}.zip'
     response.headers['Content-Length'] = str(file_size)
     response.headers['Transfer-Encoding'] = 'deflate; chunked'
     response.headers['Connection'] = 'keep-alive'
