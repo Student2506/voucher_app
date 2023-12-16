@@ -26,6 +26,7 @@ async def get_file(request: web.Request) -> web.Response:
     response.headers['Content-Length'] = filename.stat().st_size
     response.headers['Transfer-Encoding'] = 'deflate; chunked'
     response.headers['Connection'] = 'keep-alive'
+    logger.debug(response)
     await response.prepare(request)
 
     async with aiofiles.open(filename) as fh:
