@@ -51,6 +51,18 @@ LOGGING = {
             'handlers': LOG_DEFAULT_HANDLERS,
             'level': 'DEBUG',
         },
+        'aiohttp.access': {
+            'handlers': LOG_DEFAULT_HANDLERS,
+            'level': 'DEBUG',
+        },
+        'aiohttp.server': {
+            'handlers': LOG_DEFAULT_HANDLERS,
+            'level': 'DEBUG',
+        },
+        'aiohttp.web': {
+            'handlers': LOG_DEFAULT_HANDLERS,
+            'level': 'DEBUG',
+        },
     },
     'root': {
         'level': 'DEBUG',
