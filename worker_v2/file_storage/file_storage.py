@@ -33,7 +33,7 @@ async def get_file(request: web.Request) -> web.Response:
     # response.headers[
     # 'Content-Disposition'
     # ] = f'attachment; filename=\"{quote_plus(file_name.encode("utf-8"))}.zip\"'
-    response.headers['Content-Length'] = file_size
+    response.headers['Content-Length'] = str(file_size)
     response.headers['Transfer-Encoding'] = 'deflate; chunked'
     response.headers['Connection'] = 'keep-alive'
     logger.debug(response)
