@@ -25,6 +25,7 @@ async def get_file(request: web.Request) -> web.Response:
     filename = Path('storage') / filename
     logger.debug(filename)
     response = web.StreamResponse()
+    logger.debug(Path.cwd())
     response.content_length(filename.stat().st_size)
     response.headers['Content-Disposition'] = 'attachment; filename=bububbu.zip'
     # response.headers[
