@@ -24,7 +24,7 @@ async def get_file(request: web.Request) -> web.Response:
     logger.debug(filename)
     filename = Path('storage') / filename
     logger.debug(
-        f'File {filename} exists: {filename.exists()}\nand has stats {filename.stat()}'
+        f'File {filename} exists: {filename.exists()}\nand has stats {filename.stat().st_size}'
     )
     response = web.StreamResponse()
 
