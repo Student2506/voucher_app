@@ -1,7 +1,7 @@
 from aiohttp import web
-from utils.redis_handle import redis_context
 
 from settings.config import get_logger, settings
+from utils.redis_handle import redis_context
 
 logger = get_logger(__name__)
 routes = web.RouteTableDef()
