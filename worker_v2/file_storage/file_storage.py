@@ -1,3 +1,4 @@
+import asyncio
 from pathlib import Path
 from urllib.parse import quote_plus
 
@@ -31,7 +32,7 @@ async def get_file(request: web.Request) -> web.Response:
     filename = quote_plus(file_name.encode("utf-8"))
     # response.headers['Content-Disposition'] = 'attachment; filename=bububbu.zip'
     logger.debug(filename)
-    response.headers['Content-Disposition'] = f'attachment; filename="{filename}.zip"'
+    response.headers['Content-Disposition'] = f'attachment; filename={filename}.zip'
     response.headers['Content-Length'] = str(file_size)
     response.headers['Transfer-Encoding'] = 'deflate; chunked'
     response.headers['Connection'] = 'keep-alive'
@@ -44,6 +45,7 @@ async def get_file(request: web.Request) -> web.Response:
             if not next_piece:
                 break
             await response.write(next_piece)
+            await asyncio.sleep(0)
     await response.write_eof()
 
     logger.debug(result)
