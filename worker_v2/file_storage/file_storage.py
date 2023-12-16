@@ -14,6 +14,15 @@ async def get_file(request: web.Request) -> web.Response:
     return web.Response(text='Hi Anya!', content_type='text/html')
 
 
+async def index(request: web.Request) -> web.Response:
+    return web.Response(text='Hello Aiohttp!')
+
+
+def setup_routes(app: web.Application) -> None:
+    app.router.add_get('/', index)
+
+
 if __name__ == '__main__':
     app = web.Application()
+    setup_routes(app)
     web.run_app(app, port=settings.port_to_listen)
