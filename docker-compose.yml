@@ -127,9 +127,9 @@ services:
     networks:
       - voucher_app
 
-  files_storage:
+  file_storage:
     build:
-      context: worker_v2/files_storage
+      context: worker_v2/file_storage
       dockerfile: Dockerfile
     restart: always
     volumes:
