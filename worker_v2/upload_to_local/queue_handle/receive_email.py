@@ -3,6 +3,7 @@ import glob
 import json
 import shutil
 from datetime import datetime as dt
+from hashlib import md5
 from pathlib import Path
 
 import pika
@@ -55,6 +56,7 @@ def collect_email_info(
         Path(request.get('zip_file')), full_path_new_folder
     )
     logger.debug(new_archive_path)
+    logger.debug(md5(new_archive_path.encode('utf-8')).hexdigest())
 
     message['file_to_attach'] = str(
         Path(new_archive_path) / Path(full_path_new_folder).name
