@@ -14,10 +14,6 @@ async def get_file(request: web.Request) -> web.Response:
     return web.Response(text='Hi Anya!', content_type='text/html')
 
 
-def main() -> None:
+if __name__ == '__main__':
     app = web.Application()
     web.run_app(app, port=settings.port_to_listen)
-
-
-if __name__ == '__main__':
-    main()
