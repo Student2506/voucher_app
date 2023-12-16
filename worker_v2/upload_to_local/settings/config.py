@@ -27,6 +27,7 @@ class Settings(BaseSettings):
     folder_to_store: str | None = r'/opt/app/storage'
     folder_for_client: str | None = r'/nfs/vouchers_storage/'
     react_app_myip: str
+    download_prefix: str | None = 'https://voucher.karofilm.ru/files/'
 
     model_config = SettingsConfigDict(env_file='.env')
 

@@ -13,7 +13,7 @@ from redis import Redis
 from email_processing.send_email import EmailWorker
 from local_storage.send_to_local import LocalStorage
 from log_filters import filters
-from settings.config import get_logger
+from settings.config import get_logger, settings
 
 logger = get_logger(__name__)
 
@@ -61,6 +61,8 @@ def collect_email_info(
     message['file_to_attach'] = path_hash + '/' + Path(new_archive_path).name
     logger.debug(message['file_to_attach'])
     logger.debug(message)
+    redis.set(message['file_to_attach'], new_archive_path)
+    message['file_to_attach'] = settings.download_prefix + message['file_to_attach']
     message_formated = CompleteMessage.parse_obj(message)
     EmailWorker().send_message_with_link(**message_formated.dict())
     shutil.rmtree(request.get('folder'))
