@@ -37,8 +37,8 @@ async def get_file(request: web.Request) -> web.Response:
     response.headers['Content-Length'] = str(file_size)
     response.headers['Transfer-Encoding'] = 'deflate; chunked'
     response.headers['Connection'] = 'keep-alive'
-    logger.debug(response)
     await response.prepare(request)
+    logger.debug(response)
 
     async with aiofiles.open(filename, 'rb') as fh:
         while True:
@@ -49,7 +49,6 @@ async def get_file(request: web.Request) -> web.Response:
             await asyncio.sleep(0)
     await response.write_eof()
 
-    logger.debug(result)
     # return web.Response(text='Hi Anya!')
 
 
