@@ -21,3 +21,6 @@ services:
   rabbitmq:
     ports:
       - "15672:15672"
+  file_storage:
+    ports:
+      - "8080:8080"
