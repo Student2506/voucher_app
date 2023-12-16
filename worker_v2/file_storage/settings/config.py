@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     debug: bool | None = False
     redis_url: RedisDsn
     port_to_listen: int | None = 8080
+    chunk_size: int | None = 1 * 1024 * 1024
     model_config = SettingsConfigDict(env_file='.env')
 
 

@@ -16,11 +16,26 @@ async def get_file(request: web.Request) -> web.Response:
     file_name = request.match_info.get('file_name')
     logger.debug(f'Getting file: {file_hash}\n{file_name}')
     result = await request.app['redis'].exists(file_hash)
-    if result == 1:
-        filename = await request.app['redis'].get(file_hash)
-        filename = Path('storage') / filename
-        logger.debug(filename)
-        # async with aiofiles.open()
+    if result != 1:
+        raise web.HTTPNotFound()
+
+    filename = await request.app['redis'].get(file_hash)
+    filename = Path('storage') / filename
+    response = web.StreamResponse()
+    response.headers['Content-Disposition'] = f'attachment; filename="{file_name}.zip"'
+    response.headers['Content-Length'] = filename.stat().st_size
+    response.headers['Transfer-Encoding'] = 'deflate; chunked'
+    response.headers['Connection'] = 'keep-alive'
+    await response.prepare(request)
+
+    async with aiofiles.open(filename) as fh:
+        while True:
+            next_piece = await fh.read(size=settings.chunk_size)
+            if not next_piece:
+                break
+            await response.write(next_piece)
+    await response.write_eof()
+
     logger.debug(result)
     return web.Response(text='Hi Anya!')
 
