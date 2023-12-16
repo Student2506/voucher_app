@@ -3,8 +3,6 @@ from aiohttp import web
 from settings.config import get_logger, settings
 
 logger = get_logger(__name__)
-
-
 routes = web.RouteTableDef()
 
 
