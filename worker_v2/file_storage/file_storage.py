@@ -23,6 +23,8 @@ async def get_file(request: web.Request) -> web.Response:
     filename = await request.app['redis'].get(file_hash)
     filename = Path('storage') / filename
     response = web.StreamResponse()
+    response.content_length(filename.stat().st_size)
+    response.headers['Content-Disposition'] = 'attachment; filename=bububbu.zip'
     # response.headers[
     # 'Content-Disposition'
     # ] = f'attachment; filename=\"{quote_plus(file_name.encode("utf-8"))}.zip\"'
