@@ -40,7 +40,7 @@ async def get_file(request: web.Request) -> web.Response:
     logger.debug(response)
     await response.prepare(request)
 
-    async with aiofiles.open(filename) as fh:
+    async with aiofiles.open(filename, 'rb') as fh:
         while True:
             next_piece = await fh.read(settings.chunk_size)
             if not next_piece:
