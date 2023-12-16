@@ -127,6 +127,20 @@ services:
     networks:
       - voucher_app
 
+  files_storage:
+    build:
+      context: worker_v2/files_storage
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /nfs/vouchers_storage:/opt/app/storage
+    env_file:
+      - .env
+    networks:
+      - voucher_app
+
   nginx:
     image: nginx:latest
     restart: always
