@@ -61,7 +61,7 @@ def collect_email_info(
     message['file_to_attach'] = path_hash + '/' + Path(new_archive_path).name
     logger.debug(message['file_to_attach'])
     logger.debug(message)
-    redis.set(message['file_to_attach'], new_archive_path)
+    redis.set(path_hash, new_archive_path)
     message['file_to_attach'] = settings.download_prefix + message['file_to_attach']
     message_formated = CompleteMessage.parse_obj(message)
     EmailWorker().send_message_with_link(**message_formated.dict())
