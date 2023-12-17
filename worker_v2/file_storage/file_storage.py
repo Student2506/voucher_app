@@ -37,6 +37,8 @@ async def get_file(request: web.Request) -> web.Response:
     response.headers['Content-Length'] = str(file_size)
     response.headers['Transfer-Encoding'] = 'deflate; chunked'
     response.headers['Connection'] = 'keep-alive'
+    response.headers['Content-Type'] = 'text/html'
+    response.headers
     await response.prepare(request)
     logger.debug(response)
 
