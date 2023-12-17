@@ -40,15 +40,21 @@ async def get_file(request: web.Request) -> web.Response:
     await response.prepare(request)
     logger.debug(response)
 
-    async with aiofiles.open(filename, 'rb') as fh:
-        while True:
-            next_piece = await fh.read(settings.chunk_size)
-            await asyncio.sleep(1)
-            if not next_piece:
-                break
-            await response.write(next_piece)
-            logger.debug('Sending next chunck...')
-    await response.write_eof()
+    try:
+        async with aiofiles.open(filename, 'rb') as fh:
+            while True:
+                next_piece = await fh.read(settings.chunk_size)
+                await asyncio.sleep(1)
+                if not next_piece:
+                    break
+                await response.write(next_piece)
+                logger.debug('Sending next chunck...')
+    except Exception as e:
+        logger.error(str(e))
+    except BaseException as e:
+        logger.error(str(e))
+    finally:
+        await response.write_eof()
 
     # return web.Response(text='Hi Anya!')
 
