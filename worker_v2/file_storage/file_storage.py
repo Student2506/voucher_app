@@ -1,4 +1,5 @@
 import asyncio
+from datetime import datetime as dt
 from pathlib import Path
 from urllib.parse import quote_plus
 
@@ -25,6 +26,15 @@ async def get_file(request: web.Request) -> web.Response:
     logger.debug(
         f'File {filename} exists: {filename.exists()}\nand has stats {file_size}'
     )
+    INTERVAL_SECS = 1
+    response = web.StreamResponse()
+    response.headers['Content-Type'] = 'text/html'
+    await response.prepare(request)
+    while True:
+        formatted_date = dt.now().strftime('%Y-%m-%d %H:%M:%S')
+        message = f'{formatted_date}<br>'
+        await response.write(message.encode('utf-8'))
+        await asyncio.sleep(INTERVAL_SECS)
 
 
 @routes.get('/')
