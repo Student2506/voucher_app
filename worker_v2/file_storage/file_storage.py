@@ -36,6 +36,7 @@ async def get_file(request: web.Request) -> web.Response:
     response.headers['Connection'] = 'keep-alive'
     response.headers['Content-Type'] = 'text/html'
     await response.prepare(request)
+    await response.write_eof()
     return response
 
 
