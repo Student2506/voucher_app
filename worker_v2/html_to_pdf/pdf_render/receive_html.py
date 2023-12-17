@@ -71,6 +71,7 @@ def handle_html_to_pdf(  # noqa: WPS210
             'username': filters.username.get(),
             'file_name': request.get('file_name'),
         }
+        # There removed translit
         logger.debug(f'Outgoing message: {message}')
         channel.basic_publish(
             exchange='',
