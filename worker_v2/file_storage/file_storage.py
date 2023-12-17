@@ -26,15 +26,17 @@ async def get_file(request: web.Request) -> web.Response:
     logger.debug(
         f'File {filename} exists: {filename.exists()}\nand has stats {file_size}'
     )
-    INTERVAL_SECS = 1
     response = web.StreamResponse()
+    filename_encoded = quote_plus(file_name.encode("utf-8"))
+    response.headers[
+        'Content-Disposition'
+    ] = f'attachment; filename={filename_encoded}.zip'
+    response.headers['Content-Length'] = str(file_size)
+    response.headers['Transfer-Encoding'] = 'deflate; chunked'
+    response.headers['Connection'] = 'keep-alive'
     response.headers['Content-Type'] = 'text/html'
     await response.prepare(request)
-    while True:
-        formatted_date = dt.now().strftime('%Y-%m-%d %H:%M:%S')
-        message = f'{formatted_date}<br>'
-        await response.write(message.encode('utf-8'))
-        await asyncio.sleep(INTERVAL_SECS)
+    return response
 
 
 @routes.get('/')
