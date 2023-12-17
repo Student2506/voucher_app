@@ -36,7 +36,7 @@ async def get_file(request: web.Request) -> web.StreamResponse():
     try:
         async with aiofiles.open(filename, 'rb') as fh:
             next_piece = await fh.read()
-            await asyncio.sleep(120)
+            await asyncio.sleep(5)
             await response.write(next_piece)
     except Exception as e:
         logger.error(str(e))
@@ -44,7 +44,6 @@ async def get_file(request: web.Request) -> web.StreamResponse():
         logger.debug('Done transfer')
         await response.write_eof()
 
-    await response.write_eof()
     return response
 
 
