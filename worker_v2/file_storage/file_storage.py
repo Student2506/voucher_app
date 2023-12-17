@@ -54,6 +54,7 @@ async def get_file(request: web.Request) -> web.Response:
     except BaseException as e:
         logger.error(str(e))
     finally:
+        logger.debug('Done transfer')
         await response.write_eof()
 
     # return web.Response(text='Hi Anya!')
