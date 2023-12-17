@@ -14,7 +14,7 @@ routes = web.RouteTableDef()
 
 
 @routes.get('/files/{file_hash}/{file_name}')
-async def get_file(request: web.Request) -> web.Response:
+async def get_file(request: web.Request) -> web.StreamResponse():
     file_hash = request.match_info.get('file_hash')
     file_name = request.match_info.get('file_name')
     is_file_exists = await request.app['redis'].exists(file_hash)
