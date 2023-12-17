@@ -35,9 +35,15 @@ async def get_file(request: web.Request) -> web.StreamResponse():
     await response.prepare(request)
     try:
         async with aiofiles.open(filename, 'rb') as fh:
-            next_piece = await fh.read()
+            if file_size < settings.chunk_size:
+                response.write(f'{file_size}\r\n')
+            else:
+                file_size -= settings.chunk_size
+                response.write(f'{settings.chunk_size}\r\n')
+            next_piece = await fh.read(size=settings.chunk_size)
             await asyncio.sleep(1)
             await response.write(next_piece)
+
     except Exception as e:
         logger.error(str(e))
     finally:
