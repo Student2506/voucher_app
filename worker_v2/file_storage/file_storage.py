@@ -42,7 +42,7 @@ async def get_file(request: web.Request) -> web.Response:
 
     try:
         async with aiofiles.open(filename, 'rb') as fh:
-            next_piece = await fh.read(settings.chunk_size)
+            next_piece = await bytearray(fh.read(settings.chunk_size))
             await response.write(next_piece)
             while next_piece:
                 next_piece = await fh.read(settings.chunk_size)
