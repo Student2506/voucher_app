@@ -17,4 +17,4 @@ RUN poetry config virtualenvs.create false \
     && poetry install $(test "${BUILD_TYPE}" = "production" && echo "--without dev") --only=file_storage --no-interaction --no-ansi --no-root
 
 COPY . .
-ENTRYPOINT [ "python3", "file_storage.py" ]
+ENTRYPOINT [ "gunicorn", "file_storage:webapp", "--bind", "localhost:8080", "--worker-class", "aiohttp.GunicornWebWorker" ]

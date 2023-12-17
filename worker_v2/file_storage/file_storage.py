@@ -52,12 +52,13 @@ async def hello(request: web.Request) -> web.Response:
     return web.Response(text='Hello, Aiohttp!')
 
 
-def main() -> None:
+async def webapp() -> web.Application:
     app = web.Application()
     app.add_routes(routes)
     app.cleanup_ctx.append(redis_context)
-    web.run_app(app, port=settings.port_to_listen)
+
+    return app
 
 
 if __name__ == '__main__':
-    main()
+    web.run_app(webapp(), port=settings.port_to_listen)
