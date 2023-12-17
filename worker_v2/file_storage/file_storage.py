@@ -43,10 +43,11 @@ async def get_file(request: web.Request) -> web.Response:
     async with aiofiles.open(filename, 'rb') as fh:
         while True:
             next_piece = await fh.read(settings.chunk_size)
+            await asyncio.sleep(1)
             if not next_piece:
                 break
-            await response.write(next_piece.encode())
-            await asyncio.sleep(0)
+            await response.write(next_piece)
+            logger.debug('Sending next chunck...')
     await response.write_eof()
 
     # return web.Response(text='Hi Anya!')
