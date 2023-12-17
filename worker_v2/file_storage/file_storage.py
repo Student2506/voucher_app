@@ -36,12 +36,9 @@ async def get_file(request: web.Request) -> web.StreamResponse():
     await response.prepare(request)
     try:
         async with aiofiles.open(filename, 'rb') as fh:
-            while True:
-                next_piece = bytearray(await fh.read(settings.chunk_size))
-                await asyncio.sleep(1)
-                if not next_piece:
-                    break
-                await response.write(next_piece)
+            next_piece = await fh.read()
+            await asyncio.sleep(1)
+            await response.write(next_piece)
     except Exception as e:
         logger.error(str(e))
     finally:
