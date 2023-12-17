@@ -29,7 +29,6 @@ async def get_file(request: web.Request) -> web.StreamResponse():
     response = web.StreamResponse()
     filename_encoded = quote_plus(file_name.encode("utf-8"))
     response.headers['Content-Disposition'] = f'attachment; filename={filename_encoded}'
-    response.headers['Content-Length'] = str(file_size)
     response.headers['Transfer-Encoding'] = 'deflate; chunked'
     response.headers['Connection'] = 'keep-alive'
     response.headers['Content-Type'] = 'text/html'
