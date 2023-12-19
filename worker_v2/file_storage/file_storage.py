@@ -22,25 +22,6 @@ async def file_sender(writer, file_path):
             chunk = f.read(2**16)
 
 
-@routes.get('/files/v2/{file_hash}/{file_name}')
-async def download_file(request: web.Request) -> web.Response:
-    file_hash = request.match_info.get('file_hash')
-    file_name = request.match_info.get('file_name')
-    is_file_exists = await request.app['redis'].exists(file_hash)
-    if is_file_exists != 1:
-        raise web.HTTPNotFound()
-    filename = await request.app['redis'].get(file_hash)
-    filename = Path('storage') / filename
-    file_size = filename.stat().st_size
-    logger.debug(
-        f'File {filename} exists: {filename.exists()}\nand has stats {file_size}'
-    )
-    filename_encoded = quote_plus(file_name.encode("utf-8"))
-    headers = dict()
-    headers['Content-Disposition'] = f'attachment; filename={filename_encoded}'
-    return web.Response(body=file_sender(file_path=file_path), headers=headers)
-
-
 @routes.get('/files/{file_hash}/{file_name}')
 async def get_file(request: web.Request) -> web.StreamResponse():
     file_hash = request.match_info.get('file_hash')

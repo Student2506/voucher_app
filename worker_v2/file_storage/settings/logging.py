@@ -25,7 +25,7 @@ LOGGING = {
     },
     'handlers': {
         'console': {
-            'level': 'DEBUG',
+            'level': 'WARNING',
             'class': 'logging.StreamHandler',
             'filters': ['request_id'],
             'formatter': 'verbose',
@@ -37,7 +37,7 @@ LOGGING = {
             'filters': ['request_id'],
         },
         'logstash': {
-            'level': 'DEBUG',
+            'level': 'WARNING',
             'filters': ['request_id'],
             'class': 'logstash.LogstashHandler',
             'host': 'logstash',
@@ -49,31 +49,31 @@ LOGGING = {
     'loggers': {
         '': {
             'handlers': LOG_DEFAULT_HANDLERS,
-            'level': 'DEBUG',
+            'level': 'WARNING',
         },
         'aiohttp.access': {
             'handlers': LOG_DEFAULT_HANDLERS,
-            'level': 'DEBUG',
+            'level': 'WARNING',
         },
         'aiohttp.server': {
             'handlers': LOG_DEFAULT_HANDLERS,
-            'level': 'DEBUG',
+            'level': 'WARNING',
         },
         'aiohttp.web': {
             'handlers': LOG_DEFAULT_HANDLERS,
-            'level': 'DEBUG',
+            'level': 'WARNING',
         },
         'aiohttp.internal': {
             'handlers': LOG_DEFAULT_HANDLERS,
-            'level': 'DEBUG',
+            'level': 'WARNING',
         },
         'aiohttp.client': {
             'handlers': LOG_DEFAULT_HANDLERS,
-            'level': 'DEBUG',
+            'level': 'WARNING',
         },
     },
     'root': {
-        'level': 'DEBUG',
+        'level': 'WARNING',
         'formatter': 'verbose',
         'handlers': LOG_DEFAULT_HANDLERS,
     },
