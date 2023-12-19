@@ -59,7 +59,7 @@ async def get_file(request: web.Request) -> web.StreamResponse():
     response.headers['Content-Disposition'] = f'attachment; filename={filename_encoded}'
     response.headers['Transfer-Encoding'] = 'chunked'
     response.headers['Connection'] = 'keep-alive'
-    response.headers['Content-Type'] = 'text/html'
+    response.headers['Content-Type'] = 'application/octet-stream'
     await response.prepare(request)
     try:
         async with aiofiles.open(filename, 'rb') as fh:
