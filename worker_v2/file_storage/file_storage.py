@@ -35,6 +35,7 @@ async def download_file(request: web.Request) -> web.Response:
     logger.debug(
         f'File {filename} exists: {filename.exists()}\nand has stats {file_size}'
     )
+    filename_encoded = quote_plus(file_name.encode("utf-8"))
     headers = dict()
     headers['Content-Disposition'] = f'attachment; filename={filename_encoded}'
     return web.Response(body=file_sender(file_path=file_path), headers=headers)
