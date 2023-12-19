@@ -63,6 +63,14 @@ LOGGING = {
             'handlers': LOG_DEFAULT_HANDLERS,
             'level': 'DEBUG',
         },
+        'aiohttp.internal': {
+            'handlers': LOG_DEFAULT_HANDLERS,
+            'level': 'DEBUG',
+        },
+        'aiohttp.client': {
+            'handlers': LOG_DEFAULT_HANDLERS,
+            'level': 'DEBUG',
+        },
     },
     'root': {
         'level': 'DEBUG',
