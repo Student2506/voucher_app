@@ -4,13 +4,40 @@ from pathlib import Path
 from urllib.parse import quote_plus
 
 import aiofiles
-from aiohttp import web
+from aiohttp import streamer, web
 
 from settings.config import get_logger, settings
 from utils.redis_handle import redis_context
 
 logger = get_logger(__name__)
 routes = web.RouteTableDef()
+
+
+@streamer
+async def file_sender(writer, file_path):
+    with open(file_path, 'rb') as f:
+        chunk = f.read(2**16)
+        while chunk:
+            await writer.write(chunk)
+            chunk = f.read(2**16)
+
+
+@routes.get('/files/v2/{file_hash}/{file_name}')
+async def download_file(request: web.Request) -> web.Response:
+    file_hash = request.match_info.get('file_hash')
+    file_name = request.match_info.get('file_name')
+    is_file_exists = await request.app['redis'].exists(file_hash)
+    if is_file_exists != 1:
+        raise web.HTTPNotFound()
+    filename = await request.app['redis'].get(file_hash)
+    filename = Path('storage') / filename
+    file_size = filename.stat().st_size
+    logger.debug(
+        f'File {filename} exists: {filename.exists()}\nand has stats {file_size}'
+    )
+    headers = dict()
+    headers['Content-Disposition'] = f'attachment; filename={filename_encoded}'
+    return web.Response(body=file_sender(file_path=file_path), headers=headers)
 
 
 @routes.get('/files/{file_hash}/{file_name}')
