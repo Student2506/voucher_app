@@ -1,4 +1,5 @@
 """Function to handle html creation."""
+
 import json
 from pathlib import Path
 from shutil import copy, copytree
@@ -70,6 +71,8 @@ def make_html_templates(  # noqa: WPS211
 
     logger.debug(f'Template is: {template}')
     for stock_to_render in stocks:
+        logger.debug(stock_to_render)
+        logger.debug(stock_to_render.expiry_date.strftime('%Y-%m-%d'))
         if template.logo_image:
             copy(
                 f'media/{template.logo_image}',
