@@ -128,6 +128,12 @@ def get_specific_date(expiry_date: str) -> str:
     Returns:
         str - data for application format
     """
+
+    '''
+    ICU doesn't work with 2024/2025 year
+    '''
     df = icu.SimpleDateFormat('dd MMMM YYYY', icu.Locale('ru'))
-    logger.debug(f'Real result {str(df.format(dt.strptime(expiry_date, "%Y-%m-%d")))}')
-    return str(df.format(dt.strptime(expiry_date, '%Y-%m-%d')))
+    date = dt.strptime(expiry_date, "%Y-%m-%d")
+    day, month, _ = df.format(date).split()
+    logger.debug(f'We return: {day} {month} {date.year} as date')
+    return f'{day} {month} {date.year}'
