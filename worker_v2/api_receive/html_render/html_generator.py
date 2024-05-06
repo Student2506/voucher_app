@@ -129,4 +129,5 @@ def get_specific_date(expiry_date: str) -> str:
         str - data for application format
     """
     df = icu.SimpleDateFormat('dd MMMM YYYY', icu.Locale('ru'))
+    logger.debug(f'Real result {str(df.format(dt.strptime(expiry_date, "%Y-%m-%d")))}')
     return str(df.format(dt.strptime(expiry_date, '%Y-%m-%d')))
