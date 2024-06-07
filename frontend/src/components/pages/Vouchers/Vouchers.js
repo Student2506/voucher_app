@@ -94,7 +94,7 @@ const Vouchers = () => {
                     <div className={"vouchers__settings_option"}>
                       <input className={"vouchers__settings_checkbox"} type={"checkbox"} id={"share-copy"} checked={shareOpt} onChange={() => {setShareOpt(!shareOpt)}}/>
                       <label className={"vouchers__settings_label"} htmlFor={"share-copy"} />
-                      <p className={"vouchers__settings_option-title"}>Сохранить на SharePoint</p>
+                      <p className={"vouchers__settings_option-title"}>Создать ссылку</p>
                     </div>
 
                     <div className={"vouchers__settings_option"}>

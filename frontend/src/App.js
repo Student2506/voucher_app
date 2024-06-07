@@ -21,19 +21,6 @@ function App() {
   const { userData, loggedIn } = useSelector(state => state.user);
   const history = useHistory();
 
-  // useEffect(() => {
-  //   dispatch(updateJwt({jwtRefresh:
-  //       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY5MDM1NTk2NiwianRpIjoiYWI3OTI1NWNhZWIyNGM2M2IxYjFlOWVlMjAzNjFkMmEiLCJ1c2VyX2lkIjoiYS52b2xvc2hpbiJ9.NVRi6gsjc5k4lc_-nkBThyKRgE99j8rbOjq7axtTomc"
-  //   }))
-  // }, [])
-  //
-  // useEffect(() => {
-  //   if (loggedIn) {
-  //     console.log(userData.jwt.auth);
-  //     setInterval(() => dispatch(updateJwt({jwtRefresh: userData.jwt.refr})), 240000);
-  //   }
-  // }, [loggedIn])
-
   useEffect(() => {
     if (document.cookie) {
       const jwt = document.cookie.split('; ').reduce(function(result, v, i, a) { var k = v.split('='); result[k[0]] = k[1]; return result; }, {})
